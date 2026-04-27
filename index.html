@@ -353,7 +353,7 @@ let usuarioActual = null;
 // ── LOGIN ──
 function hacerLogin() {
   const u = document.getElementById("loginUser").value.trim().toLowerCase();
-  const p = document.getElementById("loginPass").value;
+  const p = document.getElementById("loginPass").value.trim().toLowerCase();
   const found = USUARIOS.find(x => x.user === u && x.pass === p);
   if (found) {
     usuarioActual = found;
