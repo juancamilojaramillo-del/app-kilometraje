@@ -8,26 +8,25 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   <meta name="apple-mobile-web-app-title" content="MotoKm" />
   <title>MotoKm</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#e8c84a" />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
     html, body { height: 100%; }
-    body {
-      background: #0f0f0f;
-      color: #f0ede6;
-      font-family: 'Courier New', monospace;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-    }
+    body { background: #0f0f0f; color: #f0ede6; font-family: 'Courier New', monospace; display: flex; flex-direction: column; height: 100%; }
     #app { max-width: 480px; width: 100%; margin: 0 auto; display: flex; flex-direction: column; height: 100%; }
 
-    /* HEADER fijo */
-    .header {
-      background: #1a1a1a;
-      border-bottom: 2px solid #e8c84a;
-      padding: 16px 16px 0 16px;
-      flex-shrink: 0;
-    }
+    /* LOGIN */
+    #loginScreen { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; padding: 32px 24px; background: #0f0f0f; }
+    .login-logo { font-size: 56px; margin-bottom: 12px; }
+    .login-title { font-size: 24px; font-weight: bold; color: #e8c84a; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 4px; }
+    .login-sub { font-size: 11px; color: #555; letter-spacing: 2px; margin-bottom: 40px; }
+    .login-box { width: 100%; background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 8px; padding: 24px; }
+    .login-error { color: #e8503a; font-size: 11px; text-align: center; margin-top: 12px; height: 16px; letter-spacing: 1px; }
+    .login-footer { margin-top: 24px; font-size: 10px; color: #333; text-align: center; letter-spacing: 1px; }
+
+    /* HEADER */
+    .header { background: #1a1a1a; border-bottom: 2px solid #e8c84a; padding: 16px 16px 0 16px; flex-shrink: 0; }
     .header-top { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
     .logo { font-size: 26px; }
     .title { font-size: 18px; font-weight: bold; color: #e8c84a; letter-spacing: 2px; text-transform: uppercase; }
@@ -35,63 +34,31 @@
     .km-big { text-align: right; line-height: 1; }
     .km-num { font-size: 28px; font-weight: bold; color: #e8c84a; }
     .km-label { font-size: 10px; color: #666; letter-spacing: 2px; }
+    .btn-logout { background: transparent; border: 1px solid #333; color: #555; font-size: 10px; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-family: 'Courier New', monospace; letter-spacing: 1px; }
 
     /* TABS */
-    .tabs { display: flex; border-top: 1px solid #333; margin-top: 10px; }
-    .tab-btn {
-      flex: 1;
-      padding: 12px 4px;
-      text-align: center;
-      font-size: 10px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      cursor: pointer;
-      background: transparent;
-      color: #888;
-      font-weight: normal;
-      border: none;
-      font-family: 'Courier New', monospace;
-      transition: background 0.2s, color 0.2s;
-      touch-action: manipulation;
-      user-select: none;
-      -webkit-user-select: none;
-    }
+    .tabs { display: flex; border-top: 1px solid #333; margin-top: 10px; overflow-x: auto; }
+    .tab-btn { flex: 1; min-width: 60px; padding: 10px 4px; text-align: center; font-size: 9px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; background: transparent; color: #888; font-weight: normal; border: none; font-family: 'Courier New', monospace; transition: background 0.2s, color 0.2s; touch-action: manipulation; user-select: none; white-space: nowrap; }
     .tab-btn.active { background: #e8c84a; color: #0f0f0f; font-weight: bold; }
     .tab-btn:active { opacity: 0.7; }
 
-    /* SCROLL AREA */
+    /* CONTENT */
     .content { padding: 16px; flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
 
     /* FIELDS */
     .field { margin-bottom: 14px; }
     .field label { display: block; font-size: 10px; color: #888; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
-    input[type=number], input[type=text] {
-      width: 100%; background: #1a1a1a; border: 1px solid #333; border-radius: 4px;
-      color: #f0ede6; padding: 12px; font-size: 16px;
-      font-family: 'Courier New', monospace; outline: none;
-    }
+    input[type=number], input[type=text], input[type=password], input[type=date] { width: 100%; background: #1a1a1a; border: 1px solid #333; border-radius: 4px; color: #f0ede6; padding: 12px; font-size: 16px; font-family: 'Courier New', monospace; outline: none; }
     input:focus { border-color: #e8c84a88; }
 
     /* BUTTONS */
-    .btn-primary {
-      width: 100%; padding: 14px; background: #e8c84a; color: #0f0f0f;
-      border: none; border-radius: 4px; font-size: 13px; font-weight: bold;
-      letter-spacing: 2px; text-transform: uppercase; cursor: pointer;
-      font-family: 'Courier New', monospace; margin-top: 6px;
-      touch-action: manipulation; display: block;
-    }
+    .btn-primary { width: 100%; padding: 14px; background: #e8c84a; color: #0f0f0f; border: none; border-radius: 4px; font-size: 13px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; font-family: 'Courier New', monospace; margin-top: 6px; touch-action: manipulation; display: block; }
     .btn-primary:active { opacity: 0.8; }
-    .btn-secondary {
-      padding: 10px 16px; background: transparent; color: #e8c84a;
-      border: 1px solid #e8c84a; border-radius: 4px; font-size: 11px;
-      font-weight: bold; letter-spacing: 1px; cursor: pointer;
-      font-family: 'Courier New', monospace; touch-action: manipulation;
-    }
-    .btn-delete {
-      position: absolute; top: 10px; right: 10px; background: transparent;
-      border: none; color: #555; font-size: 18px; cursor: pointer; padding: 6px;
-      touch-action: manipulation;
-    }
+    .btn-secondary { padding: 10px 16px; background: transparent; color: #e8c84a; border: 1px solid #e8c84a; border-radius: 4px; font-size: 11px; font-weight: bold; letter-spacing: 1px; cursor: pointer; font-family: 'Courier New', monospace; touch-action: manipulation; }
+    .btn-delete { position: absolute; top: 10px; right: 10px; background: transparent; border: none; color: #555; font-size: 18px; cursor: pointer; padding: 6px; touch-action: manipulation; }
+    .btn-import { background: #1a1a1a !important; color: #e8c84a !important; border: 1px solid #e8c84a !important; }
+    .btn-waze { background: #1a2a1a !important; color: #4caf7d !important; border: 1px solid #4caf7d !important; font-size:13px; }
+    .btn-excel { background: #1e3a1e !important; color: #4caf7d !important; border: 1px solid #4caf7d !important; }
 
     /* CARDS */
     .card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 4px; padding: 16px; margin-bottom: 12px; position: relative; }
@@ -102,13 +69,11 @@
     .card-fecha { font-size: 10px; color: #666; letter-spacing: 1px; }
     .card-detail { font-size: 12px; color: #aaa; margin-top: 6px; }
 
-    /* RESUMEN GRID */
+    /* RESUMEN */
     .resumen-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 16px; }
     .resumen-item { text-align: center; }
     .resumen-num { font-size: 20px; font-weight: bold; color: #e8c84a; }
     .resumen-lbl { font-size: 9px; color: #666; letter-spacing: 1px; margin-top: 3px; }
-
-    /* STATS */
     .stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
     .stat-card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 4px; padding: 14px; }
     .stat-num { font-size: 22px; font-weight: bold; color: #e8c84a; }
@@ -126,272 +91,323 @@
     .info-rendimiento { margin-top: 12px; font-size: 11px; color: #666; text-align: center; }
     .info-rendimiento strong { color: #e8c84a; }
     .sin-datos { margin-top: 12px; font-size: 11px; color: #e8983a; text-align: center; }
-    .btn-excel { background: #1e3a1e !important; color: #4caf7d !important; border: 1px solid #4caf7d !important; }
+
+    /* ACEITE */
     .aceite-card { background: #1a1000; border: 1px solid #e8983a44; border-radius: 4px; padding: 16px; margin-bottom: 12px; }
-    .aceite-card.alerta { border-color: #e8503a; background: #1a0800; animation: parpadeo 1.5s infinite; }
+    .aceite-card.alerta-aceite { border-color: #e8503a; background: #1a0800; animation: parpadeo 1.5s infinite; }
     .aceite-card.ok { border-color: #4caf7d44; }
-    @keyframes parpadeo { 0%,100%{border-color:#e8503a} 50%{border-color:#e8503a88} }
     .aceite-barra-cont { background: #2a2a2a; border-radius: 4px; height: 10px; margin: 12px 0 6px; overflow:hidden; }
     .aceite-barra { height: 10px; border-radius: 4px; transition: width 0.5s; }
     .aceite-num { font-size: 28px; font-weight: bold; }
     .aceite-lbl { font-size: 10px; color: #666; letter-spacing: 2px; }
+
+    /* GPS */
     .gps-card { background: #0f1a0f; border: 1px solid #4caf7d44; border-radius: 4px; padding: 16px; margin-bottom: 16px; }
     .gps-card.activo { border-color: #4caf7d; }
     .gps-dot { width: 10px; height: 10px; border-radius: 50%; background: #555; display: inline-block; margin-right: 8px; }
     .gps-dot.activo { background: #4caf7d; box-shadow: 0 0 8px #4caf7d; animation: pulso 1.2s infinite; }
-    @keyframes pulso { 0%,100%{opacity:1} 50%{opacity:0.4} }
     .gps-km { font-size: 36px; font-weight: bold; color: #4caf7d; text-align: center; margin: 12px 0 4px; }
     .gps-lbl { font-size: 10px; color: #666; letter-spacing: 2px; text-align: center; }
     .btn-gps-start { background: #4caf7d; color: #0f0f0f; }
     .btn-gps-stop { background: #e8503a; color: #fff; }
-    .btn-import { background: #1a1a1a !important; color: #e8c84a !important; border: 1px solid #e8c84a !important; }
-    .btn-waze { background: #1a2a1a !important; color: #4caf7d !important; border: 1px solid #4caf7d !important; font-size:13px; }
+
+    /* DOCUMENTOS */
+    .doc-card { border-radius: 4px; padding: 16px; margin-bottom: 12px; position: relative; }
+    .doc-ok { background: #0f1a0f; border: 1px solid #4caf7d55; }
+    .doc-warning { background: #1a1500; border: 1px solid #e8c84a; animation: parpadeo 2s infinite; }
+    .doc-vencido { background: #1a0800; border: 1px solid #e8503a; animation: parpadeo 1s infinite; }
+    .doc-sin { background: #1a1a1a; border: 1px solid #333; }
+    .doc-nombre { font-size: 13px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+    .doc-dias { font-size: 28px; font-weight: bold; }
+    .doc-lbl { font-size: 10px; color: #666; letter-spacing: 1px; margin-top: 2px; }
+    .doc-fecha { font-size: 11px; color: #888; margin-top: 6px; }
+    .badge-ok { color: #4caf7d; }
+    .badge-warning { color: #e8c84a; }
+    .badge-vencido { color: #e8503a; }
+
+    @keyframes parpadeo { 0%,100%{opacity:1} 50%{opacity:0.6} }
+    @keyframes pulso { 0%,100%{opacity:1} 50%{opacity:0.4} }
   </style>
 </head>
 <body>
 <div id="app">
 
-  <!-- HEADER -->
-  <div class="header">
-    <div class="header-top">
-      <span class="logo">🏍️</span>
-      <div style="flex:1">
-        <div class="title">MotoKm</div>
-        <div class="subtitle">Control de kilometraje</div>
+  <!-- PANTALLA DE LOGIN -->
+  <div id="loginScreen">
+    <div class="login-logo">🏍️</div>
+    <div class="login-title">MotoKm</div>
+    <div class="login-sub">Control de kilometraje</div>
+    <div class="login-box">
+      <div class="field">
+        <label>Usuario</label>
+        <input type="text" id="loginUser" placeholder="Tu nombre de usuario" />
       </div>
-      <div class="km-big">
-        <div class="km-num" id="kmActualDisplay">—</div>
-        <div class="km-label">KM ACTUAL</div>
+      <div class="field">
+        <label>Contraseña</label>
+        <input type="password" id="loginPass" placeholder="••••••••" onkeydown="if(event.key==='Enter') hacerLogin()" />
       </div>
+      <button class="btn-primary" onclick="hacerLogin()">Ingresar</button>
+      <div class="login-error" id="loginError"></div>
     </div>
-    <div class="tabs">
-      <button class="tab-btn active" id="tbtn-dia" onclick="setTab('dia')">Mi día</button>
-      <button class="tab-btn" id="tbtn-cargas" onclick="setTab('cargas')">Cargas</button>
-      <button class="tab-btn" id="tbtn-historial" onclick="setTab('historial')">Historial</button>
-      <button class="tab-btn" id="tbtn-resumen" onclick="setTab('resumen')">Resumen</button>
-      <button class="tab-btn" id="tbtn-aceite" onclick="setTab('aceite')">🛢️ Aceite</button>
-    </div>
+    <div class="login-footer">MotoKm v2.0 · Solo para uso autorizado</div>
   </div>
 
-  <!-- CONTENIDO CON SCROLL -->
-  <div class="content">
+  <!-- APP PRINCIPAL (oculta hasta login) -->
+  <div id="mainApp" class="hidden" style="display:none; flex-direction:column; height:100%;">
 
-    <!-- TAB: MI DÍA -->
-    <div id="tab-dia">
-      <div id="form-dia">
-        <div id="alerta-sin-datos" class="alerta hidden">
-          ⚠️ Registra al menos 2 cargas en la pestaña <strong>Cargas</strong> para estimar el consumo diario.
+    <!-- HEADER -->
+    <div class="header">
+      <div class="header-top">
+        <span class="logo">🏍️</span>
+        <div style="flex:1">
+          <div class="title">MotoKm</div>
+          <div class="subtitle" id="userLabel">—</div>
         </div>
-
-        <!-- Precio por galón -->
-        <div class="card">
-          <div class="row-between">
-            <div>
-              <div class="card-title">Precio por galón</div>
-              <div class="card-num" id="precioDisplay">No configurado</div>
-            </div>
-            <button class="btn-secondary" onclick="toggleEditPrecio()">Editar</button>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <div class="km-big">
+            <div class="km-num" id="kmActualDisplay">—</div>
+            <div class="km-label">KM ACTUAL</div>
           </div>
-          <div id="form-precio" class="hidden" style="margin-top:12px">
-            <input type="number" id="inputPrecio" placeholder="ej. 15000" />
-            <button class="btn-primary" style="margin-top:10px" onclick="guardarPrecio()">Guardar precio</button>
-          </div>
+          <button class="btn-logout" onclick="cerrarSesion()">Salir</button>
         </div>
-
-        <!-- Waze -->
-        <button class="btn-primary btn-waze" onclick="abrirWaze()" style="margin-bottom:16px">
-          🗺️ Abrir Google Maps para rastrear recorrido
-        </button>
-
-        <!-- GPS -->
-        <div class="section-title">📍 Rastreo GPS del día</div>
-        <div class="gps-card" id="gpsCard">
-          <div class="row-between" style="margin-bottom:12px">
-            <div style="display:flex;align-items:center">
-              <span class="gps-dot" id="gpsDot"></span>
-              <span style="font-size:11px;color:#888;letter-spacing:1px" id="gpsEstado">GPS inactivo</span>
-            </div>
-            <span style="font-size:10px;color:#555" id="gpsPrecision"></span>
-          </div>
-          <div class="gps-km" id="gpsKmDisplay">0.00</div>
-          <div class="gps-lbl">KM RECORRIDOS HOY</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px">
-            <button class="btn-primary btn-gps-start" id="btnIniciarGPS" onclick="iniciarGPS()">▶ Iniciar</button>
-            <button class="btn-primary btn-gps-stop hidden" id="btnDetenerGPS" onclick="detenerGPS()">■ Detener</button>
-          </div>
-          <div style="font-size:10px;color:#555;text-align:center;margin-top:10px">Mantén la app abierta mientras rodas</div>
-        </div>
-
-        <!-- Manual (alternativa) -->
-        <div class="section-title" style="margin-top:8px">O ingresa manualmente</div>
-        <div class="field">
-          <label>Km al salir (inicial)</label>
-          <input type="number" id="kmInicial" placeholder="ej. 12500" oninput="actualizarPreviewDia()" />
-        </div>
-        <div class="field">
-          <label>Km al llegar (final)</label>
-          <input type="number" id="kmFinal" placeholder="ej. 12680" oninput="actualizarPreviewDia()" />
-        </div>
-        <div id="preview-dia" class="alerta amarillo hidden"></div>
-        <button class="btn-primary" onclick="cerrarDia()">Calcular consumo del día</button>
       </div>
-
-      <div id="resultado-dia" class="hidden">
-        <div style="text-align:center; margin-bottom:20px">
-          <div style="font-size:12px; color:#888; letter-spacing:2px; margin-bottom:8px">RESUMEN DEL DÍA</div>
-          <div style="font-size:11px; color:#555" id="fechaDiaResultado"></div>
-        </div>
-        <div class="card-highlight">
-          <div class="resumen-grid">
-            <div class="resumen-item">
-              <div class="resumen-num" id="res-km">—</div>
-              <div class="resumen-lbl">KM DEL DÍA</div>
-            </div>
-            <div class="resumen-item">
-              <div class="resumen-num" id="res-gal">—</div>
-              <div class="resumen-lbl">GAL CONSUMIDOS</div>
-            </div>
-            <div class="resumen-item">
-              <div class="resumen-num" id="res-costo">—</div>
-              <div class="resumen-lbl">COSTO EST.</div>
-            </div>
-          </div>
-          <div id="res-nota" class="info-rendimiento"></div>
-        </div>
-        <button class="btn-primary" onclick="nuevodia()">Registrar otro día</button>
+      <div class="tabs">
+        <button class="tab-btn active" id="tbtn-dia" onclick="setTab('dia')">Mi día</button>
+        <button class="tab-btn" id="tbtn-cargas" onclick="setTab('cargas')">Cargas</button>
+        <button class="tab-btn" id="tbtn-historial" onclick="setTab('historial')">Historial</button>
+        <button class="tab-btn" id="tbtn-docs" onclick="setTab('docs')">📋 Docs</button>
+        <button class="tab-btn" id="tbtn-aceite" onclick="setTab('aceite')">🛢️ Aceite</button>
+        <button class="tab-btn" id="tbtn-resumen" onclick="setTab('resumen')">Resumen</button>
       </div>
     </div>
 
-    <!-- TAB: CARGAS -->
-    <div id="tab-cargas" class="hidden">
-      <div class="section-title">Nueva carga de combustible</div>
-      <div class="field">
-        <label>Kilometraje actual *</label>
-        <input type="number" id="cargaKm" placeholder="ej. 12500" />
-      </div>
-      <div class="field">
-        <label>Galones cargados (opcional)</label>
-        <input type="number" id="cargaGalones" placeholder="ej. 1.2" />
-      </div>
-      <div class="field">
-        <label>Valor pagado $ (opcional)</label>
-        <input type="number" id="cargaPrecio" placeholder="ej. 18000" />
-      </div>
-      <div class="field">
-        <label>Nota (opcional)</label>
-        <input type="text" id="cargaNota" placeholder="ej. Galera norte" />
-      </div>
-      <button class="btn-primary" onclick="guardarCarga()">Guardar carga</button>
-      <div class="saved-msg" id="savedMsg"></div>
-    </div>
+    <!-- CONTENIDO -->
+    <div class="content">
 
-    <!-- TAB: HISTORIAL -->
-    <div id="tab-historial" class="hidden">
-      <div id="historial-dias"></div>
-      <div class="section-title" id="titulo-cargas-hist">Cargas de combustible</div>
-      <div id="historial-cargas"></div>
-    </div>
-
-    <!-- TAB: ACEITE -->
-    <div id="tab-aceite" class="hidden">
-      <div id="aceite-config">
-        <div class="section-title">Configurar cambio de aceite</div>
-        <div class="field">
-          <label>Km actual del odómetro</label>
-          <input type="number" id="aceiteKmActual" placeholder="ej. 12500" />
-        </div>
-        <div class="field">
-          <label>Km del último cambio de aceite</label>
-          <input type="number" id="aceiteKmUltimo" placeholder="ej. 10000" />
-        </div>
-        <button class="btn-primary" onclick="guardarAceite()">Guardar configuración</button>
-      </div>
-      <div id="aceite-panel" class="hidden">
-        <div id="aceiteCard" class="aceite-card">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start">
-            <div>
-              <div class="aceite-lbl">PRÓXIMO CAMBIO EN</div>
-              <div class="aceite-num" id="aceiteKmRestantes">—</div>
-              <div style="font-size:11px;color:#888;margin-top:2px">kilómetros</div>
+      <!-- TAB: MI DÍA -->
+      <div id="tab-dia">
+        <div id="form-dia">
+          <div id="alerta-sin-datos" class="alerta hidden">
+            ⚠️ Registra al menos 2 cargas en <strong>Cargas</strong> para estimar consumo diario.
+          </div>
+          <div class="card">
+            <div class="row-between">
+              <div>
+                <div class="card-title">Precio por galón</div>
+                <div class="card-num" id="precioDisplay">No configurado</div>
+              </div>
+              <button class="btn-secondary" onclick="toggleEditPrecio()">Editar</button>
             </div>
-            <div style="text-align:right">
-              <div class="aceite-lbl">KM RECORRIDOS</div>
-              <div style="font-size:18px;font-weight:bold;color:#e8c84a" id="aceiteKmUsados">—</div>
-              <div style="font-size:9px;color:#555">de 2500 km</div>
+            <div id="form-precio" class="hidden" style="margin-top:12px">
+              <input type="number" id="inputPrecio" placeholder="ej. 15000" />
+              <button class="btn-primary" style="margin-top:10px" onclick="guardarPrecio()">Guardar precio</button>
             </div>
           </div>
-          <div class="aceite-barra-cont">
-            <div class="aceite-barra" id="aceiteBarra" style="width:0%;background:#4caf7d"></div>
+          <div class="section-title">📍 Rastreo GPS del día</div>
+          <div class="gps-card" id="gpsCard">
+            <div class="row-between" style="margin-bottom:12px">
+              <div style="display:flex;align-items:center">
+                <span class="gps-dot" id="gpsDot"></span>
+                <span style="font-size:11px;color:#888;letter-spacing:1px" id="gpsEstado">GPS inactivo</span>
+              </div>
+              <span style="font-size:10px;color:#555" id="gpsPrecision"></span>
+            </div>
+            <div class="gps-km" id="gpsKmDisplay">0.00</div>
+            <div class="gps-lbl">KM RECORRIDOS HOY</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px">
+              <button class="btn-primary btn-gps-start" id="btnIniciarGPS" onclick="iniciarGPS()">▶ Iniciar</button>
+              <button class="btn-primary btn-gps-stop hidden" id="btnDetenerGPS" onclick="detenerGPS()">■ Detener</button>
+            </div>
+            <div style="font-size:10px;color:#555;text-align:center;margin-top:10px">Mantén la app abierta mientras rodas</div>
           </div>
-          <div style="display:flex;justify-content:space-between;font-size:10px;color:#555">
-            <span id="aceiteKmCambio">Último cambio: —</span>
-            <span id="aceitePorcentaje">0%</span>
+          <button class="btn-primary btn-waze" onclick="abrirGoogleMaps()" style="margin-bottom:16px">🗺️ Abrir Google Maps</button>
+          <div class="section-title" style="margin-top:8px">O ingresa manualmente</div>
+          <div class="field">
+            <label>Km al salir (inicial)</label>
+            <input type="number" id="kmInicial" placeholder="ej. 12500" oninput="actualizarPreviewDia()" />
           </div>
-          <div id="aceiteAlertaMsg" class="hidden" style="margin-top:12px;padding:10px;background:#2a0a00;border-radius:4px;font-size:12px;color:#e8503a;text-align:center;font-weight:bold">
-            ⚠️ ¡Es hora de cambiar el aceite!
+          <div class="field">
+            <label>Km al llegar (final)</label>
+            <input type="number" id="kmFinal" placeholder="ej. 12680" oninput="actualizarPreviewDia()" />
           </div>
+          <div id="preview-dia" class="alerta amarillo hidden"></div>
+          <button class="btn-primary" onclick="cerrarDia()">Calcular consumo del día</button>
         </div>
-        <button class="btn-primary" onclick="registrarCambioAceite()" style="background:#e8983a;margin-bottom:10px">✓ Registrar cambio de aceite ahora</button>
-        <button class="btn-primary btn-import" onclick="editarAceite()">Editar configuración</button>
+        <div id="resultado-dia" class="hidden">
+          <div style="text-align:center;margin-bottom:20px">
+            <div style="font-size:12px;color:#888;letter-spacing:2px;margin-bottom:8px">RESUMEN DEL DÍA</div>
+            <div style="font-size:11px;color:#555" id="fechaDiaResultado"></div>
+          </div>
+          <div class="card-highlight">
+            <div class="resumen-grid">
+              <div class="resumen-item"><div class="resumen-num" id="res-km">—</div><div class="resumen-lbl">KM DEL DÍA</div></div>
+              <div class="resumen-item"><div class="resumen-num" id="res-gal">—</div><div class="resumen-lbl">GAL CONSUMIDOS</div></div>
+              <div class="resumen-item"><div class="resumen-num" id="res-costo">—</div><div class="resumen-lbl">COSTO EST.</div></div>
+            </div>
+            <div id="res-nota" class="info-rendimiento"></div>
+          </div>
+          <button class="btn-primary" onclick="nuevodia()">Registrar otro día</button>
+        </div>
       </div>
-    </div>
 
-    <!-- TAB: RESUMEN -->
-    <div id="tab-resumen" class="hidden">
-      <div class="stats-row">
-        <div class="stat-card">
-          <div class="stat-num" id="stat-dias">—</div>
-          <div class="stat-lbl">Días registrados</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-num" id="stat-eficiencia">—</div>
-          <div class="stat-lbl">Km / galón</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-num" id="stat-gasto">—</div>
-          <div class="stat-lbl">Total en cargas</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-num" id="stat-kmtotal">—</div>
-          <div class="stat-lbl">Km totales del día</div>
-        </div>
+      <!-- TAB: CARGAS -->
+      <div id="tab-cargas" class="hidden">
+        <div class="section-title">Nueva carga de combustible</div>
+        <div class="field"><label>Kilometraje actual *</label><input type="number" id="cargaKm" placeholder="ej. 12500" /></div>
+        <div class="field"><label>Galones cargados (opcional)</label><input type="number" id="cargaGalones" placeholder="ej. 1.2" /></div>
+        <div class="field"><label>Valor pagado $ (opcional)</label><input type="number" id="cargaPrecio" placeholder="ej. 18000" /></div>
+        <div class="field"><label>Nota (opcional)</label><input type="text" id="cargaNota" placeholder="ej. Galera norte" /></div>
+        <button class="btn-primary" onclick="guardarCarga()">Guardar carga</button>
+        <div class="saved-msg" id="savedMsg"></div>
       </div>
-      <div id="resumen-aviso" class="empty-msg hidden">
-        Registra al menos 2 cargas<br>para calcular el rendimiento.
-      </div>
-      <div style="margin-top:24px">
-        <div class="section-title">Respaldo de datos</div>
-        <button class="btn-primary" onclick="exportarExcel()" style="margin-bottom:10px">📊 Exportar días a Excel</button>
-        <button class="btn-primary btn-import" onclick="exportarDatos()" style="margin-bottom:10px">⬇️ Exportar respaldo JSON</button>
-        <button class="btn-primary btn-import" onclick="document.getElementById('inputImportar').click()" style="margin-bottom:4px">⬆️ Importar datos guardados</button>
-        <input type="file" id="inputImportar" accept=".json" class="hidden" onchange="importarDatos(event)" />
-        <div class="saved-msg" id="importMsg" style="margin-top:8px"></div>
-      </div>
-    </div>
 
-  </div>
-</div>
+      <!-- TAB: HISTORIAL -->
+      <div id="tab-historial" class="hidden">
+        <div id="historial-dias"></div>
+        <div class="section-title">Cargas de combustible</div>
+        <div id="historial-cargas"></div>
+      </div>
+
+      <!-- TAB: DOCUMENTOS (SOAT y TECNOMECÁNICA) -->
+      <div id="tab-docs" class="hidden">
+        <div id="docs-alertas" style="margin-bottom:16px"></div>
+        <div class="section-title">SOAT</div>
+        <div id="soat-panel"></div>
+        <div class="field"><label>Fecha de vencimiento SOAT</label><input type="date" id="soatFecha" /></div>
+        <button class="btn-primary" onclick="guardarDoc('soat')" style="margin-bottom:20px">Guardar SOAT</button>
+        <div class="section-title">Tecnomecánica</div>
+        <div id="tecno-panel"></div>
+        <div class="field"><label>Fecha de vencimiento Tecnomecánica</label><input type="date" id="tecnoFecha" /></div>
+        <button class="btn-primary" onclick="guardarDoc('tecno')">Guardar Tecnomecánica</button>
+        <div class="saved-msg" id="docSavedMsg"></div>
+      </div>
+
+      <!-- TAB: ACEITE -->
+      <div id="tab-aceite" class="hidden">
+        <div id="aceite-config">
+          <div class="section-title">Configurar cambio de aceite</div>
+          <div class="field"><label>Km actual del odómetro</label><input type="number" id="aceiteKmActual" placeholder="ej. 12500" /></div>
+          <div class="field"><label>Km del último cambio de aceite</label><input type="number" id="aceiteKmUltimo" placeholder="ej. 10000" /></div>
+          <button class="btn-primary" onclick="guardarAceite()">Guardar configuración</button>
+        </div>
+        <div id="aceite-panel" class="hidden">
+          <div id="aceiteCard" class="aceite-card">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start">
+              <div><div class="aceite-lbl">PRÓXIMO CAMBIO EN</div><div class="aceite-num" id="aceiteKmRestantes">—</div><div style="font-size:11px;color:#888;margin-top:2px">kilómetros</div></div>
+              <div style="text-align:right"><div class="aceite-lbl">KM RECORRIDOS</div><div style="font-size:18px;font-weight:bold;color:#e8c84a" id="aceiteKmUsados">—</div><div style="font-size:9px;color:#555">de 2500 km</div></div>
+            </div>
+            <div class="aceite-barra-cont"><div class="aceite-barra" id="aceiteBarra" style="width:0%;background:#4caf7d"></div></div>
+            <div style="display:flex;justify-content:space-between;font-size:10px;color:#555">
+              <span id="aceiteKmCambio">Último cambio: —</span>
+              <span id="aceitePorcentaje">0%</span>
+            </div>
+            <div id="aceiteAlertaMsg" class="hidden" style="margin-top:12px;padding:10px;background:#2a0a00;border-radius:4px;font-size:12px;color:#e8503a;text-align:center;font-weight:bold">⚠️ ¡Es hora de cambiar el aceite!</div>
+          </div>
+          <button class="btn-primary" onclick="registrarCambioAceite()" style="background:#e8983a;margin-bottom:10px">✓ Registrar cambio de aceite ahora</button>
+          <button class="btn-primary btn-import" onclick="editarAceite()">Editar configuración</button>
+        </div>
+      </div>
+
+      <!-- TAB: RESUMEN -->
+      <div id="tab-resumen" class="hidden">
+        <div class="stats-row">
+          <div class="stat-card"><div class="stat-num" id="stat-dias">—</div><div class="stat-lbl">Días registrados</div></div>
+          <div class="stat-card"><div class="stat-num" id="stat-eficiencia">—</div><div class="stat-lbl">Km / galón</div></div>
+          <div class="stat-card"><div class="stat-num" id="stat-gasto">—</div><div class="stat-lbl">Total en cargas</div></div>
+          <div class="stat-card"><div class="stat-num" id="stat-kmtotal">—</div><div class="stat-lbl">Km totales del día</div></div>
+        </div>
+        <div id="resumen-aviso" class="empty-msg hidden">Registra al menos 2 cargas<br>para calcular el rendimiento.</div>
+        <div style="margin-top:24px">
+          <div class="section-title">Respaldo de datos</div>
+          <button class="btn-primary btn-excel" onclick="exportarExcel()" style="margin-bottom:10px">📊 Exportar días a Excel</button>
+          <button class="btn-primary btn-import" onclick="exportarDatos()" style="margin-bottom:10px">⬇️ Exportar respaldo JSON</button>
+          <button class="btn-primary btn-import" onclick="document.getElementById('inputImportar').click()" style="margin-bottom:4px">⬆️ Importar datos guardados</button>
+          <input type="file" id="inputImportar" accept=".json" class="hidden" onchange="importarDatos(event)" />
+          <div class="saved-msg" id="importMsg" style="margin-top:8px"></div>
+        </div>
+      </div>
+
+    </div><!-- fin content -->
+  </div><!-- fin mainApp -->
+</div><!-- fin app -->
 
 <script>
-const STORAGE_KEY = "moto_tracker_data";
-let data = { kmActual: "", registros: [], dias: [], precioPorGalon: "", aceite: null };
-const TABS = ["dia","cargas","historial","resumen","aceite"];
+// ── USUARIOS ──
+const USUARIOS = [
+  { user: "admin",     pass: "admin",     nombre: "Administrador" },
+  { user: "salas",     pass: "salas",     nombre: "Salas" },
+  { user: "lopez",     pass: "lopez",     nombre: "Lopez" },
+  { user: "gordillo",  pass: "gordillo",  nombre: "Gordillo" },
+  { user: "reyes",     pass: "reyes",     nombre: "Reyes" },
+  { user: "fernandez", pass: "fernandez", nombre: "Fernandez" },
+  { user: "capador",   pass: "capador",   nombre: "Capador" },
+  { user: "martha",    pass: "martha",    nombre: "Martha" }
+];
 
-function load() {
-  try {
-    const s = localStorage.getItem(STORAGE_KEY);
-    if (s) data = JSON.parse(s);
-  } catch {}
+const SESSION_KEY = "motokm_session";
+const STORAGE_KEY = "moto_tracker_data";
+const TABS = ["dia","cargas","historial","docs","aceite","resumen"];
+let data = { kmActual: "", registros: [], dias: [], precioPorGalon: "", aceite: null, soat: null, tecno: null };
+let usuarioActual = null;
+
+// ── LOGIN ──
+function hacerLogin() {
+  const u = document.getElementById("loginUser").value.trim().toLowerCase();
+  const p = document.getElementById("loginPass").value;
+  const found = USUARIOS.find(x => x.user === u && x.pass === p);
+  if (found) {
+    usuarioActual = found;
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify(found));
+    mostrarApp();
+  } else {
+    document.getElementById("loginError").textContent = "Usuario o contraseña incorrectos";
+    setTimeout(() => document.getElementById("loginError").textContent = "", 3000);
+  }
+}
+
+function mostrarApp() {
+  document.getElementById("loginScreen").style.display = "none";
+  const app = document.getElementById("mainApp");
+  app.classList.remove("hidden");
+  app.style.display = "flex";
+  document.getElementById("userLabel").textContent = usuarioActual.nombre;
+  cargarDatos();
   renderAll();
+  setTab("dia");
+}
+
+function cerrarSesion() {
+  sessionStorage.removeItem(SESSION_KEY);
+  usuarioActual = null;
+  document.getElementById("mainApp").style.display = "none";
+  document.getElementById("mainApp").classList.add("hidden");
+  document.getElementById("loginScreen").style.display = "flex";
+  document.getElementById("loginUser").value = "";
+  document.getElementById("loginPass").value = "";
+}
+
+function verificarSesion() {
+  const s = sessionStorage.getItem(SESSION_KEY);
+  if (s) {
+    usuarioActual = JSON.parse(s);
+    mostrarApp();
+  }
+}
+
+// ── DATOS ──
+function cargarDatos() {
+  try {
+    const s = localStorage.getItem(STORAGE_KEY + "_" + usuarioActual.user);
+    if (s) data = JSON.parse(s);
+    else data = { kmActual: "", registros: [], dias: [], precioPorGalon: "", aceite: null, soat: null, tecno: null };
+  } catch {}
 }
 
 function save() {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch {}
+  try { localStorage.setItem(STORAGE_KEY + "_" + usuarioActual.user, JSON.stringify(data)); } catch {}
 }
 
-function fmt(n) {
-  return Number(n).toLocaleString("es-CO");
-}
+function fmt(n) { return Number(n).toLocaleString("es-CO"); }
 
 function calcEficiencia() {
   const con = data.registros.filter(r => r.galones && r.galones > 0);
@@ -413,6 +429,7 @@ function setTab(t) {
   if (t === "resumen") renderResumen();
   if (t === "dia") renderDia();
   if (t === "aceite") renderAceite();
+  if (t === "docs") renderDocs();
 }
 
 // ── MI DÍA ──
@@ -443,12 +460,8 @@ function actualizarPreviewDia() {
   const i = Number(document.getElementById("kmInicial").value);
   const f = Number(document.getElementById("kmFinal").value);
   const prev = document.getElementById("preview-dia");
-  if (i && f && f > i) {
-    prev.classList.remove("hidden");
-    prev.textContent = "📏 Km del día: " + fmt(f - i) + " km";
-  } else {
-    prev.classList.add("hidden");
-  }
+  if (i && f && f > i) { prev.classList.remove("hidden"); prev.textContent = "📏 Km del día: " + fmt(f - i) + " km"; }
+  else prev.classList.add("hidden");
 }
 
 function cerrarDia() {
@@ -468,15 +481,16 @@ function cerrarDia() {
   document.getElementById("res-km").textContent = fmt(kmRec);
   document.getElementById("res-gal").textContent = galEst ?? "—";
   document.getElementById("res-costo").textContent = costoEst ? "$" + fmt(costoEst) : "—";
-  document.getElementById("fechaDiaResultado").textContent = new Date().toLocaleDateString("es-CO", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
+  document.getElementById("fechaDiaResultado").textContent = new Date().toLocaleDateString("es-CO", { weekday:"long", year:"numeric", month:"long", day:"numeric" });
   const nota = document.getElementById("res-nota");
-  if (ef) { nota.innerHTML = 'Rendimiento histórico: <strong>' + ef + ' km/gal</strong>'; nota.className = "info-rendimiento"; }
+  if (ef) { nota.innerHTML = 'Rendimiento: <strong>' + ef + ' km/gal</strong>'; nota.className = "info-rendimiento"; }
   else { nota.textContent = "Sin datos de consumo. Registra cargas para estimar."; nota.className = "sin-datos"; }
   document.getElementById("form-dia").classList.add("hidden");
   document.getElementById("resultado-dia").classList.remove("hidden");
   document.getElementById("kmInicial").value = "";
   document.getElementById("kmFinal").value = "";
   document.getElementById("preview-dia").classList.add("hidden");
+  if (data.aceite) renderAceite();
 }
 
 function nuevodia() {
@@ -495,13 +509,9 @@ function guardarCarga() {
   data.kmActual = data.registros[0].km;
   save();
   document.getElementById("kmActualDisplay").textContent = fmt(data.kmActual);
-  document.getElementById("cargaKm").value = "";
-  document.getElementById("cargaGalones").value = "";
-  document.getElementById("cargaPrecio").value = "";
-  document.getElementById("cargaNota").value = "";
+  document.getElementById("cargaKm").value = ""; document.getElementById("cargaGalones").value = ""; document.getElementById("cargaPrecio").value = ""; document.getElementById("cargaNota").value = "";
   const msg = document.getElementById("savedMsg");
-  msg.textContent = "✓ GUARDADO";
-  setTimeout(() => msg.textContent = "", 2000);
+  msg.textContent = "✓ GUARDADO"; setTimeout(() => msg.textContent = "", 2000);
 }
 
 // ── HISTORIAL ──
@@ -511,7 +521,7 @@ function renderHistorial() {
   if (data.dias.length > 0) {
     contDias.innerHTML = '<div class="section-title">Días registrados</div>' +
       data.dias.map(d => `<div class="card"><button class="btn-delete" onclick="eliminarDia(${d.id})">✕</button><div class="card-km">${fmt(d.kmRecorridos)} km recorridos</div><div class="card-fecha">${d.fecha}</div><div class="card-detail">${d.kmInicial} → ${d.kmFinal}${d.galonesEstimados ? " · ⛽ ~" + d.galonesEstimados + " Gal" : ""}${d.costoEstimado ? " · ~$" + fmt(d.costoEstimado) : ""}</div></div>`).join("") + '<hr class="divider">';
-  } else { contDias.innerHTML = ""; }
+  } else contDias.innerHTML = "";
   if (data.registros.length === 0) {
     contCargas.innerHTML = '<div class="empty-msg">Sin cargas registradas aún.</div>';
   } else {
@@ -519,17 +529,163 @@ function renderHistorial() {
   }
 }
 
-function eliminarDia(id) {
-  data.dias = data.dias.filter(d => d.id !== id);
-  save(); renderHistorial();
+function eliminarDia(id) { data.dias = data.dias.filter(d => d.id !== id); save(); renderHistorial(); }
+function eliminarCarga(id) { data.registros = data.registros.filter(r => r.id !== id); data.kmActual = data.registros.length > 0 ? data.registros[0].km : ""; save(); document.getElementById("kmActualDisplay").textContent = data.kmActual ? fmt(data.kmActual) : "—"; renderHistorial(); }
+
+// ── DOCUMENTOS (SOAT Y TECNOMECÁNICA) ──
+function diasHasta(fechaStr) {
+  if (!fechaStr) return null;
+  const hoy = new Date(); hoy.setHours(0,0,0,0);
+  const vence = new Date(fechaStr + "T00:00:00");
+  return Math.round((vence - hoy) / (1000 * 60 * 60 * 24));
 }
 
-function eliminarCarga(id) {
-  data.registros = data.registros.filter(r => r.id !== id);
-  data.kmActual = data.registros.length > 0 ? data.registros[0].km : "";
+function estadoDoc(dias) {
+  if (dias === null) return "sin";
+  if (dias < 0) return "vencido";
+  if (dias <= 15) return "warning";
+  return "ok";
+}
+
+function renderDocCard(tipo, datos) {
+  if (!datos) return `<div class="doc-card doc-sin"><div class="doc-nombre">${tipo === "soat" ? "SOAT" : "Tecnomecánica"}</div><div style="font-size:12px;color:#555;margin-top:4px">No configurado</div></div>`;
+  const dias = diasHasta(datos.fecha);
+  const estado = estadoDoc(dias);
+  const clases = { ok: "doc-ok badge-ok", warning: "doc-warning badge-warning", vencido: "doc-vencido badge-vencido", sin: "doc-sin" };
+  const iconos = { ok: "✅", warning: "⚠️", vencido: "🚨", sin: "" };
+  const textos = { ok: `Vence en ${dias} días`, warning: `⚠️ Vence en ${dias} días`, vencido: `🚨 Venció hace ${Math.abs(dias)} días`, sin: "" };
+  return `<div class="doc-card ${clases[estado].split(" ")[0]}">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div class="doc-nombre ${clases[estado].split(" ")[1]}">${iconos[estado]} ${tipo === "soat" ? "SOAT" : "Tecnomecánica"}</div>
+    </div>
+    <div class="doc-dias ${clases[estado].split(" ")[1]}">${dias !== null ? Math.abs(dias) : "—"}</div>
+    <div class="doc-lbl">${textos[estado]}</div>
+    <div class="doc-fecha">Vencimiento: ${datos.fecha ? new Date(datos.fecha + "T00:00:00").toLocaleDateString("es-CO") : "—"}</div>
+  </div>`;
+}
+
+function renderDocs() {
+  document.getElementById("soat-panel").innerHTML = renderDocCard("soat", data.soat);
+  document.getElementById("tecno-panel").innerHTML = renderDocCard("tecno", data.tecno);
+  if (data.soat) document.getElementById("soatFecha").value = data.soat.fecha;
+  if (data.tecno) document.getElementById("tecnoFecha").value = data.tecno.fecha;
+  renderAlertasDocs();
+}
+
+function renderAlertasDocs() {
+  const cont = document.getElementById("docs-alertas");
+  let html = "";
+  const checks = [
+    { key: "soat", label: "SOAT", d: data.soat },
+    { key: "tecno", label: "Tecnomecánica", d: data.tecno }
+  ];
+  checks.forEach(c => {
+    if (!c.d) return;
+    const dias = diasHasta(c.d.fecha);
+    if (dias !== null && dias < 0) {
+      html += `<div class="alerta" style="border-color:#e8503a;color:#e8503a;background:#1a0800">🚨 <strong>${c.label}</strong> venció hace ${Math.abs(dias)} días. ¡Renuévalo urgente!</div>`;
+    } else if (dias !== null && dias <= 15) {
+      html += `<div class="alerta" style="border-color:#e8c84a;color:#e8c84a">⚠️ <strong>${c.label}</strong> vence en <strong>${dias} días</strong>. Programa tu renovación.</div>`;
+    }
+  });
+  cont.innerHTML = html;
+}
+
+function guardarDoc(tipo) {
+  const fecha = document.getElementById(tipo === "soat" ? "soatFecha" : "tecnoFecha").value;
+  if (!fecha) return;
+  data[tipo] = { fecha };
   save();
-  document.getElementById("kmActualDisplay").textContent = data.kmActual ? fmt(data.kmActual) : "—";
-  renderHistorial();
+  renderDocs();
+  const msg = document.getElementById("docSavedMsg");
+  msg.textContent = "✓ GUARDADO"; setTimeout(() => msg.textContent = "", 2000);
+}
+
+// ── ACEITE ──
+function guardarAceite() {
+  const kmActual = Number(document.getElementById("aceiteKmActual").value);
+  const kmUltimo = Number(document.getElementById("aceiteKmUltimo").value);
+  if (!kmActual || !kmUltimo || kmUltimo > kmActual) { alert("Verifica los kilómetros ingresados."); return; }
+  data.aceite = { kmUltimoCambio: kmUltimo, kmActualConfig: kmActual };
+  if (!data.kmActual) { data.kmActual = kmActual; document.getElementById("kmActualDisplay").textContent = fmt(kmActual); }
+  save(); renderAceite();
+}
+
+function renderAceite() {
+  if (!data.aceite) { document.getElementById("aceite-config").classList.remove("hidden"); document.getElementById("aceite-panel").classList.add("hidden"); return; }
+  document.getElementById("aceite-config").classList.add("hidden"); document.getElementById("aceite-panel").classList.remove("hidden");
+  const kmUltimo = data.aceite.kmUltimoCambio;
+  const kmActual = data.kmActual ? Number(data.kmActual) : data.aceite.kmActualConfig;
+  const usados = kmActual - kmUltimo;
+  const restantes = 2500 - usados;
+  const pct = Math.min(Math.round((usados / 2500) * 100), 100);
+  document.getElementById("aceiteKmUsados").textContent = usados > 0 ? fmt(usados) : "0";
+  document.getElementById("aceiteKmRestantes").textContent = restantes > 0 ? fmt(restantes) : "0";
+  document.getElementById("aceiteKmCambio").textContent = "Último cambio: " + fmt(kmUltimo) + " km";
+  document.getElementById("aceitePorcentaje").textContent = pct + "%";
+  const barra = document.getElementById("aceiteBarra");
+  barra.style.width = pct + "%";
+  barra.style.background = pct < 70 ? "#4caf7d" : pct < 90 ? "#e8c84a" : "#e8503a";
+  const card = document.getElementById("aceiteCard");
+  if (restantes <= 0) { card.className = "aceite-card alerta-aceite"; document.getElementById("aceiteAlertaMsg").classList.remove("hidden"); }
+  else { card.className = pct >= 80 ? "aceite-card" : "aceite-card ok"; document.getElementById("aceiteAlertaMsg").classList.add("hidden"); if (pct >= 80) card.style.borderColor = "#e8c84a"; }
+}
+
+function registrarCambioAceite() {
+  const kmActual = data.kmActual ? Number(data.kmActual) : 0;
+  if (!kmActual) { alert("Primero registra el km actual de tu moto."); return; }
+  data.aceite.kmUltimoCambio = kmActual; save(); renderAceite();
+  alert("✓ Cambio registrado en " + fmt(kmActual) + " km. Próximo en " + fmt(kmActual + 2500) + " km.");
+}
+
+function editarAceite() {
+  document.getElementById("aceite-panel").classList.add("hidden"); document.getElementById("aceite-config").classList.remove("hidden");
+  if (data.aceite) { document.getElementById("aceiteKmUltimo").value = data.aceite.kmUltimoCambio; document.getElementById("aceiteKmActual").value = data.kmActual || data.aceite.kmActualConfig; }
+}
+
+// ── GPS ──
+let gpsWatchId = null, gpsPosAnterior = null, gpsKmAcumulados = 0;
+function iniciarGPS() {
+  if (!navigator.geolocation) { alert("Tu navegador no soporta GPS."); return; }
+  gpsKmAcumulados = 0; gpsPosAnterior = null;
+  document.getElementById("gpsDot").className = "gps-dot activo";
+  document.getElementById("gpsEstado").textContent = "Obteniendo señal...";
+  document.getElementById("gpsCard").className = "gps-card activo";
+  document.getElementById("btnIniciarGPS").classList.add("hidden");
+  document.getElementById("btnDetenerGPS").classList.remove("hidden");
+  gpsWatchId = navigator.geolocation.watchPosition(pos => {
+    const { latitude, longitude, accuracy } = pos.coords;
+    document.getElementById("gpsPrecision").textContent = "±" + Math.round(accuracy) + "m";
+    document.getElementById("gpsEstado").textContent = "GPS activo";
+    if (gpsPosAnterior && accuracy < 40) {
+      const dist = calcDistancia(gpsPosAnterior.lat, gpsPosAnterior.lng, latitude, longitude);
+      if (dist > 0.005) { gpsKmAcumulados += dist; document.getElementById("gpsKmDisplay").textContent = gpsKmAcumulados.toFixed(2); const kmBase = data.kmActual ? Number(data.kmActual) : 0; if (kmBase > 0) { document.getElementById("kmFinal").value = (kmBase + gpsKmAcumulados).toFixed(1); actualizarPreviewDia(); } }
+    }
+    gpsPosAnterior = { lat: latitude, lng: longitude };
+  }, err => { document.getElementById("gpsEstado").textContent = "Error: " + (err.code === 1 ? "Permiso denegado" : "Sin señal"); document.getElementById("gpsDot").className = "gps-dot"; }, { enableHighAccuracy: true, maximumAge: 3000, timeout: 10000 });
+}
+
+function detenerGPS() {
+  if (gpsWatchId !== null) navigator.geolocation.clearWatch(gpsWatchId);
+  gpsWatchId = null;
+  document.getElementById("gpsDot").className = "gps-dot";
+  document.getElementById("gpsEstado").textContent = "GPS detenido";
+  document.getElementById("gpsCard").className = "gps-card";
+  document.getElementById("btnIniciarGPS").classList.remove("hidden");
+  document.getElementById("btnDetenerGPS").classList.add("hidden");
+  if (data.kmActual && !document.getElementById("kmInicial").value) document.getElementById("kmInicial").value = data.kmActual;
+}
+
+function calcDistancia(lat1, lon1, lat2, lon2) {
+  const R = 6371, dLat = (lat2-lat1)*Math.PI/180, dLon = (lon2-lon1)*Math.PI/180;
+  const a = Math.sin(dLat/2)*Math.sin(dLat/2) + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+function abrirGoogleMaps() {
+  const inicio = Date.now(), iframe = document.createElement("iframe");
+  iframe.style.display = "none"; iframe.src = "comgooglemaps://"; document.body.appendChild(iframe);
+  setTimeout(() => { document.body.removeChild(iframe); if (Date.now() - inicio < 1500) window.open("https://maps.google.com", "_blank"); }, 1200);
 }
 
 // ── RESUMEN ──
@@ -544,7 +700,7 @@ function renderResumen() {
   document.getElementById("resumen-aviso").classList.toggle("hidden", !!ef);
 }
 
-// ── EXPORTAR EXCEL ──
+// ── EXPORTAR ──
 function exportarExcel() {
   if (data.dias.length === 0) { alert("No hay días registrados para exportar."); return; }
   const enc = ["Fecha","Km Inicial","Km Final","Km Recorridos","Galones Estimados","Costo Estimado ($)"];
@@ -553,210 +709,33 @@ function exportarExcel() {
   const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
   const fecha = new Date().toLocaleDateString("es-CO").split("/").join("-");
-  const a = document.createElement("a");
-  a.href = url; a.download = "motokm-dias-" + fecha + ".csv"; a.click();
-  URL.revokeObjectURL(url);
+  const a = document.createElement("a"); a.href = url; a.download = "motokm-dias-" + fecha + ".csv"; a.click(); URL.revokeObjectURL(url);
 }
 
-// ── EXPORTAR / IMPORTAR JSON ──
 function exportarDatos() {
   const fecha = new Date().toLocaleDateString("es-CO").split("/").join("-");
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url; a.download = "motokm-respaldo-" + fecha + ".json"; a.click();
-  URL.revokeObjectURL(url);
+  const a = document.createElement("a"); a.href = url; a.download = "motokm-respaldo-" + fecha + ".json"; a.click(); URL.revokeObjectURL(url);
 }
 
 function importarDatos(event) {
-  const file = event.target.files[0];
-  if (!file) return;
+  const file = event.target.files[0]; if (!file) return;
   const reader = new FileReader();
   reader.onload = function(e) {
     try {
       const imp = JSON.parse(e.target.result);
       if (!imp.registros || !imp.dias) throw new Error();
-      data = imp; save(); renderAll(); renderResumen();
+      data = imp; save(); renderAll();
       const msg = document.getElementById("importMsg");
-      msg.textContent = "✓ DATOS RESTAURADOS"; msg.style.color = "#4caf7d";
-      setTimeout(() => msg.textContent = "", 3000);
+      msg.textContent = "✓ DATOS RESTAURADOS"; msg.style.color = "#4caf7d"; setTimeout(() => msg.textContent = "", 3000);
     } catch {
       const msg = document.getElementById("importMsg");
-      msg.textContent = "✗ ARCHIVO NO VÁLIDO"; msg.style.color = "#e8503a";
-      setTimeout(() => msg.textContent = "", 3000);
+      msg.textContent = "✗ ARCHIVO NO VÁLIDO"; msg.style.color = "#e8503a"; setTimeout(() => msg.textContent = "", 3000);
     }
     event.target.value = "";
   };
   reader.readAsText(file);
-}
-
-// ── GOOGLE MAPS ──
-function abrirWaze() {
-  // Abre Google Maps; si no está instalado abre la web
-  const mapsApp = "comgooglemaps://";
-  const mapsWeb = "https://maps.google.com";
-  const inicio = Date.now();
-  const iframe = document.createElement("iframe");
-  iframe.style.display = "none";
-  iframe.src = mapsApp;
-  document.body.appendChild(iframe);
-  setTimeout(function() {
-    document.body.removeChild(iframe);
-    if (Date.now() - inicio < 1500) {
-      window.open(mapsWeb, "_blank");
-    }
-  }, 1200);
-}
-
-// ── GPS ──
-let gpsActivo = false;
-let gpsWatchId = null;
-let gpsPosAnterior = null;
-let gpsKmAcumulados = 0;
-
-function iniciarGPS() {
-  if (!navigator.geolocation) {
-    alert("Tu navegador no soporta GPS.");
-    return;
-  }
-  gpsKmAcumulados = 0;
-  gpsPosAnterior = null;
-  gpsActivo = true;
-  document.getElementById("gpsDot").className = "gps-dot activo";
-  document.getElementById("gpsEstado").textContent = "Obteniendo señal...";
-  document.getElementById("gpsCard").className = "gps-card activo";
-  document.getElementById("btnIniciarGPS").classList.add("hidden");
-  document.getElementById("btnDetenerGPS").classList.remove("hidden");
-
-  gpsWatchId = navigator.geolocation.watchPosition(
-    function(pos) {
-      const { latitude, longitude, accuracy } = pos.coords;
-      document.getElementById("gpsPrecision").textContent = "±" + Math.round(accuracy) + "m";
-      document.getElementById("gpsEstado").textContent = "GPS activo";
-
-      if (gpsPosAnterior && accuracy < 40) {
-        const dist = calcDistancia(gpsPosAnterior.lat, gpsPosAnterior.lng, latitude, longitude);
-        if (dist > 0.005) { // filtro: mínimo 5 metros para evitar ruido
-          gpsKmAcumulados += dist;
-          document.getElementById("gpsKmDisplay").textContent = gpsKmAcumulados.toFixed(2);
-          // Actualizar también el campo kmFinal con el km actual + gps
-          const kmBase = data.kmActual ? Number(data.kmActual) : 0;
-          if (kmBase > 0) {
-            document.getElementById("kmFinal").value = (kmBase + gpsKmAcumulados).toFixed(1);
-            actualizarPreviewDia();
-          }
-        }
-      }
-      gpsPosAnterior = { lat: latitude, lng: longitude };
-    },
-    function(err) {
-      document.getElementById("gpsEstado").textContent = "Error: " + (err.code === 1 ? "Permiso denegado" : "Sin señal");
-      document.getElementById("gpsDot").className = "gps-dot";
-    },
-    { enableHighAccuracy: true, maximumAge: 3000, timeout: 10000 }
-  );
-}
-
-function detenerGPS() {
-  if (gpsWatchId !== null) navigator.geolocation.clearWatch(gpsWatchId);
-  gpsActivo = false;
-  gpsWatchId = null;
-  document.getElementById("gpsDot").className = "gps-dot";
-  document.getElementById("gpsEstado").textContent = "GPS detenido";
-  document.getElementById("gpsCard").className = "gps-card";
-  document.getElementById("btnIniciarGPS").classList.remove("hidden");
-  document.getElementById("btnDetenerGPS").classList.add("hidden");
-
-  // Si hay km base, rellenar km inicial automáticamente
-  if (data.kmActual && !document.getElementById("kmInicial").value) {
-    document.getElementById("kmInicial").value = data.kmActual;
-  }
-}
-
-function calcDistancia(lat1, lon1, lat2, lon2) {
-  const R = 6371; // radio tierra en km
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLon = (lon2 - lon1) * Math.PI / 180;
-  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-            Math.sin(dLon/2) * Math.sin(dLon/2);
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-}
-
-// ── ACEITE ──
-function guardarAceite() {
-  const kmActual = Number(document.getElementById("aceiteKmActual").value);
-  const kmUltimo = Number(document.getElementById("aceiteKmUltimo").value);
-  if (!kmActual || !kmUltimo || kmUltimo > kmActual) {
-    alert("Verifica los kilómetros ingresados.");
-    return;
-  }
-  data.aceite = { kmUltimoCambio: kmUltimo, kmActualConfig: kmActual };
-  // Actualizar kmActual de la app si no estaba registrado
-  if (!data.kmActual) {
-    data.kmActual = kmActual;
-    document.getElementById("kmActualDisplay").textContent = fmt(kmActual);
-  }
-  save();
-  renderAceite();
-}
-
-function renderAceite() {
-  if (!data.aceite) {
-    document.getElementById("aceite-config").classList.remove("hidden");
-    document.getElementById("aceite-panel").classList.add("hidden");
-    return;
-  }
-  document.getElementById("aceite-config").classList.add("hidden");
-  document.getElementById("aceite-panel").classList.remove("hidden");
-
-  const kmUltimo = data.aceite.kmUltimoCambio;
-  const kmActual = data.kmActual ? Number(data.kmActual) : data.aceite.kmActualConfig;
-  const intervalo = 2500;
-  const usados = kmActual - kmUltimo;
-  const restantes = intervalo - usados;
-  const pct = Math.min(Math.round((usados / intervalo) * 100), 100);
-
-  document.getElementById("aceiteKmUsados").textContent = usados > 0 ? fmt(usados) : "0";
-  document.getElementById("aceiteKmRestantes").textContent = restantes > 0 ? fmt(restantes) : "0";
-  document.getElementById("aceiteKmCambio").textContent = "Último cambio: " + fmt(kmUltimo) + " km";
-  document.getElementById("aceitePorcentaje").textContent = pct + "%";
-
-  const barra = document.getElementById("aceiteBarra");
-  barra.style.width = pct + "%";
-  barra.style.background = pct < 70 ? "#4caf7d" : pct < 90 ? "#e8c84a" : "#e8503a";
-
-  const card = document.getElementById("aceiteCard");
-  const alerta = document.getElementById("aceiteAlertaMsg");
-  if (restantes <= 0) {
-    card.className = "aceite-card alerta";
-    alerta.classList.remove("hidden");
-  } else if (pct >= 80) {
-    card.className = "aceite-card";
-    card.style.borderColor = "#e8c84a";
-    alerta.classList.add("hidden");
-  } else {
-    card.className = "aceite-card ok";
-    alerta.classList.add("hidden");
-  }
-}
-
-function registrarCambioAceite() {
-  const kmActual = data.kmActual ? Number(data.kmActual) : 0;
-  if (!kmActual) { alert("Primero registra el km actual de tu moto."); return; }
-  data.aceite.kmUltimoCambio = kmActual;
-  save();
-  renderAceite();
-  alert("✓ Cambio de aceite registrado en " + fmt(kmActual) + " km. Próximo cambio en " + fmt(kmActual + 2500) + " km.");
-}
-
-function editarAceite() {
-  document.getElementById("aceite-panel").classList.add("hidden");
-  document.getElementById("aceite-config").classList.remove("hidden");
-  if (data.aceite) {
-    document.getElementById("aceiteKmUltimo").value = data.aceite.kmUltimoCambio;
-    document.getElementById("aceiteKmActual").value = data.kmActual || data.aceite.kmActualConfig;
-  }
 }
 
 // ── RENDER GENERAL ──
@@ -766,7 +745,15 @@ function renderAll() {
   if (data.aceite) renderAceite();
 }
 
-load();
+// ── SERVICE WORKER ──
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(err => console.log("SW error:", err));
+  });
+}
+
+// Iniciar
+verificarSesion();
 </script>
 </body>
 </html>
