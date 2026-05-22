@@ -6,40 +6,43 @@
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  <meta name="apple-mobile-web-app-title" content="MotoKm" />
-  <title>MotoKm</title>
+  <meta name="apple-mobile-web-app-title" content="MotoBia" />
+  <title>MotoBia</title>
   <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#e8c84a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#4dc8ff" />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
     html, body { height: 100%; }
-    body { background: #0f0f0f; color: #f0ede6; font-family: 'Courier New', monospace; display: flex; flex-direction: column; height: 100%; }
+    body { background: #050510; color: #e8f4ff; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; height: 100%; }
     #app { max-width: 480px; width: 100%; margin: 0 auto; display: flex; flex-direction: column; height: 100%; }
 
     /* LOGIN */
-    #loginScreen { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; padding: 32px 24px; background: #0f0f0f; }
+    #loginScreen { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; padding: 32px 24px; background: #050510; }
     .login-logo { font-size: 56px; margin-bottom: 12px; }
-    .login-title { font-size: 24px; font-weight: bold; color: #e8c84a; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 4px; }
-    .login-sub { font-size: 11px; color: #555; letter-spacing: 2px; margin-bottom: 40px; }
-    .login-box { width: 100%; background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 8px; padding: 24px; }
+    .login-title { font-size: 24px; font-weight: bold; color: #4dc8ff; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 4px; }
+    .login-sub { font-size: 11px; color: #3a5a7a; letter-spacing: 2px; margin-bottom: 40px; }
+    .login-box { width: 100%; background: #0a0a2e; border: 1px solid #1a2050; border-radius: 8px; padding: 24px; }
     .login-error { color: #e8503a; font-size: 11px; text-align: center; margin-top: 12px; height: 16px; letter-spacing: 1px; }
-    .login-footer { margin-top: 24px; font-size: 10px; color: #333; text-align: center; letter-spacing: 1px; }
+    .login-footer { margin-top: 24px; font-size: 10px; color: #1a3a5a; text-align: center; letter-spacing: 1px; }
 
     /* HEADER */
-    .header { background: #1a1a1a; border-bottom: 2px solid #e8c84a; padding: 16px 16px 0 16px; flex-shrink: 0; }
+    .header { background: #0a0a2e; border-bottom: 2px solid #1a6fff; padding: 16px 16px 0 16px; flex-shrink: 0; }
     .header-top { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
     .logo { font-size: 26px; }
-    .title { font-size: 18px; font-weight: bold; color: #e8c84a; letter-spacing: 2px; text-transform: uppercase; }
-    .subtitle { font-size: 11px; color: #888; letter-spacing: 1px; }
+    .title { font-size: 18px; font-weight: bold; color: #4dc8ff; letter-spacing: 2px; text-transform: uppercase; }
+    .subtitle { font-size: 11px; color: #6a8aaa; letter-spacing: 1px; }
     .km-big { text-align: right; line-height: 1; }
-    .km-num { font-size: 28px; font-weight: bold; color: #e8c84a; }
-    .km-label { font-size: 10px; color: #666; letter-spacing: 2px; }
-    .btn-logout { background: transparent; border: 1px solid #333; color: #555; font-size: 10px; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-family: 'Courier New', monospace; letter-spacing: 1px; }
+    .km-num { font-size: 28px; font-weight: bold; color: #4dc8ff; }
+    .km-label { font-size: 10px; color: #4a6a8a; letter-spacing: 2px; }
+    .btn-logout { background: transparent; border: 1px solid #1a2050; color: #3a5a7a; font-size: 10px; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-family: 'Inter', sans-serif; letter-spacing: 1px; }
 
     /* TABS */
-    .tabs { display: flex; border-top: 1px solid #333; margin-top: 10px; overflow-x: auto; }
-    .tab-btn { flex: 1; min-width: 60px; padding: 10px 4px; text-align: center; font-size: 9px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; background: transparent; color: #888; font-weight: normal; border: none; font-family: 'Courier New', monospace; transition: background 0.2s, color 0.2s; touch-action: manipulation; user-select: none; white-space: nowrap; }
-    .tab-btn.active { background: #e8c84a; color: #0f0f0f; font-weight: bold; }
+    .tabs { display: flex; border-top: 1px solid #1a2050; margin-top: 10px; overflow-x: auto; }
+    .tab-btn { flex: 1; min-width: 60px; padding: 10px 4px; text-align: center; font-size: 9px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; background: transparent; color: #6a8aaa; font-weight: normal; border: none; font-family: 'Inter', sans-serif; transition: background 0.2s, color 0.2s; touch-action: manipulation; user-select: none; white-space: nowrap; }
+    .tab-btn.active { background: linear-gradient(135deg, #1a6fff, #4dc8ff); color: #050510; font-weight: bold; }
     .tab-btn:active { opacity: 0.7; }
 
     /* CONTENT */
@@ -47,85 +50,132 @@
 
     /* FIELDS */
     .field { margin-bottom: 14px; }
-    .field label { display: block; font-size: 10px; color: #888; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
-    input[type=number], input[type=text], input[type=password], input[type=date] { width: 100%; background: #1a1a1a; border: 1px solid #333; border-radius: 4px; color: #f0ede6; padding: 12px; font-size: 16px; font-family: 'Courier New', monospace; outline: none; }
-    input:focus { border-color: #e8c84a88; }
+    .field label { display: block; font-size: 10px; color: #6a8aaa; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+    input[type=number], input[type=text], input[type=password], input[type=date] { width: 100%; background: #0a0a2e; border: 1px solid #1a2050; border-radius: 4px; color: #e8f4ff; padding: 12px; font-size: 16px; font-family: 'Inter', sans-serif; outline: none; }
+    input:focus { border-color: #4dc8ff88; }
 
     /* BUTTONS */
-    .btn-primary { width: 100%; padding: 14px; background: #e8c84a; color: #0f0f0f; border: none; border-radius: 4px; font-size: 13px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; font-family: 'Courier New', monospace; margin-top: 6px; touch-action: manipulation; display: block; }
+    .btn-primary { width: 100%; padding: 14px; background: linear-gradient(135deg, #1a6fff, #4dc8ff); color: #050510; border: none; border-radius: 4px; font-size: 13px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; font-family: 'Inter', sans-serif; margin-top: 6px; touch-action: manipulation; display: block; }
     .btn-primary:active { opacity: 0.8; }
-    .btn-secondary { padding: 10px 16px; background: transparent; color: #e8c84a; border: 1px solid #e8c84a; border-radius: 4px; font-size: 11px; font-weight: bold; letter-spacing: 1px; cursor: pointer; font-family: 'Courier New', monospace; touch-action: manipulation; }
-    .btn-delete { position: absolute; top: 10px; right: 10px; background: transparent; border: none; color: #555; font-size: 18px; cursor: pointer; padding: 6px; touch-action: manipulation; }
-    .btn-import { background: #1a1a1a !important; color: #e8c84a !important; border: 1px solid #e8c84a !important; }
-    .btn-waze { background: #1a2a1a !important; color: #4caf7d !important; border: 1px solid #4caf7d !important; font-size:13px; }
-    .btn-excel { background: #1e3a1e !important; color: #4caf7d !important; border: 1px solid #4caf7d !important; }
+    .btn-secondary { padding: 10px 16px; background: transparent; color: #4dc8ff; border: 1px solid #4dc8ff; border-radius: 4px; font-size: 11px; font-weight: bold; letter-spacing: 1px; cursor: pointer; font-family: 'Inter', sans-serif; touch-action: manipulation; }
+    .btn-delete { position: absolute; top: 10px; right: 10px; background: transparent; border: none; color: #3a5a7a; font-size: 18px; cursor: pointer; padding: 6px; touch-action: manipulation; }
+    .btn-import { background: #0a0a2e !important; color: #4dc8ff !important; border: 1px solid #4dc8ff !important; }
+    .btn-waze { background: #1a2a1a !important; color: #4ade80 !important; border: 1px solid #4ade80 !important; font-size:13px; }
+    .btn-excel { background: #051a3e !important; color: #4ade80 !important; border: 1px solid #4ade80 !important; }
 
     /* CARDS */
-    .card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 4px; padding: 16px; margin-bottom: 12px; position: relative; }
-    .card-highlight { background: #1a1a1a; border: 1px solid #e8c84a; border-radius: 4px; padding: 16px; margin-bottom: 12px; }
-    .card-title { font-size: 10px; color: #666; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
-    .card-num { font-size: 18px; font-weight: bold; color: #e8c84a; }
-    .card-km { font-size: 16px; font-weight: bold; color: #e8c84a; }
-    .card-fecha { font-size: 10px; color: #666; letter-spacing: 1px; }
+    .card { background: #0a0a2e; border: 1px solid #1a2050; border-radius: 4px; padding: 16px; margin-bottom: 12px; position: relative; }
+    .card-highlight { background: #0a0a2e; border: 1px solid #4dc8ff; border-radius: 4px; padding: 16px; margin-bottom: 12px; }
+    .card-title { font-size: 10px; color: #4a6a8a; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+    .card-num { font-size: 18px; font-weight: bold; color: #4dc8ff; }
+    .card-km { font-size: 16px; font-weight: bold; color: #4dc8ff; }
+    .card-fecha { font-size: 10px; color: #4a6a8a; letter-spacing: 1px; }
     .card-detail { font-size: 12px; color: #aaa; margin-top: 6px; }
 
     /* RESUMEN */
     .resumen-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 16px; }
     .resumen-item { text-align: center; }
-    .resumen-num { font-size: 20px; font-weight: bold; color: #e8c84a; }
-    .resumen-lbl { font-size: 9px; color: #666; letter-spacing: 1px; margin-top: 3px; }
+    .resumen-num { font-size: 20px; font-weight: bold; color: #4dc8ff; }
+    .resumen-lbl { font-size: 9px; color: #4a6a8a; letter-spacing: 1px; margin-top: 3px; }
     .stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-    .stat-card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 4px; padding: 14px; }
-    .stat-num { font-size: 22px; font-weight: bold; color: #e8c84a; }
-    .stat-lbl { font-size: 10px; color: #666; letter-spacing: 1px; margin-top: 4px; }
+    .stat-card { background: #0a0a2e; border: 1px solid #1a2050; border-radius: 4px; padding: 14px; }
+    .stat-num { font-size: 22px; font-weight: bold; color: #4dc8ff; }
+    .stat-lbl { font-size: 10px; color: #4a6a8a; letter-spacing: 1px; margin-top: 4px; }
 
     /* MISC */
-    .alerta { background: #1a1a0a; border: 1px solid #e8c84a33; border-radius: 4px; padding: 12px; margin-bottom: 16px; font-size: 11px; color: #aaa; }
-    .alerta.amarillo { color: #e8c84a; border-color: #e8c84a55; }
-    .saved-msg { text-align: center; color: #4caf7d; font-size: 12px; letter-spacing: 2px; margin-top: 10px; height: 18px; }
-    .empty-msg { text-align: center; color: #444; font-size: 12px; letter-spacing: 1px; padding: 40px 0; }
-    .section-title { font-size: 10px; color: #666; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
-    .divider { border-color: #2a2a2a; margin: 20px 0; }
+    .alerta { background: #05051a; border: 1px solid #4dc8ff33; border-radius: 4px; padding: 12px; margin-bottom: 16px; font-size: 11px; color: #aaa; }
+    .alerta.amarillo { color: #4dc8ff; border-color: #4dc8ff55; }
+    .saved-msg { text-align: center; color: #4ade80; font-size: 12px; letter-spacing: 2px; margin-top: 10px; height: 18px; }
+    .empty-msg { text-align: center; color: #2a4a6a; font-size: 12px; letter-spacing: 1px; padding: 40px 0; }
+    .section-title { font-size: 10px; color: #4a6a8a; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
+    .divider { border-color: #1a2050; margin: 20px 0; }
     .row-between { display: flex; justify-content: space-between; align-items: center; }
     .hidden { display: none !important; }
-    .info-rendimiento { margin-top: 12px; font-size: 11px; color: #666; text-align: center; }
-    .info-rendimiento strong { color: #e8c84a; }
+    .info-rendimiento { margin-top: 12px; font-size: 11px; color: #4a6a8a; text-align: center; }
+    .info-rendimiento strong { color: #4dc8ff; }
     .sin-datos { margin-top: 12px; font-size: 11px; color: #e8983a; text-align: center; }
 
     /* ACEITE */
-    .aceite-card { background: #1a1000; border: 1px solid #e8983a44; border-radius: 4px; padding: 16px; margin-bottom: 12px; }
-    .aceite-card.alerta-aceite { border-color: #e8503a; background: #1a0800; animation: parpadeo 1.5s infinite; }
-    .aceite-card.ok { border-color: #4caf7d44; }
-    .aceite-barra-cont { background: #2a2a2a; border-radius: 4px; height: 10px; margin: 12px 0 6px; overflow:hidden; }
+    .aceite-card { background: #05051a; border: 1px solid #e8983a44; border-radius: 4px; padding: 16px; margin-bottom: 12px; }
+    .aceite-card.alerta-aceite { border-color: #e8503a; background: #05051a; animation: parpadeo 1.5s infinite; }
+    .aceite-card.ok { border-color: #4ade8044; }
+    .aceite-barra-cont { background: #0d1235; border-radius: 4px; height: 10px; margin: 12px 0 6px; overflow:hidden; }
     .aceite-barra { height: 10px; border-radius: 4px; transition: width 0.5s; }
     .aceite-num { font-size: 28px; font-weight: bold; }
-    .aceite-lbl { font-size: 10px; color: #666; letter-spacing: 2px; }
+    .aceite-lbl { font-size: 10px; color: #4a6a8a; letter-spacing: 2px; }
 
     /* GPS */
-    .gps-card { background: #0f1a0f; border: 1px solid #4caf7d44; border-radius: 4px; padding: 16px; margin-bottom: 16px; }
-    .gps-card.activo { border-color: #4caf7d; }
+    .gps-card { background: #050520; border: 1px solid #4ade8044; border-radius: 4px; padding: 16px; margin-bottom: 16px; }
+    .gps-card.activo { border-color: #4ade80; }
     .gps-dot { width: 10px; height: 10px; border-radius: 50%; background: #555; display: inline-block; margin-right: 8px; }
-    .gps-dot.activo { background: #4caf7d; box-shadow: 0 0 8px #4caf7d; animation: pulso 1.2s infinite; }
-    .gps-km { font-size: 36px; font-weight: bold; color: #4caf7d; text-align: center; margin: 12px 0 4px; }
-    .gps-lbl { font-size: 10px; color: #666; letter-spacing: 2px; text-align: center; }
-    .btn-gps-start { background: #4caf7d; color: #0f0f0f; }
+    .gps-dot.activo { background: #4ade80; box-shadow: 0 0 8px #4ade80; animation: pulso 1.2s infinite; }
+    .gps-km { font-size: 36px; font-weight: bold; color: #4ade80; text-align: center; margin: 12px 0 4px; }
+    .gps-lbl { font-size: 10px; color: #4a6a8a; letter-spacing: 2px; text-align: center; }
+    .btn-gps-start { background: #4ade80; color: #0f0f0f; }
     .btn-gps-stop { background: #e8503a; color: #fff; }
 
     /* DOCUMENTOS */
     .doc-card { border-radius: 4px; padding: 16px; margin-bottom: 12px; position: relative; }
-    .doc-ok { background: #0f1a0f; border: 1px solid #4caf7d55; }
-    .doc-warning { background: #1a1500; border: 1px solid #e8c84a; animation: parpadeo 2s infinite; }
-    .doc-vencido { background: #1a0800; border: 1px solid #e8503a; animation: parpadeo 1s infinite; }
-    .doc-sin { background: #1a1a1a; border: 1px solid #333; }
+    .doc-ok { background: #050520; border: 1px solid #4ade8055; }
+    .doc-warning { background: #05051a; border: 1px solid #4dc8ff; animation: parpadeo 2s infinite; }
+    .doc-vencido { background: #05051a; border: 1px solid #e8503a; animation: parpadeo 1s infinite; }
+    .doc-sin { background: #0a0a2e; border: 1px solid #1a2050; }
     .doc-nombre { font-size: 13px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
     .doc-dias { font-size: 28px; font-weight: bold; }
-    .doc-lbl { font-size: 10px; color: #666; letter-spacing: 1px; margin-top: 2px; }
-    .doc-fecha { font-size: 11px; color: #888; margin-top: 6px; }
-    .badge-ok { color: #4caf7d; }
-    .badge-warning { color: #e8c84a; }
+    .doc-lbl { font-size: 10px; color: #4a6a8a; letter-spacing: 1px; margin-top: 2px; }
+    .doc-fecha { font-size: 11px; color: #6a8aaa; margin-top: 6px; }
+    .badge-ok { color: #4ade80; }
+    .badge-warning { color: #4dc8ff; }
     .badge-vencido { color: #e8503a; }
 
     @keyframes parpadeo { 0%,100%{opacity:1} 50%{opacity:0.6} }
+
+    /* FOTO ODÓMETRO */
+    .foto-preview { width: 100%; border-radius: 10px; margin-top: 8px; border: 1px solid #1a3fff33; max-height: 160px; object-fit: cover; display: block; }
+    .btn-foto { width: 100%; padding: 11px; border: 1px dashed #1a3fff44; border-radius: 10px; background: rgba(10,10,46,0.4); color: #4a6aaa; font-size: 12px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; touch-action: manipulation; letter-spacing: 1px; margin-top: 6px; transition: all 0.2s; }
+    .btn-foto:active { border-color: #4dc8ff; color: #4dc8ff; }
+
+    /* ADMIN */
+    .admin-header { background: linear-gradient(135deg, rgba(124,58,237,0.2), rgba(167,139,250,0.1)); border: 1px solid #7c3aed44; border-radius: 14px; padding: 16px; margin-bottom: 20px; }
+    .admin-title { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 800; background: linear-gradient(135deg, #7c3aed, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+    .admin-stat { background: rgba(124,58,237,0.1); border: 1px solid #7c3aed33; border-radius: 12px; padding: 14px; text-align: center; }
+    .admin-stat-num { font-size: 24px; font-weight: 800; font-family: 'Space Grotesk', sans-serif; background: linear-gradient(135deg, #7c3aed, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .admin-stat-lbl { font-size: 10px; color: #6a5aaa; letter-spacing: 1px; margin-top: 4px; font-weight: 600; }
+    .admin-user-card { background: rgba(10,10,46,0.8); border: 1px solid #1a3fff22; border-radius: 12px; padding: 14px; margin-bottom: 10px; }
+    .admin-user-name { font-size: 14px; font-weight: 700; color: #a78bfa; letter-spacing: 1px; margin-bottom: 8px; }
+    .admin-user-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+    .admin-user-stat { text-align: center; background: rgba(124,58,237,0.08); border-radius: 8px; padding: 8px 4px; }
+    .admin-user-stat-num { font-size: 16px; font-weight: 700; color: #4dc8ff; font-family: 'Space Grotesk', sans-serif; }
+    .admin-user-stat-lbl { font-size: 9px; color: #3a5a8a; letter-spacing: 1px; margin-top: 2px; }
+    .admin-filter { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+    .admin-filter-btn { padding: 6px 14px; border: 1px solid #1a3fff33; border-radius: 20px; font-size: 11px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; background: transparent; color: #4a6aaa; touch-action: manipulation; transition: all 0.2s; }
+    .admin-filter-btn.active { background: linear-gradient(135deg, #7c3aed, #a78bfa); color: #050510; border-color: transparent; }
+    .admin-registro { background: rgba(10,10,46,0.6); border-left: 3px solid #1a3fff33; border-radius: 0 8px 8px 0; padding: 12px; margin-bottom: 8px; }
+    .admin-registro.dia { border-left-color: #4dc8ff; }
+    .admin-registro.carga { border-left-color: #4ade80; }
+    .admin-registro.preop-ok { border-left-color: #4ade80; }
+    .admin-registro.preop-falla { border-left-color: #ff6b6b; }
+
+    /* PREOPERACIONAL */
+    .preop-item { background: #0a0a2e; border: 1px solid #1a2050; border-radius: 4px; padding: 14px 16px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+    .preop-item.ok { border-color: #4ade8055; background: #050520; }
+    .preop-item.falla { border-color: #e8503a55; background: #05051a; }
+    .preop-nombre { font-size: 13px; font-weight: bold; letter-spacing: 1px; }
+    .preop-nombre.ok { color: #4ade80; }
+    .preop-nombre.falla { color: #e8503a; }
+    .preop-btns { display: flex; gap: 8px; }
+    .preop-btn { padding: 8px 14px; border: none; border-radius: 4px; font-size: 12px; font-weight: bold; cursor: pointer; font-family: 'Inter', sans-serif; touch-action: manipulation; }
+    .preop-btn-ok { background: #4ade80; color: #0f0f0f; }
+    .preop-btn-falla { background: #e8503a; color: #fff; }
+    .preop-btn-ok.sel { box-shadow: 0 0 0 2px #4ade80; transform: scale(1.05); }
+    .preop-btn-falla.sel { box-shadow: 0 0 0 2px #e8503a; transform: scale(1.05); }
+    .preop-resumen { border-radius: 4px; padding: 16px; text-align: center; margin-bottom: 16px; }
+    .preop-resumen.aprobado { background: #050520; border: 1px solid #4ade80; }
+    .preop-resumen.rechazado { background: #05051a; border: 1px solid #e8503a; animation: parpadeo 1.5s infinite; }
+    .preop-hist-item { background: #0a0a2e; border-left: 3px solid #2a2a2a; padding: 12px; margin-bottom: 8px; border-radius: 0 4px 4px 0; }
+    .preop-hist-item.aprobado { border-left-color: #4ade80; }
+    .preop-hist-item.rechazado { border-left-color: #e8503a; }
     @keyframes pulso { 0%,100%{opacity:1} 50%{opacity:0.4} }
   </style>
 </head>
@@ -135,8 +185,8 @@
   <!-- PANTALLA DE LOGIN -->
   <div id="loginScreen">
     <div class="login-logo">🏍️</div>
-    <div class="login-title">MotoKm</div>
-    <div class="login-sub">Control de kilometraje</div>
+    <div class="login-title">MotoBia</div>
+    <div class="login-sub">Control de flota · Bia Energy</div>
     <div class="login-box">
       <div class="field">
         <label>Usuario</label>
@@ -149,7 +199,7 @@
       <button class="btn-primary" onclick="hacerLogin()">Ingresar</button>
       <div class="login-error" id="loginError"></div>
     </div>
-    <div class="login-footer">MotoKm v2.0 · Solo para uso autorizado</div>
+    <div class="login-footer">MotoBia v2.0 · Solo para uso autorizado</div>
   </div>
 
   <!-- APP PRINCIPAL (oculta hasta login) -->
@@ -160,7 +210,7 @@
       <div class="header-top">
         <span class="logo">🏍️</span>
         <div style="flex:1">
-          <div class="title">MotoKm</div>
+          <div class="title">MotoBia</div>
           <div class="subtitle" id="userLabel">—</div>
         </div>
         <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
@@ -175,9 +225,11 @@
         <button class="tab-btn active" id="tbtn-dia" onclick="setTab('dia')">Mi día</button>
         <button class="tab-btn" id="tbtn-cargas" onclick="setTab('cargas')">Cargas</button>
         <button class="tab-btn" id="tbtn-historial" onclick="setTab('historial')">Historial</button>
+        <button class="tab-btn" id="tbtn-preop" onclick="setTab('preop')">✅ Preop</button>
         <button class="tab-btn" id="tbtn-docs" onclick="setTab('docs')">📋 Docs</button>
         <button class="tab-btn" id="tbtn-aceite" onclick="setTab('aceite')">🛢️ Aceite</button>
         <button class="tab-btn" id="tbtn-resumen" onclick="setTab('resumen')">Resumen</button>
+        <button class="tab-btn hidden" id="tbtn-admin" onclick="setTab('admin')" style="background:linear-gradient(135deg,#7c3aed,#a78bfa);color:#050510;font-weight:700">👑 Admin</button>
       </div>
     </div>
 
@@ -203,22 +255,26 @@
               <button class="btn-primary" style="margin-top:10px" onclick="guardarPrecio()">Guardar precio</button>
             </div>
           </div>
-          <div class="section-title">📍 Rastreo GPS del día</div>
+          <div class="section-title">📍 Rastreo GPS por puntos</div>
           <div class="gps-card" id="gpsCard">
             <div class="row-between" style="margin-bottom:12px">
               <div style="display:flex;align-items:center">
                 <span class="gps-dot" id="gpsDot"></span>
-                <span style="font-size:11px;color:#888;letter-spacing:1px" id="gpsEstado">GPS inactivo</span>
+                <span style="font-size:11px;color:#6a8aaa;letter-spacing:1px" id="gpsEstado">GPS inactivo</span>
               </div>
-              <span style="font-size:10px;color:#555" id="gpsPrecision"></span>
+              <span style="font-size:10px;color:#3a5a7a" id="gpsPrecision"></span>
             </div>
             <div class="gps-km" id="gpsKmDisplay">0.00</div>
-            <div class="gps-lbl">KM RECORRIDOS HOY</div>
+            <div class="gps-lbl">KM ACUMULADOS</div>
+            <div style="margin-top:10px;font-size:11px;color:#3a5a7a;text-align:center" id="gpsPuntos">0 puntos registrados</div>
+            <div style="margin-top:6px;font-size:10px;color:#2a4a6a;text-align:center" id="gpsUltimoPunto"></div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px">
               <button class="btn-primary btn-gps-start" id="btnIniciarGPS" onclick="iniciarGPS()">▶ Iniciar</button>
-              <button class="btn-primary btn-gps-stop hidden" id="btnDetenerGPS" onclick="detenerGPS()">■ Detener</button>
+              <button class="btn-primary btn-gps-stop hidden" id="btnDetenerGPS" onclick="detenerGPS()">■ Finalizar</button>
             </div>
-            <div style="font-size:10px;color:#555;text-align:center;margin-top:10px">Mantén la app abierta mientras rodas</div>
+            <div style="margin-top:10px;padding:8px;background:#0a0a0a;border-radius:4px;font-size:10px;color:#3a5a7a;text-align:center">
+              💡 Cada vez que enciendas la pantalla se captura un punto nuevo y se suma la distancia
+            </div>
           </div>
           <button class="btn-primary btn-waze" onclick="abrirGoogleMaps()" style="margin-bottom:16px">🗺️ Abrir Google Maps</button>
           <div class="section-title" style="margin-top:8px">O ingresa manualmente</div>
@@ -235,8 +291,8 @@
         </div>
         <div id="resultado-dia" class="hidden">
           <div style="text-align:center;margin-bottom:20px">
-            <div style="font-size:12px;color:#888;letter-spacing:2px;margin-bottom:8px">RESUMEN DEL DÍA</div>
-            <div style="font-size:11px;color:#555" id="fechaDiaResultado"></div>
+            <div style="font-size:12px;color:#6a8aaa;letter-spacing:2px;margin-bottom:8px">RESUMEN DEL DÍA</div>
+            <div style="font-size:11px;color:#3a5a7a" id="fechaDiaResultado"></div>
           </div>
           <div class="card-highlight">
             <div class="resumen-grid">
@@ -246,7 +302,8 @@
             </div>
             <div id="res-nota" class="info-rendimiento"></div>
           </div>
-          <button class="btn-primary" onclick="nuevodia()">Registrar otro día</button>
+          <button class="btn-primary" onclick="compartirWhatsApp()" style="background:linear-gradient(135deg,#25d366,#128c7e);margin-bottom:10px">📱 Compartir por WhatsApp</button>
+        <button class="btn-primary" onclick="nuevodia()">Registrar otro día</button>
         </div>
       </div>
 
@@ -268,6 +325,26 @@
         <div id="historial-cargas"></div>
       </div>
 
+      <!-- TAB: PREOPERACIONAL -->
+      <div id="tab-preop" class="hidden">
+        <div id="preop-resumen-top" class="hidden"></div>
+        <div class="section-title">Inspección del día</div>
+        <div id="preop-items"></div>
+        <div class="field" style="margin-top:16px">
+          <label>Observaciones (opcional)</label>
+          <input type="text" id="preopObservaciones" placeholder="ej. Llanta trasera con baja presión" />
+        </div>
+        <div class="field">
+          <label>Responsable *</label>
+          <input type="text" id="preopResponsable" placeholder="Nombre de quien inspecciona" />
+        </div>
+        <button class="btn-primary" onclick="guardarPreop()">Guardar preoperacional</button>
+        <div class="saved-msg" id="preopMsg"></div>
+        <hr class="divider" style="margin-top:20px" />
+        <div class="section-title">Historial de preoperacionales</div>
+        <div id="preop-historial"></div>
+      </div>
+
       <!-- TAB: DOCUMENTOS (SOAT y TECNOMECÁNICA) -->
       <div id="tab-docs" class="hidden">
         <div id="docs-alertas" style="margin-bottom:16px"></div>
@@ -280,6 +357,11 @@
         <div class="field"><label>Fecha de vencimiento Tecnomecánica</label><input type="date" id="tecnoFecha" /></div>
         <button class="btn-primary" onclick="guardarDoc('tecno')">Guardar Tecnomecánica</button>
         <div class="saved-msg" id="docSavedMsg"></div>
+        <div style="margin-top:24px">
+          <div class="section-title">Notificaciones push</div>
+          <div class="alerta" style="margin-bottom:12px">Activa las notificaciones para recibir alertas de vencimiento aunque no tengas la app abierta.</div>
+          <button class="btn-primary" onclick="solicitarNotificaciones()" style="background:linear-gradient(135deg,#7c3aed,#a78bfa);color:#050510">🔔 Activar notificaciones</button>
+        </div>
       </div>
 
       <!-- TAB: ACEITE -->
@@ -293,15 +375,15 @@
         <div id="aceite-panel" class="hidden">
           <div id="aceiteCard" class="aceite-card">
             <div style="display:flex;justify-content:space-between;align-items:flex-start">
-              <div><div class="aceite-lbl">PRÓXIMO CAMBIO EN</div><div class="aceite-num" id="aceiteKmRestantes">—</div><div style="font-size:11px;color:#888;margin-top:2px">kilómetros</div></div>
-              <div style="text-align:right"><div class="aceite-lbl">KM RECORRIDOS</div><div style="font-size:18px;font-weight:bold;color:#e8c84a" id="aceiteKmUsados">—</div><div style="font-size:9px;color:#555">de 2500 km</div></div>
+              <div><div class="aceite-lbl">PRÓXIMO CAMBIO EN</div><div class="aceite-num" id="aceiteKmRestantes">—</div><div style="font-size:11px;color:#6a8aaa;margin-top:2px">kilómetros</div></div>
+              <div style="text-align:right"><div class="aceite-lbl">KM RECORRIDOS</div><div style="font-size:18px;font-weight:bold;color:#4dc8ff" id="aceiteKmUsados">—</div><div style="font-size:9px;color:#3a5a7a">de 2500 km</div></div>
             </div>
-            <div class="aceite-barra-cont"><div class="aceite-barra" id="aceiteBarra" style="width:0%;background:#4caf7d"></div></div>
-            <div style="display:flex;justify-content:space-between;font-size:10px;color:#555">
+            <div class="aceite-barra-cont"><div class="aceite-barra" id="aceiteBarra" style="width:0%;background:#4ade80"></div></div>
+            <div style="display:flex;justify-content:space-between;font-size:10px;color:#3a5a7a">
               <span id="aceiteKmCambio">Último cambio: —</span>
               <span id="aceitePorcentaje">0%</span>
             </div>
-            <div id="aceiteAlertaMsg" class="hidden" style="margin-top:12px;padding:10px;background:#2a0a00;border-radius:4px;font-size:12px;color:#e8503a;text-align:center;font-weight:bold">⚠️ ¡Es hora de cambiar el aceite!</div>
+            <div id="aceiteAlertaMsg" class="hidden" style="margin-top:12px;padding:10px;background:#0a0520;border-radius:4px;font-size:12px;color:#e8503a;text-align:center;font-weight:bold">⚠️ ¡Es hora de cambiar el aceite!</div>
           </div>
           <button class="btn-primary" onclick="registrarCambioAceite()" style="background:#e8983a;margin-bottom:10px">✓ Registrar cambio de aceite ahora</button>
           <button class="btn-primary btn-import" onclick="editarAceite()">Editar configuración</button>
@@ -327,6 +409,17 @@
         </div>
       </div>
 
+      <!-- TAB: ADMIN -->
+      <div id="tab-admin" class="hidden">
+        <div class="admin-header">
+          <div class="admin-title">👑 Panel Administrador</div>
+          <div style="font-size:11px;color:#6a5aaa;margin-top:4px">Vista global de todos los usuarios</div>
+        </div>
+        <div class="admin-grid" id="admin-stats"></div>
+        <div class="admin-filter" id="admin-filtros"></div>
+        <div id="admin-contenido"></div>
+      </div>
+
     </div><!-- fin content -->
   </div><!-- fin mainApp -->
 </div><!-- fin app -->
@@ -346,8 +439,8 @@ const USUARIOS = [
 
 const SESSION_KEY = "motokm_session";
 const STORAGE_KEY = "moto_tracker_data";
-const TABS = ["dia","cargas","historial","docs","aceite","resumen"];
-let data = { kmActual: "", registros: [], dias: [], precioPorGalon: "", aceite: null, soat: null, tecno: null };
+const TABS = ["dia","cargas","historial","preop","docs","aceite","resumen","admin"];
+let data = { kmActual: "", registros: [], dias: [], precioPorGalon: "", aceite: null, soat: null, tecno: null, preoperacionales: [] };
 let usuarioActual = null;
 
 // ── LOGIN ──
@@ -371,9 +464,14 @@ function mostrarApp() {
   app.classList.remove("hidden");
   app.style.display = "flex";
   document.getElementById("userLabel").textContent = usuarioActual.nombre;
+  // Mostrar tab admin solo para admin
+  if (usuarioActual.user === "admin") {
+    document.getElementById("tbtn-admin").classList.remove("hidden");
+  }
   cargarDatos();
   renderAll();
   setTab("dia");
+  recuperarGPS();
 }
 
 function cerrarSesion() {
@@ -430,6 +528,8 @@ function setTab(t) {
   if (t === "dia") renderDia();
   if (t === "aceite") renderAceite();
   if (t === "docs") renderDocs();
+  if (t === "preop") renderPreop();
+  if (t === "admin") renderAdmin();
 }
 
 // ── MI DÍA ──
@@ -473,7 +573,7 @@ function cerrarDia() {
   const galEst = ef ? (kmRec / Number(ef)).toFixed(2) : null;
   const pg = data.precioPorGalon ? Number(data.precioPorGalon) : null;
   const costoEst = galEst && pg ? Math.round(galEst * pg) : null;
-  const nuevoDia = { id: Date.now(), fecha: new Date().toLocaleDateString("es-CO"), kmInicial: kmI, kmFinal: kmF, kmRecorridos: kmRec, galonesEstimados: galEst, costoEstimado: costoEst };
+  const nuevoDia = { id: Date.now(), fecha: new Date().toLocaleDateString("es-CO"), kmInicial: kmI, kmFinal: kmF, kmRecorridos: kmRec, galonesEstimados: galEst, costoEstimado: costoEst, fotoInicial: fotoInicialData, fotoFinal: fotoFinalData };
   data.kmActual = kmF;
   data.dias.unshift(nuevoDia);
   save();
@@ -490,6 +590,7 @@ function cerrarDia() {
   document.getElementById("kmInicial").value = "";
   document.getElementById("kmFinal").value = "";
   document.getElementById("preview-dia").classList.add("hidden");
+  limpiarFotos();
   if (data.aceite) renderAceite();
 }
 
@@ -525,7 +626,7 @@ function renderHistorial() {
   if (data.registros.length === 0) {
     contCargas.innerHTML = '<div class="empty-msg">Sin cargas registradas aún.</div>';
   } else {
-    contCargas.innerHTML = data.registros.map(r => `<div class="card"><button class="btn-delete" onclick="eliminarCarga(${r.id})">✕</button><div style="font-size:18px;font-weight:bold;color:#e8c84a">${fmt(r.km)} km</div><div class="card-fecha">${r.fecha}</div><div class="card-detail">${r.galones ? "⛽ " + r.galones + " Gal" : ""}${r.galones && r.precio ? " · " : ""}${r.precio ? "$ " + fmt(r.precio) : ""}${r.nota ? " · " + r.nota : ""}${!r.galones && !r.precio && !r.nota ? "Solo kilometraje" : ""}</div></div>`).join("");
+    contCargas.innerHTML = data.registros.map(r => `<div class="card"><button class="btn-delete" onclick="eliminarCarga(${r.id})">✕</button><div style="font-size:18px;font-weight:bold;color:#4dc8ff">${fmt(r.km)} km</div><div class="card-fecha">${r.fecha}</div><div class="card-detail">${r.galones ? "⛽ " + r.galones + " Gal" : ""}${r.galones && r.precio ? " · " : ""}${r.precio ? "$ " + fmt(r.precio) : ""}${r.nota ? " · " + r.nota : ""}${!r.galones && !r.precio && !r.nota ? "Solo kilometraje" : ""}</div></div>`).join("");
   }
 }
 
@@ -548,7 +649,7 @@ function estadoDoc(dias) {
 }
 
 function renderDocCard(tipo, datos) {
-  if (!datos) return `<div class="doc-card doc-sin"><div class="doc-nombre">${tipo === "soat" ? "SOAT" : "Tecnomecánica"}</div><div style="font-size:12px;color:#555;margin-top:4px">No configurado</div></div>`;
+  if (!datos) return `<div class="doc-card doc-sin"><div class="doc-nombre">${tipo === "soat" ? "SOAT" : "Tecnomecánica"}</div><div style="font-size:12px;color:#3a5a7a;margin-top:4px">No configurado</div></div>`;
   const dias = diasHasta(datos.fecha);
   const estado = estadoDoc(dias);
   const clases = { ok: "doc-ok badge-ok", warning: "doc-warning badge-warning", vencido: "doc-vencido badge-vencido", sin: "doc-sin" };
@@ -583,9 +684,9 @@ function renderAlertasDocs() {
     if (!c.d) return;
     const dias = diasHasta(c.d.fecha);
     if (dias !== null && dias < 0) {
-      html += `<div class="alerta" style="border-color:#e8503a;color:#e8503a;background:#1a0800">🚨 <strong>${c.label}</strong> venció hace ${Math.abs(dias)} días. ¡Renuévalo urgente!</div>`;
+      html += `<div class="alerta" style="border-color:#e8503a;color:#e8503a;background:#05051a">🚨 <strong>${c.label}</strong> venció hace ${Math.abs(dias)} días. ¡Renuévalo urgente!</div>`;
     } else if (dias !== null && dias <= 15) {
-      html += `<div class="alerta" style="border-color:#e8c84a;color:#e8c84a">⚠️ <strong>${c.label}</strong> vence en <strong>${dias} días</strong>. Programa tu renovación.</div>`;
+      html += `<div class="alerta" style="border-color:#4dc8ff;color:#4dc8ff">⚠️ <strong>${c.label}</strong> vence en <strong>${dias} días</strong>. Programa tu renovación.</div>`;
     }
   });
   cont.innerHTML = html;
@@ -625,10 +726,10 @@ function renderAceite() {
   document.getElementById("aceitePorcentaje").textContent = pct + "%";
   const barra = document.getElementById("aceiteBarra");
   barra.style.width = pct + "%";
-  barra.style.background = pct < 70 ? "#4caf7d" : pct < 90 ? "#e8c84a" : "#e8503a";
+  barra.style.background = pct < 70 ? "#4ade80" : pct < 90 ? "#4dc8ff" : "#e8503a";
   const card = document.getElementById("aceiteCard");
   if (restantes <= 0) { card.className = "aceite-card alerta-aceite"; document.getElementById("aceiteAlertaMsg").classList.remove("hidden"); }
-  else { card.className = pct >= 80 ? "aceite-card" : "aceite-card ok"; document.getElementById("aceiteAlertaMsg").classList.add("hidden"); if (pct >= 80) card.style.borderColor = "#e8c84a"; }
+  else { card.className = pct >= 80 ? "aceite-card" : "aceite-card ok"; document.getElementById("aceiteAlertaMsg").classList.add("hidden"); if (pct >= 80) card.style.borderColor = "#4dc8ff"; }
 }
 
 function registrarCambioAceite() {
@@ -643,38 +744,131 @@ function editarAceite() {
   if (data.aceite) { document.getElementById("aceiteKmUltimo").value = data.aceite.kmUltimoCambio; document.getElementById("aceiteKmActual").value = data.kmActual || data.aceite.kmActualConfig; }
 }
 
-// ── GPS ──
-let gpsWatchId = null, gpsPosAnterior = null, gpsKmAcumulados = 0;
+// ── GPS POR PUNTOS ──
+let gpsActivo = false;
+let gpsPuntos = [];
+let gpsKmAcumulados = 0;
+let gpsWatchId = null;
+
 function iniciarGPS() {
   if (!navigator.geolocation) { alert("Tu navegador no soporta GPS."); return; }
-  gpsKmAcumulados = 0; gpsPosAnterior = null;
+  gpsActivo = true;
+  gpsPuntos = [];
+  gpsKmAcumulados = 0;
+  document.getElementById("gpsKmDisplay").textContent = "0.00";
+  document.getElementById("gpsPuntos").textContent = "Obteniendo punto inicial...";
   document.getElementById("gpsDot").className = "gps-dot activo";
-  document.getElementById("gpsEstado").textContent = "Obteniendo señal...";
   document.getElementById("gpsCard").className = "gps-card activo";
   document.getElementById("btnIniciarGPS").classList.add("hidden");
   document.getElementById("btnDetenerGPS").classList.remove("hidden");
-  gpsWatchId = navigator.geolocation.watchPosition(pos => {
-    const { latitude, longitude, accuracy } = pos.coords;
-    document.getElementById("gpsPrecision").textContent = "±" + Math.round(accuracy) + "m";
-    document.getElementById("gpsEstado").textContent = "GPS activo";
-    if (gpsPosAnterior && accuracy < 40) {
-      const dist = calcDistancia(gpsPosAnterior.lat, gpsPosAnterior.lng, latitude, longitude);
-      if (dist > 0.005) { gpsKmAcumulados += dist; document.getElementById("gpsKmDisplay").textContent = gpsKmAcumulados.toFixed(2); const kmBase = data.kmActual ? Number(data.kmActual) : 0; if (kmBase > 0) { document.getElementById("kmFinal").value = (kmBase + gpsKmAcumulados).toFixed(1); actualizarPreviewDia(); } }
-    }
-    gpsPosAnterior = { lat: latitude, lng: longitude };
-  }, err => { document.getElementById("gpsEstado").textContent = "Error: " + (err.code === 1 ? "Permiso denegado" : "Sin señal"); document.getElementById("gpsDot").className = "gps-dot"; }, { enableHighAccuracy: true, maximumAge: 3000, timeout: 10000 });
+
+  // Guardar estado GPS en sessionStorage para recuperar al volver
+  sessionStorage.setItem("gps_activo", "1");
+  sessionStorage.setItem("gps_km", "0");
+  sessionStorage.setItem("gps_puntos", "0");
+
+  capturarPunto("Punto inicial");
+}
+
+function capturarPunto(label) {
+  document.getElementById("gpsEstado").textContent = label ? label + "..." : "Capturando punto...";
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      const { latitude, longitude, accuracy } = pos.coords;
+      document.getElementById("gpsPrecision").textContent = "±" + Math.round(accuracy) + "m";
+
+      if (accuracy > 60) {
+        document.getElementById("gpsEstado").textContent = "Señal débil, reintentando...";
+        setTimeout(() => capturarPunto(label), 3000);
+        return;
+      }
+
+      const nuevoPunto = { lat: latitude, lng: longitude, ts: Date.now(), label: label || "Punto " + (gpsPuntos.length + 1) };
+
+      if (gpsPuntos.length > 0) {
+        const anterior = gpsPuntos[gpsPuntos.length - 1];
+        const dist = calcDistancia(anterior.lat, anterior.lng, latitude, longitude);
+        if (dist > 0.05) { // mínimo 50 metros entre puntos
+          gpsKmAcumulados += dist;
+        }
+      }
+
+      gpsPuntos.push(nuevoPunto);
+
+      // Guardar en sessionStorage para recuperar si se recarga
+      sessionStorage.setItem("gps_activo", "1");
+      sessionStorage.setItem("gps_km", gpsKmAcumulados.toFixed(3));
+      sessionStorage.setItem("gps_puntos_data", JSON.stringify(gpsPuntos));
+
+      // Actualizar UI
+      document.getElementById("gpsKmDisplay").textContent = gpsKmAcumulados.toFixed(2);
+      document.getElementById("gpsPuntos").textContent = gpsPuntos.length + " punto" + (gpsPuntos.length !== 1 ? "s" : "") + " registrado" + (gpsPuntos.length !== 1 ? "s" : "");
+      document.getElementById("gpsUltimoPunto").textContent = "Último: " + new Date(nuevoPunto.ts).toLocaleTimeString("es-CO");
+      document.getElementById("gpsEstado").textContent = "✓ Punto capturado";
+
+      // Actualizar campo km final
+      const kmBase = data.kmActual ? Number(data.kmActual) : 0;
+      if (kmBase > 0) {
+        document.getElementById("kmFinal").value = (kmBase + gpsKmAcumulados).toFixed(1);
+        actualizarPreviewDia();
+      }
+    },
+    err => {
+      document.getElementById("gpsEstado").textContent = err.code === 1 ? "Permiso denegado" : "Sin señal GPS";
+    },
+    { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+  );
 }
 
 function detenerGPS() {
-  if (gpsWatchId !== null) navigator.geolocation.clearWatch(gpsWatchId);
-  gpsWatchId = null;
+  gpsActivo = false;
+  if (gpsWatchId) { navigator.geolocation.clearWatch(gpsWatchId); gpsWatchId = null; }
+  sessionStorage.removeItem("gps_activo");
+  sessionStorage.removeItem("gps_km");
+  sessionStorage.removeItem("gps_puntos_data");
+
   document.getElementById("gpsDot").className = "gps-dot";
-  document.getElementById("gpsEstado").textContent = "GPS detenido";
+  document.getElementById("gpsEstado").textContent = "GPS finalizado · " + gpsPuntos.length + " puntos";
   document.getElementById("gpsCard").className = "gps-card";
   document.getElementById("btnIniciarGPS").classList.remove("hidden");
   document.getElementById("btnDetenerGPS").classList.add("hidden");
-  if (data.kmActual && !document.getElementById("kmInicial").value) document.getElementById("kmInicial").value = data.kmActual;
+
+  if (data.kmActual && !document.getElementById("kmInicial").value) {
+    document.getElementById("kmInicial").value = data.kmActual;
+  }
 }
+
+function recuperarGPS() {
+  // Al volver a encender pantalla, capturar nuevo punto automáticamente
+  const activo = sessionStorage.getItem("gps_activo");
+  if (!activo) return;
+
+  const kmGuardado = parseFloat(sessionStorage.getItem("gps_km") || "0");
+  const puntosGuardados = JSON.parse(sessionStorage.getItem("gps_puntos_data") || "[]");
+
+  gpsKmAcumulados = kmGuardado;
+  gpsPuntos = puntosGuardados;
+  gpsActivo = true;
+
+  document.getElementById("gpsKmDisplay").textContent = gpsKmAcumulados.toFixed(2);
+  document.getElementById("gpsPuntos").textContent = gpsPuntos.length + " puntos registrados";
+  document.getElementById("gpsDot").className = "gps-dot activo";
+  document.getElementById("gpsCard").className = "gps-card activo";
+  document.getElementById("btnIniciarGPS").classList.add("hidden");
+  document.getElementById("btnDetenerGPS").classList.remove("hidden");
+  document.getElementById("gpsEstado").textContent = "Pantalla activa · capturando...";
+
+  // Capturar nuevo punto automáticamente
+  setTimeout(() => capturarPunto("Nuevo punto"), 1000);
+}
+
+// Detectar cuando la pantalla vuelve a encenderse (visibilitychange)
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible" && gpsActivo) {
+    document.getElementById("gpsEstado").textContent = "Pantalla activa · capturando...";
+    setTimeout(() => capturarPunto("Retorno"), 1500);
+  }
+});
 
 function calcDistancia(lat1, lon1, lat2, lon2) {
   const R = 6371, dLat = (lat2-lat1)*Math.PI/180, dLon = (lon2-lon1)*Math.PI/180;
@@ -728,7 +922,7 @@ function importarDatos(event) {
       if (!imp.registros || !imp.dias) throw new Error();
       data = imp; save(); renderAll();
       const msg = document.getElementById("importMsg");
-      msg.textContent = "✓ DATOS RESTAURADOS"; msg.style.color = "#4caf7d"; setTimeout(() => msg.textContent = "", 3000);
+      msg.textContent = "✓ DATOS RESTAURADOS"; msg.style.color = "#4ade80"; setTimeout(() => msg.textContent = "", 3000);
     } catch {
       const msg = document.getElementById("importMsg");
       msg.textContent = "✗ ARCHIVO NO VÁLIDO"; msg.style.color = "#e8503a"; setTimeout(() => msg.textContent = "", 3000);
@@ -738,17 +932,368 @@ function importarDatos(event) {
   reader.readAsText(file);
 }
 
+// ── PREOPERACIONAL ──
+const PREOP_ITEMS = [
+  { id: "frenos",  label: "Frenos",  icon: "🛑" },
+  { id: "luces",   label: "Luces",   icon: "💡" },
+  { id: "pito",    label: "Pito",    icon: "📢" },
+  { id: "llantas", label: "Llantas", icon: "⚫" }
+];
+
+let preopEstado = {};
+
+function renderPreop() {
+  // Resetear estado
+  preopEstado = {};
+  PREOP_ITEMS.forEach(item => preopEstado[item.id] = null);
+
+  // Render items
+  document.getElementById("preop-items").innerHTML = PREOP_ITEMS.map(item => `
+    <div class="preop-item" id="preop-row-${item.id}">
+      <div class="preop-nombre" id="preop-lbl-${item.id}">${item.icon} ${item.label}</div>
+      <div class="preop-btns">
+        <button class="preop-btn preop-btn-ok" id="preop-ok-${item.id}" onclick="setPreopItem('${item.id}', 'ok')">✓ Bien</button>
+        <button class="preop-btn preop-btn-falla" id="preop-falla-${item.id}" onclick="setPreopItem('${item.id}', 'falla')">✗ Falla</button>
+      </div>
+    </div>`).join("");
+
+  document.getElementById("preop-resumen-top").classList.add("hidden");
+  document.getElementById("preopObservaciones").value = "";
+  document.getElementById("preopResponsable").value = usuarioActual ? usuarioActual.nombre : "";
+
+  renderPreopHistorial();
+}
+
+function setPreopItem(id, estado) {
+  preopEstado[id] = estado;
+  const row = document.getElementById("preop-row-" + id);
+  const lbl = document.getElementById("preop-lbl-" + id);
+  const btnOk = document.getElementById("preop-ok-" + id);
+  const btnFalla = document.getElementById("preop-falla-" + id);
+
+  row.className = "preop-item " + estado;
+  lbl.className = "preop-nombre " + estado;
+  btnOk.className = "preop-btn preop-btn-ok" + (estado === "ok" ? " sel" : "");
+  btnFalla.className = "preop-btn preop-btn-falla" + (estado === "falla" ? " sel" : "");
+
+  // Mostrar resumen en tiempo real
+  const todos = PREOP_ITEMS.every(i => preopEstado[i.id] !== null);
+  if (todos) {
+    const fallas = PREOP_ITEMS.filter(i => preopEstado[i.id] === "falla");
+    const top = document.getElementById("preop-resumen-top");
+    top.classList.remove("hidden");
+    if (fallas.length === 0) {
+      top.className = "preop-resumen aprobado";
+      top.innerHTML = '<div style="font-size:24px">✅</div><div style="color:#4ade80;font-weight:bold;font-size:14px;margin-top:4px">Todo en orden</div>';
+    } else {
+      top.className = "preop-resumen rechazado";
+      top.innerHTML = '<div style="font-size:24px">⚠️</div><div style="color:#e8503a;font-weight:bold;font-size:14px;margin-top:4px">Falla en: ' + fallas.map(f => f.label).join(", ") + '</div>';
+    }
+  }
+}
+
+function guardarPreop() {
+  const responsable = document.getElementById("preopResponsable").value.trim();
+  if (!responsable) { alert("Ingresa el nombre del responsable."); return; }
+
+  const sinResponder = PREOP_ITEMS.filter(i => preopEstado[i.id] === null);
+  if (sinResponder.length > 0) {
+    alert("Falta revisar: " + sinResponder.map(i => i.label).join(", "));
+    return;
+  }
+
+  const fallas = PREOP_ITEMS.filter(i => preopEstado[i.id] === "falla");
+  const nuevo = {
+    id: Date.now(),
+    fecha: new Date().toLocaleDateString("es-CO"),
+    hora: new Date().toLocaleTimeString("es-CO", { hour: "2-digit", minute: "2-digit" }),
+    responsable,
+    items: { ...preopEstado },
+    observaciones: document.getElementById("preopObservaciones").value.trim(),
+    resultado: fallas.length === 0 ? "aprobado" : "rechazado",
+    fallas: fallas.map(f => f.label)
+  };
+
+  if (!data.preoperacionales) data.preoperacionales = [];
+  data.preoperacionales.unshift(nuevo);
+  save();
+
+  const msg = document.getElementById("preopMsg");
+  msg.textContent = nuevo.resultado === "aprobado" ? "✓ PREOPERACIONAL APROBADO" : "⚠️ GUARDADO CON FALLAS";
+  msg.style.color = nuevo.resultado === "aprobado" ? "#4ade80" : "#e8503a";
+  setTimeout(() => { msg.textContent = ""; renderPreop(); }, 2500);
+}
+
+function renderPreopHistorial() {
+  const cont = document.getElementById("preop-historial");
+  if (!data.preoperacionales || data.preoperacionales.length === 0) {
+    cont.innerHTML = '<div class="empty-msg">Sin preoperacionales registrados.</div>';
+    return;
+  }
+  cont.innerHTML = data.preoperacionales.slice(0, 10).map(p => `
+    <div class="preop-hist-item ${p.resultado}">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-weight:bold;font-size:12px;color:${p.resultado === "aprobado" ? "#4ade80" : "#e8503a"}">
+          ${p.resultado === "aprobado" ? "✅ Aprobado" : "⚠️ Con fallas"}
+        </div>
+        <div style="font-size:10px;color:#3a5a7a">${p.fecha} ${p.hora}</div>
+      </div>
+      <div style="font-size:11px;color:#6a8aaa;margin-top:4px">👤 ${p.responsable}</div>
+      ${p.fallas && p.fallas.length > 0 ? '<div style="font-size:11px;color:#e8503a;margin-top:4px">Fallas: ' + p.fallas.join(", ") + '</div>' : ""}
+      ${p.observaciones ? '<div style="font-size:11px;color:#4a6a8a;margin-top:4px">📝 ' + p.observaciones + '</div>' : ""}
+    </div>`).join("");
+}
+
+// ── PANEL ADMIN ──
+let adminFiltroActivo = "todos";
+
+function renderAdmin() {
+  if (usuarioActual.user !== "admin") return;
+
+  // Cargar datos de todos los usuarios
+  const todosLosDatos = USUARIOS.map(u => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY + "_" + u.user);
+      const d = stored ? JSON.parse(stored) : { kmActual: "", registros: [], dias: [], preoperacionales: [] };
+      return { usuario: u, data: d };
+    } catch { return { usuario: u, data: { kmActual: "", registros: [], dias: [], preoperacionales: [] } }; }
+  }).filter(u => u.usuario.user !== "admin");
+
+  // Stats globales
+  const totalDias = todosLosDatos.reduce((acc, u) => acc + (u.data.dias?.length || 0), 0);
+  const totalCargas = todosLosDatos.reduce((acc, u) => acc + (u.data.registros?.length || 0), 0);
+  const totalKm = todosLosDatos.reduce((acc, u) => acc + (u.data.dias?.reduce((a, d) => a + (d.kmRecorridos || 0), 0) || 0), 0);
+  const totalPreop = todosLosDatos.reduce((acc, u) => acc + (u.data.preoperacionales?.length || 0), 0);
+
+  document.getElementById("admin-stats").innerHTML = `
+    <div class="admin-stat"><div class="admin-stat-num">${totalDias}</div><div class="admin-stat-lbl">Días registrados</div></div>
+    <div class="admin-stat"><div class="admin-stat-num">${totalCargas}</div><div class="admin-stat-lbl">Cargas combustible</div></div>
+    <div class="admin-stat"><div class="admin-stat-num">${fmt(totalKm)}</div><div class="admin-stat-lbl">Km totales flota</div></div>
+    <div class="admin-stat"><div class="admin-stat-num">${totalPreop}</div><div class="admin-stat-lbl">Preoperacionales</div></div>`;
+
+  // Filtros por usuario
+  const filtros = document.getElementById("admin-filtros");
+  filtros.innerHTML = `<button class="admin-filter-btn ${adminFiltroActivo === 'todos' ? 'active' : ''}" onclick="setAdminFiltro('todos')">Todos</button>` +
+    todosLosDatos.map(u => `<button class="admin-filter-btn ${adminFiltroActivo === u.usuario.user ? 'active' : ''}" onclick="setAdminFiltro('${u.usuario.user}')">${u.usuario.nombre}</button>`).join("");
+
+  // Contenido según filtro
+  const usuariosFiltrados = adminFiltroActivo === "todos" ? todosLosDatos : todosLosDatos.filter(u => u.usuario.user === adminFiltroActivo);
+  const cont = document.getElementById("admin-contenido");
+
+  if (adminFiltroActivo === "todos") {
+    // Vista resumen por usuario
+    cont.innerHTML = usuariosFiltrados.map(u => {
+      const dias = u.data.dias?.length || 0;
+      const cargas = u.data.registros?.length || 0;
+      const kmTotal = u.data.dias?.reduce((a, d) => a + (d.kmRecorridos || 0), 0) || 0;
+      const preops = u.data.preoperacionales?.length || 0;
+      const kmActual = u.data.kmActual ? fmt(u.data.kmActual) + " km" : "Sin datos";
+      return `<div class="admin-user-card">
+        <div class="admin-user-name">👤 ${u.usuario.nombre}</div>
+        <div class="admin-user-stats">
+          <div class="admin-user-stat"><div class="admin-user-stat-num">${dias}</div><div class="admin-user-stat-lbl">Días</div></div>
+          <div class="admin-user-stat"><div class="admin-user-stat-num">${fmt(kmTotal)}</div><div class="admin-user-stat-lbl">Km totales</div></div>
+          <div class="admin-user-stat"><div class="admin-user-stat-num">${preops}</div><div class="admin-user-stat-lbl">Preop</div></div>
+        </div>
+        <div style="font-size:11px;color:#3a5a8a;margin-top:8px">Odómetro actual: <strong style="color:#4dc8ff">${kmActual}</strong></div>
+      </div>`;
+    }).join("") || '<div class="empty-msg">Sin datos registrados</div>';
+  } else {
+    // Vista detalle de un usuario
+    const u = usuariosFiltrados[0];
+    if (!u) return;
+    let html = `<div class="section-title">Días registrados</div>`;
+    if (u.data.dias?.length > 0) {
+      html += u.data.dias.slice(0, 10).map(d => `
+        <div class="admin-registro dia">
+          <div style="font-size:14px;font-weight:700;color:#4dc8ff">${fmt(d.kmRecorridos)} km</div>
+          <div style="font-size:10px;color:#3a5a8a">${d.fecha} · ${d.kmInicial} → ${d.kmFinal}</div>
+          ${d.galonesEstimados ? `<div style="font-size:11px;color:#4ade80">⛽ ~${d.galonesEstimados} Gal${d.costoEstimado ? ' · ~$' + fmt(d.costoEstimado) : ''}</div>` : ""}
+        </div>`).join("");
+    } else html += '<div class="empty-msg">Sin días registrados</div>';
+
+    html += `<div class="section-title" style="margin-top:16px">Preoperacionales</div>`;
+    if (u.data.preoperacionales?.length > 0) {
+      html += u.data.preoperacionales.slice(0, 10).map(p => `
+        <div class="admin-registro ${p.resultado === 'aprobado' ? 'preop-ok' : 'preop-falla'}">
+          <div style="font-size:12px;font-weight:700;color:${p.resultado === 'aprobado' ? '#4ade80' : '#ff6b6b'}">${p.resultado === 'aprobado' ? '✅ Aprobado' : '⚠️ Con fallas'}</div>
+          <div style="font-size:10px;color:#3a5a8a">${p.fecha} ${p.hora} · ${p.responsable}</div>
+          ${p.fallas?.length > 0 ? `<div style="font-size:11px;color:#ff6b6b">Fallas: ${p.fallas.join(", ")}</div>` : ""}
+        </div>`).join("");
+    } else html += '<div class="empty-msg">Sin preoperacionales</div>';
+
+    cont.innerHTML = html;
+  }
+}
+
+function setAdminFiltro(filtro) {
+  adminFiltroActivo = filtro;
+  renderAdmin();
+}
+
+// ── COMPARTIR WHATSAPP ──
+function compartirWhatsApp() {
+  const ultimoDia = data.dias[0];
+  if (!ultimoDia) return;
+
+  // Buscar último preoperacional del día
+  const preopHoy = data.preoperacionales?.find(p => p.fecha === ultimoDia.fecha);
+  const preopTexto = preopHoy
+    ? (preopHoy.resultado === "aprobado" ? "✅ Preoperacional aprobado" : "⚠️ Preop con fallas: " + preopHoy.fallas.join(", "))
+    : "📋 Sin preoperacional registrado";
+
+  const ef = calcEficiencia();
+  const fecha = ultimoDia.fecha;
+  const nombre = usuarioActual.nombre;
+
+  const mensaje = `🏍️ *REPORTE DIARIO MOTOBIA*
+━━━━━━━━━━━━━━━━━━
+👤 *Técnico:* ${nombre}
+📅 *Fecha:* ${fecha}
+━━━━━━━━━━━━━━━━━━
+📍 *Recorrido del día*
+• Km inicial: ${fmt(ultimoDia.kmInicial)}
+• Km final: ${fmt(ultimoDia.kmFinal)}
+• *Km recorridos: ${fmt(ultimoDia.kmRecorridos)} km*
+━━━━━━━━━━━━━━━━━━
+⛽ *Combustible estimado*
+• Galones: ${ultimoDia.galonesEstimados ?? "Sin datos"}
+• Costo: ${ultimoDia.costoEstimado ? "$" + fmt(ultimoDia.costoEstimado) : "Sin datos"}
+• Rendimiento: ${ef ? ef + " km/gal" : "Sin datos"}
+━━━━━━━━━━━━━━━━━━
+${preopTexto}
+━━━━━━━━━━━━━━━━━━
+🔢 *Odómetro actual:* ${data.kmActual ? fmt(data.kmActual) + " km" : "Sin datos"}
+━━━━━━━━━━━━━━━━━━
+_Enviado desde MotoBia · Bia Energy_`;
+
+  const url = "https://wa.me/?text=" + encodeURIComponent(mensaje);
+  window.open(url, "_blank");
+}
+
+// ── NOTIFICACIONES ──
+function verificarAlertas() {
+  if (Notification.permission !== "granted") return;
+
+  const alertas = [];
+
+  // Verificar SOAT
+  if (data.soat?.fecha) {
+    const dias = diasHasta(data.soat.fecha);
+    if (dias !== null && dias <= 15 && dias >= 0) {
+      alertas.push({ titulo: "⚠️ SOAT por vencer", cuerpo: `Tu SOAT vence en ${dias} días. ¡Renuévalo pronto!` });
+    } else if (dias !== null && dias < 0) {
+      alertas.push({ titulo: "🚨 SOAT VENCIDO", cuerpo: `Tu SOAT venció hace ${Math.abs(dias)} días. ¡Renuévalo urgente!` });
+    }
+  }
+
+  // Verificar Tecnomecánica
+  if (data.tecno?.fecha) {
+    const dias = diasHasta(data.tecno.fecha);
+    if (dias !== null && dias <= 15 && dias >= 0) {
+      alertas.push({ titulo: "⚠️ Tecnomecánica por vencer", cuerpo: `Tu Tecnomecánica vence en ${dias} días.` });
+    } else if (dias !== null && dias < 0) {
+      alertas.push({ titulo: "🚨 Tecnomecánica VENCIDA", cuerpo: `Venció hace ${Math.abs(dias)} días. ¡Renuévala urgente!` });
+    }
+  }
+
+  // Verificar aceite
+  if (data.aceite) {
+    const kmActual = data.kmActual ? Number(data.kmActual) : data.aceite.kmActualConfig;
+    const usados = kmActual - data.aceite.kmUltimoCambio;
+    const restantes = 2500 - usados;
+    if (restantes <= 0) {
+      alertas.push({ titulo: "🛢️ Cambio de aceite urgente", cuerpo: `Ya superaste los 2500 km. ¡Cambia el aceite!` });
+    } else if (restantes <= 300) {
+      alertas.push({ titulo: "🛢️ Aceite próximo a cambiar", cuerpo: `Faltan ${fmt(restantes)} km para el cambio de aceite.` });
+    }
+  }
+
+  // Mostrar notificaciones
+  alertas.forEach((a, i) => {
+    setTimeout(() => {
+      new Notification(a.titulo, {
+        body: a.cuerpo,
+        icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='80'>🏍️</text></svg>",
+        badge: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='80'>⚡</text></svg>",
+        tag: "motobia-" + i,
+        vibrate: [200, 100, 200]
+      });
+    }, i * 2000);
+  });
+
+  return alertas.length;
+}
+
+function solicitarNotificaciones() {
+  if (!("Notification" in window)) {
+    alert("Tu navegador no soporta notificaciones.");
+    return;
+  }
+  Notification.requestPermission().then(perm => {
+    if (perm === "granted") {
+      new Notification("✅ MotoBia activado", {
+        body: "Recibirás alertas de SOAT, Tecnomecánica y aceite.",
+        icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='80'>🏍️</text></svg>"
+      });
+      verificarAlertas();
+    }
+  });
+}
+
+// ── FOTO ODÓMETRO ──
+let fotoInicialData = null;
+let fotoFinalData = null;
+
+function tomarFoto(inputId) {
+  document.getElementById(inputId).click();
+}
+
+function previsualizarFoto(inputId, prevId) {
+  const file = document.getElementById(inputId).files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = document.getElementById(prevId);
+    img.src = e.target.result;
+    img.classList.remove("hidden");
+    if (inputId === "fotoInicial") fotoInicialData = e.target.result;
+    else fotoFinalData = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function limpiarFotos() {
+  fotoInicialData = null;
+  fotoFinalData = null;
+  document.getElementById("fotoInicial").value = "";
+  document.getElementById("fotoFinal").value = "";
+  document.getElementById("prevInicial").classList.add("hidden");
+  document.getElementById("prevFinal").classList.add("hidden");
+}
+
 // ── RENDER GENERAL ──
 function renderAll() {
   document.getElementById("kmActualDisplay").textContent = data.kmActual ? fmt(data.kmActual) : "—";
   renderDia();
   if (data.aceite) renderAceite();
+  // Verificar alertas al cargar si tiene permiso
+  if (Notification.permission === "granted") {
+    setTimeout(verificarAlertas, 3000);
+  }
 }
 
 // ── SERVICE WORKER ──
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("sw.js").catch(err => console.log("SW error:", err));
+  window.addEventListener("load", async () => {
+    try {
+      const reg = await navigator.serviceWorker.register("sw.js");
+      console.log("SW registrado:", reg.scope);
+      // Pedir permiso de notificaciones
+      if (Notification.permission === "default") {
+        await Notification.requestPermission();
+      }
+    } catch(err) { console.log("SW error:", err); }
   });
 }
 
