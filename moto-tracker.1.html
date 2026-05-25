@@ -1,0 +1,1449 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="apple-mobile-web-app-title" content="MotoBia" />
+  <title>MotoBia</title>
+  <link rel="manifest" href="manifest.json" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#38bdf8" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    html, body { height: 100%; }
+    body { background: #060818; color: #e2e8f0; font-family: 'Outfit', sans-serif; display: flex; flex-direction: column; height: 100%; }
+    #app { max-width: 480px; width: 100%; margin: 0 auto; display: flex; flex-direction: column; height: 100%; }
+
+    /* LOGIN */
+    #loginScreen { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; padding: 32px 24px; background: #060818; }
+    .login-logo { font-size: 56px; margin-bottom: 12px; }
+    .login-title { font-size: 24px; font-weight: bold; color: #38bdf8; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 4px; }
+    .login-sub { font-size: 11px; color: #3a5a7a; letter-spacing: 2px; margin-bottom: 40px; }
+    .login-box { width: 100%; background: #0d1130; border: 1px solid #1e2d6e; border-radius: 8px; padding: 24px; }
+    .login-error { color: #e8503a; font-size: 11px; text-align: center; margin-top: 12px; height: 16px; letter-spacing: 1px; }
+    .login-footer { margin-top: 24px; font-size: 10px; color: #1a3a5a; text-align: center; letter-spacing: 1px; }
+
+    /* HEADER */
+    .header { background: #0d1130; border-bottom: 2px solid #2563ff; padding: 16px 16px 0 16px; flex-shrink: 0; }
+    .header-top { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .logo { font-size: 26px; }
+    .title { font-size: 18px; font-weight: bold; color: #38bdf8; letter-spacing: 2px; text-transform: uppercase; }
+    .subtitle { font-size: 11px; color: #6a8aaa; letter-spacing: 1px; }
+    .km-big { text-align: right; line-height: 1; }
+    .km-num { font-size: 28px; font-weight: bold; color: #38bdf8; }
+    .km-label { font-size: 10px; color: #4a6a8a; letter-spacing: 2px; }
+    .btn-logout { background: transparent; border: 1px solid #1e2d6e; color: #3a5a7a; font-size: 10px; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-family: 'Outfit', sans-serif; letter-spacing: 1px; }
+
+    /* TABS */
+    .tabs { display: flex; border-top: 1px solid #1e2d6e; margin-top: 10px; overflow-x: auto; }
+    .tab-btn { flex: 1; min-width: 60px; padding: 10px 4px; text-align: center; font-size: 9px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; background: transparent; color: #6a8aaa; font-weight: normal; border: none; font-family: 'Outfit', sans-serif; transition: background 0.2s, color 0.2s; touch-action: manipulation; user-select: none; white-space: nowrap; }
+    .tab-btn.active { background: linear-gradient(135deg, #2563ff, #38bdf8); color: #060818; font-weight: bold; }
+    .tab-btn:active { opacity: 0.7; }
+
+    /* CONTENT */
+    .content { padding: 16px; flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+
+    /* FIELDS */
+    .field { margin-bottom: 14px; }
+    .field label { display: block; font-size: 10px; color: #6a8aaa; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+    input[type=number], input[type=text], input[type=password], input[type=date] { width: 100%; background: #0d1130; border: 1px solid #1e2d6e; border-radius: 4px; color: #e8f4ff; padding: 12px; font-size: 16px; font-family: 'Outfit', sans-serif; outline: none; }
+    input:focus { border-color: #38bdf888; }
+
+    /* BUTTONS */
+    .btn-primary { width: 100%; padding: 14px; background: linear-gradient(135deg, #2563ff, #38bdf8); color: #060818; border: none; border-radius: 4px; font-size: 13px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; font-family: 'Outfit', sans-serif; margin-top: 6px; touch-action: manipulation; display: block; }
+    .btn-primary:active { opacity: 0.8; }
+    .btn-secondary { padding: 10px 16px; background: transparent; color: #38bdf8; border: 1px solid #38bdf8; border-radius: 4px; font-size: 11px; font-weight: bold; letter-spacing: 1px; cursor: pointer; font-family: 'Outfit', sans-serif; touch-action: manipulation; }
+    .btn-delete { position: absolute; top: 10px; right: 10px; background: transparent; border: none; color: #3a5a7a; font-size: 18px; cursor: pointer; padding: 6px; touch-action: manipulation; }
+    .btn-import { background: #0d1130 !important; color: #38bdf8 !important; border: 1px solid #38bdf8 !important; }
+    .btn-waze { background: #1a2a1a !important; color: #4ade80 !important; border: 1px solid #4ade80 !important; font-size:13px; }
+    .btn-excel { background: #051a3e !important; color: #4ade80 !important; border: 1px solid #4ade80 !important; }
+
+    /* CARDS */
+    .card { background: #0d1130; border: 1px solid #1e2d6e; border-radius: 4px; padding: 16px; margin-bottom: 12px; position: relative; }
+    .card-highlight { background: #0d1130; border: 1px solid #38bdf8; border-radius: 4px; padding: 16px; margin-bottom: 12px; }
+    .card-title { font-size: 10px; color: #4a6a8a; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+    .card-num { font-size: 18px; font-weight: bold; color: #38bdf8; }
+    .card-km { font-size: 16px; font-weight: bold; color: #38bdf8; }
+    .card-fecha { font-size: 10px; color: #4a6a8a; letter-spacing: 1px; }
+    .card-detail { font-size: 12px; color: #aaa; margin-top: 6px; }
+
+    /* RESUMEN */
+    .resumen-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+    .resumen-item { text-align: center; }
+    .resumen-num { font-size: 20px; font-weight: bold; color: #38bdf8; }
+    .resumen-lbl { font-size: 9px; color: #4a6a8a; letter-spacing: 1px; margin-top: 3px; }
+    .stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+    .stat-card { background: #0d1130; border: 1px solid #1e2d6e; border-radius: 4px; padding: 14px; }
+    .stat-num { font-size: 22px; font-weight: bold; color: #38bdf8; }
+    .stat-lbl { font-size: 10px; color: #4a6a8a; letter-spacing: 1px; margin-top: 4px; }
+
+    /* MISC */
+    .alerta { background: #05051a; border: 1px solid #38bdf833; border-radius: 4px; padding: 12px; margin-bottom: 16px; font-size: 11px; color: #aaa; }
+    .alerta.amarillo { color: #38bdf8; border-color: #38bdf855; }
+    .saved-msg { text-align: center; color: #4ade80; font-size: 12px; letter-spacing: 2px; margin-top: 10px; height: 18px; }
+    .empty-msg { text-align: center; color: #2a4a6a; font-size: 12px; letter-spacing: 1px; padding: 40px 0; }
+    .section-title { font-size: 10px; color: #4a6a8a; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
+    .divider { border-color: #1e2d6e; margin: 20px 0; }
+    .row-between { display: flex; justify-content: space-between; align-items: center; }
+    .hidden { display: none !important; }
+    .info-rendimiento { margin-top: 12px; font-size: 11px; color: #4a6a8a; text-align: center; }
+    .info-rendimiento strong { color: #38bdf8; }
+    .sin-datos { margin-top: 12px; font-size: 11px; color: #e8983a; text-align: center; }
+
+    /* ACEITE */
+    .aceite-card { background: #05051a; border: 1px solid #e8983a44; border-radius: 4px; padding: 16px; margin-bottom: 12px; }
+    .aceite-card.alerta-aceite { border-color: #e8503a; background: #05051a; animation: parpadeo 1.5s infinite; }
+    .aceite-card.ok { border-color: #4ade8044; }
+    .aceite-barra-cont { background: #111535; border-radius: 4px; height: 10px; margin: 12px 0 6px; overflow:hidden; }
+    .aceite-barra { height: 10px; border-radius: 4px; transition: width 0.5s; }
+    .aceite-num { font-size: 28px; font-weight: bold; }
+    .aceite-lbl { font-size: 10px; color: #4a6a8a; letter-spacing: 2px; }
+
+    /* GPS */
+    .gps-card { background: #050520; border: 1px solid #4ade8044; border-radius: 4px; padding: 16px; margin-bottom: 16px; }
+    .gps-card.activo { border-color: #4ade80; }
+    .gps-dot { width: 10px; height: 10px; border-radius: 50%; background: #555; display: inline-block; margin-right: 8px; }
+    .gps-dot.activo { background: #4ade80; box-shadow: 0 0 8px #4ade80; animation: pulso 1.2s infinite; }
+    .gps-km { font-size: 36px; font-weight: bold; color: #4ade80; text-align: center; margin: 12px 0 4px; }
+    .gps-lbl { font-size: 10px; color: #4a6a8a; letter-spacing: 2px; text-align: center; }
+    .btn-gps-start { background: #4ade80; color: #0f0f0f; }
+    .btn-gps-stop { background: #e8503a; color: #fff; }
+
+    /* DOCUMENTOS */
+    .doc-card { border-radius: 4px; padding: 16px; margin-bottom: 12px; position: relative; }
+    .doc-ok { background: #050520; border: 1px solid #4ade8055; }
+    .doc-warning { background: #05051a; border: 1px solid #38bdf8; animation: parpadeo 2s infinite; }
+    .doc-vencido { background: #05051a; border: 1px solid #e8503a; animation: parpadeo 1s infinite; }
+    .doc-sin { background: #0d1130; border: 1px solid #1e2d6e; }
+    .doc-nombre { font-size: 13px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+    .doc-dias { font-size: 28px; font-weight: bold; }
+    .doc-lbl { font-size: 10px; color: #4a6a8a; letter-spacing: 1px; margin-top: 2px; }
+    .doc-fecha { font-size: 11px; color: #6a8aaa; margin-top: 6px; }
+    .badge-ok { color: #4ade80; }
+    .badge-warning { color: #38bdf8; }
+    .badge-vencido { color: #e8503a; }
+
+    @keyframes parpadeo { 0%,100%{opacity:1} 50%{opacity:0.6} }
+
+    /* ESTADÍSTICAS */
+    .chart-container { background: rgba(10,10,46,0.8); border: 1px solid #2563ff22; border-radius: 14px; padding: 16px; margin-bottom: 16px; }
+    .chart-title { font-size: 11px; color: #4a6aaa; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; font-weight: 700; }
+    .stats-periodo { display: flex; gap: 8px; margin-bottom: 16px; }
+    .stats-periodo-btn { flex: 1; padding: 10px; border: 1px solid #2563ff33; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; font-family: 'Outfit', sans-serif; background: transparent; color: #4a6aaa; touch-action: manipulation; transition: all 0.2s; text-align: center; }
+    .stats-periodo-btn.active { background: linear-gradient(135deg, #2563ff, #38bdf8); color: #060818; border-color: transparent; }
+
+    /* INCIDENTES */
+    .incidente-tipo { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+    .incidente-btn { padding: 14px 8px; border: 1px solid #2563ff33; border-radius: 12px; background: rgba(10,10,46,0.4); color: #4a6aaa; font-size: 11px; font-weight: 600; cursor: pointer; font-family: 'Outfit', sans-serif; text-align: center; touch-action: manipulation; transition: all 0.2s; }
+    .incidente-btn.sel { border-color: #ff6b6b; background: rgba(255,107,107,0.15); color: #ff6b6b; }
+    .incidente-btn:active { transform: scale(0.97); }
+    .inc-card { border-radius: 12px; padding: 14px; margin-bottom: 10px; position: relative; }
+    .inc-caida { background: rgba(255,107,107,0.1); border-left: 3px solid #ff6b6b; }
+    .inc-mecanico { background: rgba(255,165,0,0.1); border-left: 3px solid #ffa500; }
+    .inc-accidente { background: rgba(255,0,0,0.15); border-left: 3px solid #ff0000; }
+    .inc-otro { background: rgba(74,110,170,0.1); border-left: 3px solid #4a6aaa; }
+    .inc-titulo { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+    .inc-fecha { font-size: 10px; color: #3a5a8a; letter-spacing: 1px; }
+    .inc-desc { font-size: 12px; color: #6a8aaa; margin-top: 6px; }
+
+    /* FOTO ODÓMETRO */
+    .foto-preview { width: 100%; border-radius: 10px; margin-top: 8px; border: 1px solid #2563ff33; max-height: 160px; object-fit: cover; display: block; }
+    .btn-foto { width: 100%; padding: 11px; border: 1px dashed #2563ff44; border-radius: 10px; background: rgba(10,10,46,0.4); color: #4a6aaa; font-size: 12px; font-weight: 600; cursor: pointer; font-family: 'Outfit', sans-serif; touch-action: manipulation; letter-spacing: 1px; margin-top: 6px; transition: all 0.2s; }
+    .btn-foto:active { border-color: #38bdf8; color: #38bdf8; }
+
+    /* ADMIN */
+    .admin-header { background: linear-gradient(135deg, rgba(124,58,237,0.2), rgba(167,139,250,0.1)); border: 1px solid #7c3aed44; border-radius: 14px; padding: 16px; margin-bottom: 20px; }
+    .admin-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; background: linear-gradient(135deg, #7c3aed, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+    .admin-stat { background: rgba(124,58,237,0.1); border: 1px solid #7c3aed33; border-radius: 12px; padding: 14px; text-align: center; }
+    .admin-stat-num { font-size: 24px; font-weight: 800; font-family: 'Syne', sans-serif; background: linear-gradient(135deg, #7c3aed, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .admin-stat-lbl { font-size: 10px; color: #6a5aaa; letter-spacing: 1px; margin-top: 4px; font-weight: 600; }
+    .admin-user-card { background: rgba(10,10,46,0.8); border: 1px solid #2563ff22; border-radius: 12px; padding: 14px; margin-bottom: 10px; }
+    .admin-user-name { font-size: 14px; font-weight: 700; color: #a78bfa; letter-spacing: 1px; margin-bottom: 8px; }
+    .admin-user-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+    .admin-user-stat { text-align: center; background: rgba(124,58,237,0.08); border-radius: 8px; padding: 8px 4px; }
+    .admin-user-stat-num { font-size: 16px; font-weight: 700; color: #38bdf8; font-family: 'Syne', sans-serif; }
+    .admin-user-stat-lbl { font-size: 9px; color: #3a5a8a; letter-spacing: 1px; margin-top: 2px; }
+    .admin-filter { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+    .admin-filter-btn { padding: 6px 14px; border: 1px solid #2563ff33; border-radius: 20px; font-size: 11px; font-weight: 600; cursor: pointer; font-family: 'Outfit', sans-serif; background: transparent; color: #4a6aaa; touch-action: manipulation; transition: all 0.2s; }
+    .admin-filter-btn.active { background: linear-gradient(135deg, #7c3aed, #a78bfa); color: #060818; border-color: transparent; }
+    .admin-registro { background: rgba(10,10,46,0.6); border-left: 3px solid #2563ff33; border-radius: 0 8px 8px 0; padding: 12px; margin-bottom: 8px; }
+    .admin-registro.dia { border-left-color: #38bdf8; }
+    .admin-registro.carga { border-left-color: #4ade80; }
+    .admin-registro.preop-ok { border-left-color: #4ade80; }
+    .admin-registro.preop-falla { border-left-color: #ff6b6b; }
+
+    /* PREOPERACIONAL */
+    .preop-item { background: #0d1130; border: 1px solid #1e2d6e; border-radius: 4px; padding: 14px 16px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+    .preop-item.ok { border-color: #4ade8055; background: #050520; }
+    .preop-item.falla { border-color: #e8503a55; background: #05051a; }
+    .preop-nombre { font-size: 13px; font-weight: bold; letter-spacing: 1px; }
+    .preop-nombre.ok { color: #4ade80; }
+    .preop-nombre.falla { color: #e8503a; }
+    .preop-btns { display: flex; gap: 8px; }
+    .preop-btn { padding: 8px 14px; border: none; border-radius: 4px; font-size: 12px; font-weight: bold; cursor: pointer; font-family: 'Outfit', sans-serif; touch-action: manipulation; }
+    .preop-btn-ok { background: #4ade80; color: #0f0f0f; }
+    .preop-btn-falla { background: #e8503a; color: #fff; }
+    .preop-btn-ok.sel { box-shadow: 0 0 0 2px #4ade80; transform: scale(1.05); }
+    .preop-btn-falla.sel { box-shadow: 0 0 0 2px #e8503a; transform: scale(1.05); }
+    .preop-resumen { border-radius: 4px; padding: 16px; text-align: center; margin-bottom: 16px; }
+    .preop-resumen.aprobado { background: #050520; border: 1px solid #4ade80; }
+    .preop-resumen.rechazado { background: #05051a; border: 1px solid #e8503a; animation: parpadeo 1.5s infinite; }
+    .preop-hist-item { background: #0d1130; border-left: 3px solid #2a2a2a; padding: 12px; margin-bottom: 8px; border-radius: 0 4px 4px 0; }
+    .preop-hist-item.aprobado { border-left-color: #4ade80; }
+    .preop-hist-item.rechazado { border-left-color: #e8503a; }
+    @keyframes pulso { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  </style>
+</head>
+<body>
+<div id="app">
+
+  <!-- PANTALLA DE LOGIN -->
+  <div id="loginScreen">
+    <div class="login-logo">🏍️</div>
+    <div class="login-title">MotoBia</div>
+    <div class="login-sub">Control de flota · Bia Energy</div>
+    <div class="login-box">
+      <div class="field">
+        <label>Usuario</label>
+        <input type="text" id="loginUser" placeholder="Tu nombre de usuario" />
+      </div>
+      <div class="field">
+        <label>Contraseña</label>
+        <input type="password" id="loginPass" placeholder="••••••••" onkeydown="if(event.key==='Enter') hacerLogin()" />
+      </div>
+      <button class="btn-primary" onclick="hacerLogin()">Ingresar</button>
+      <div class="login-error" id="loginError"></div>
+    </div>
+    <div class="login-footer">MotoBia v2.0 · Solo para uso autorizado</div>
+  </div>
+
+  <!-- APP PRINCIPAL (oculta hasta login) -->
+  <div id="mainApp" class="hidden" style="display:none; flex-direction:column; height:100%;">
+
+    <!-- HEADER -->
+    <div class="header">
+      <div class="header-top">
+        <span class="logo">🏍️</span>
+        <div style="flex:1">
+          <div style="font-family:'Syne',sans-serif;font-size:19px;font-weight:800;letter-spacing:2px;line-height:1;background:linear-gradient(135deg,#2563ff,#38bdf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">MOTOBIA<span style="background:linear-gradient(135deg,#fbbf24,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">⚡</span></div>
+          <div class="subtitle" id="userLabel">—</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <div class="km-big">
+            <div class="km-num" id="kmActualDisplay">—</div>
+            <div class="km-label">KM ACTUAL</div>
+          </div>
+          <button class="btn-logout" onclick="cerrarSesion()">Salir</button>
+        </div>
+      </div>
+      <div class="tabs">
+        <button class="tab-btn active" id="tbtn-dia" onclick="setTab('dia')">Mi día</button>
+        <button class="tab-btn" id="tbtn-cargas" onclick="setTab('cargas')">Cargas</button>
+        <button class="tab-btn" id="tbtn-historial" onclick="setTab('historial')">Historial</button>
+        <button class="tab-btn" id="tbtn-preop" onclick="setTab('preop')">✅ Preop</button>
+        <button class="tab-btn" id="tbtn-incidentes" onclick="setTab('incidentes')">⚠️ Inc</button>
+        <button class="tab-btn" id="tbtn-docs" onclick="setTab('docs')">📋 Docs</button>
+        <button class="tab-btn" id="tbtn-aceite" onclick="setTab('aceite')">🛢️ Aceite</button>
+        <button class="tab-btn" id="tbtn-stats" onclick="setTab('stats')">📊 Stats</button>
+        <button class="tab-btn" id="tbtn-resumen" onclick="setTab('resumen')">Resumen</button>
+        <button class="tab-btn hidden" id="tbtn-admin" onclick="setTab('admin')" style="background:linear-gradient(135deg,#7c3aed,#a78bfa);color:#060818;font-weight:700">👑 Admin</button>
+      </div>
+    </div>
+
+    <!-- CONTENIDO -->
+    <div class="content">
+
+      <!-- TAB: MI DÍA -->
+      <div id="tab-dia">
+        <div id="form-dia">
+          <div id="alerta-sin-datos" class="alerta hidden">
+            ⚠️ Registra al menos 2 cargas en <strong>Cargas</strong> para estimar consumo diario.
+          </div>
+          <div class="card">
+            <div class="row-between">
+              <div>
+                <div class="card-title">Precio por galón</div>
+                <div class="card-num" id="precioDisplay">No configurado</div>
+              </div>
+              <button class="btn-secondary" onclick="toggleEditPrecio()">Editar</button>
+            </div>
+            <div id="form-precio" class="hidden" style="margin-top:12px">
+              <input type="number" id="inputPrecio" placeholder="ej. 15000" />
+              <button class="btn-primary" style="margin-top:10px" onclick="guardarPrecio()">Guardar precio</button>
+            </div>
+          </div>
+          
+
+
+          <div class="section-title" style="margin-top:4px">📍 Registro del día</div>
+
+          <div class="field">
+            <label>📷 Foto odómetro al salir</label>
+            <button class="btn-foto" onclick="tomarFoto('fotoInicial')">📷 Tomar foto inicial</button>
+            <input type="file" id="fotoInicial" accept="image/*" capture="environment" class="hidden" onchange="previsualizarFoto('fotoInicial','prevInicial')" />
+            <img id="prevInicial" class="foto-preview hidden" />
+          </div>
+          <div class="field">
+            <label>Km al salir (inicial) *</label>
+            <input type="number" id="kmInicial" placeholder="ej. 12500" oninput="actualizarPreviewDia()" />
+          </div>
+
+          <div class="field">
+            <label>📷 Foto odómetro al llegar</label>
+            <button class="btn-foto" onclick="tomarFoto('fotoFinal')">📷 Tomar foto final</button>
+            <input type="file" id="fotoFinal" accept="image/*" capture="environment" class="hidden" onchange="previsualizarFoto('fotoFinal','prevFinal')" />
+            <img id="prevFinal" class="foto-preview hidden" />
+          </div>
+          <div class="field">
+            <label>Km al llegar (final) *</label>
+            <input type="number" id="kmFinal" placeholder="ej. 12680" oninput="actualizarPreviewDia()" />
+          </div>
+          <div id="preview-dia" class="alerta amarillo hidden"></div>
+          <button class="btn-primary" onclick="cerrarDia()">Calcular consumo del día</button>
+        </div>
+        <div id="resultado-dia" class="hidden">
+          <div style="text-align:center;margin-bottom:20px">
+            <div style="font-size:12px;color:#6a8aaa;letter-spacing:2px;margin-bottom:8px">RESUMEN DEL DÍA</div>
+            <div style="font-size:11px;color:#3a5a7a" id="fechaDiaResultado"></div>
+          </div>
+          <div class="card-highlight">
+            <div class="resumen-grid">
+              <div class="resumen-item"><div class="resumen-num" id="res-km">—</div><div class="resumen-lbl">KM DEL DÍA</div></div>
+              <div class="resumen-item"><div class="resumen-num" id="res-gal">—</div><div class="resumen-lbl">GAL CONSUMIDOS</div></div>
+              <div class="resumen-item"><div class="resumen-num" id="res-costo">—</div><div class="resumen-lbl">COSTO EST.</div></div>
+            </div>
+            <div id="res-nota" class="info-rendimiento"></div>
+          </div>
+          <button class="btn-primary" onclick="compartirWhatsApp()" style="background:linear-gradient(135deg,#25d366,#128c7e);margin-bottom:10px">📱 Compartir por WhatsApp</button>
+        <button class="btn-primary" onclick="nuevodia()">Registrar otro día</button>
+        </div>
+      </div>
+
+      <!-- TAB: CARGAS -->
+      <div id="tab-cargas" class="hidden">
+        <div class="section-title">Nueva carga de combustible</div>
+        <div class="field"><label>Kilometraje actual *</label><input type="number" id="cargaKm" placeholder="ej. 12500" /></div>
+        <div class="field"><label>Galones cargados (opcional)</label><input type="number" id="cargaGalones" placeholder="ej. 1.2" /></div>
+        <div class="field"><label>Valor pagado $ (opcional)</label><input type="number" id="cargaPrecio" placeholder="ej. 18000" /></div>
+        <div class="field"><label>Nota (opcional)</label><input type="text" id="cargaNota" placeholder="ej. Galera norte" /></div>
+        <button class="btn-primary" onclick="guardarCarga()">Guardar carga</button>
+        <div class="saved-msg" id="savedMsg"></div>
+      </div>
+
+      <!-- TAB: HISTORIAL -->
+      <div id="tab-historial" class="hidden">
+        <div id="historial-dias"></div>
+        <div class="section-title">Cargas de combustible</div>
+        <div id="historial-cargas"></div>
+      </div>
+
+      <!-- TAB: PREOPERACIONAL -->
+      <div id="tab-preop" class="hidden">
+        <div id="preop-resumen-top" class="hidden"></div>
+        <div class="section-title">Inspección del día</div>
+        <div id="preop-items"></div>
+        <div class="field" style="margin-top:16px">
+          <label>Observaciones (opcional)</label>
+          <input type="text" id="preopObservaciones" placeholder="ej. Llanta trasera con baja presión" />
+        </div>
+        <div class="field">
+          <label>Responsable *</label>
+          <input type="text" id="preopResponsable" placeholder="Nombre de quien inspecciona" />
+        </div>
+        <button class="btn-primary" onclick="guardarPreop()">Guardar preoperacional</button>
+        <div class="saved-msg" id="preopMsg"></div>
+        <hr class="divider" style="margin-top:20px" />
+        <div class="section-title">Historial de preoperacionales</div>
+        <div id="preop-historial"></div>
+      </div>
+
+      <!-- TAB: INCIDENTES -->
+      <div id="tab-incidentes" class="hidden">
+        <div class="section-title">Tipo de incidente</div>
+        <div class="incidente-tipo">
+          <button class="incidente-btn" id="inc-caida" onclick="selIncidente('caida')">🤕 Caída</button>
+          <button class="incidente-btn" id="inc-accidente" onclick="selIncidente('accidente')">🚨 Accidente</button>
+          <button class="incidente-btn" id="inc-mecanico" onclick="selIncidente('mecanico')">🔧 Daño mecánico</button>
+          <button class="incidente-btn" id="inc-otro" onclick="selIncidente('otro')">📝 Otro</button>
+        </div>
+        <div class="field">
+          <label>Descripción *</label>
+          <input type="text" id="incDesc" placeholder="ej. Caída en curva, sin lesiones" />
+        </div>
+        <div class="field">
+          <label>Ubicación (opcional)</label>
+          <input type="text" id="incUbicacion" placeholder="ej. Calle 80 con Av. NQS" />
+        </div>
+        <div class="field">
+          <label>Foto del incidente (opcional)</label>
+          <button class="btn-foto" onclick="document.getElementById('incFoto').click()">📷 Tomar foto</button>
+          <input type="file" id="incFoto" accept="image/*" capture="environment" class="hidden" onchange="previsualizarFoto('incFoto','prevIncFoto')" />
+          <img id="prevIncFoto" class="foto-preview hidden" />
+        </div>
+        <button class="btn-primary" onclick="guardarIncidente()" style="background:linear-gradient(135deg,#ff6b6b,#ff8e53)">⚠️ Registrar incidente</button>
+        <div class="saved-msg" id="incMsg"></div>
+        <hr class="divider" style="margin-top:20px" />
+        <div class="section-title">Historial de incidentes</div>
+        <div id="inc-historial"></div>
+      </div>
+
+      <!-- TAB: DOCUMENTOS (SOAT y TECNOMECÁNICA) -->
+      <div id="tab-docs" class="hidden">
+        <div id="docs-alertas" style="margin-bottom:16px"></div>
+        <div class="section-title">SOAT</div>
+        <div id="soat-panel"></div>
+        <div class="field"><label>Fecha de vencimiento SOAT</label><input type="date" id="soatFecha" /></div>
+        <button class="btn-primary" onclick="guardarDoc('soat')" style="margin-bottom:20px">Guardar SOAT</button>
+        <div class="section-title">Tecnomecánica</div>
+        <div id="tecno-panel"></div>
+        <div class="field"><label>Fecha de vencimiento Tecnomecánica</label><input type="date" id="tecnoFecha" /></div>
+        <button class="btn-primary" onclick="guardarDoc('tecno')">Guardar Tecnomecánica</button>
+        <div class="saved-msg" id="docSavedMsg"></div>
+        <div style="margin-top:24px">
+          <div class="section-title">Notificaciones push</div>
+          <div class="alerta" style="margin-bottom:12px">Activa las notificaciones para recibir alertas de vencimiento aunque no tengas la app abierta.</div>
+          <button class="btn-primary" onclick="solicitarNotificaciones()" style="background:linear-gradient(135deg,#7c3aed,#a78bfa);color:#060818">🔔 Activar notificaciones</button>
+        </div>
+      </div>
+
+      <!-- TAB: ACEITE -->
+      <div id="tab-aceite" class="hidden">
+        <div id="aceite-config">
+          <div class="section-title">Configurar cambio de aceite</div>
+          <div class="field"><label>Km actual del odómetro</label><input type="number" id="aceiteKmActual" placeholder="ej. 12500" /></div>
+          <div class="field"><label>Km del último cambio de aceite</label><input type="number" id="aceiteKmUltimo" placeholder="ej. 10000" /></div>
+          <button class="btn-primary" onclick="guardarAceite()">Guardar configuración</button>
+        </div>
+        <div id="aceite-panel" class="hidden">
+          <div id="aceiteCard" class="aceite-card">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start">
+              <div><div class="aceite-lbl">PRÓXIMO CAMBIO EN</div><div class="aceite-num" id="aceiteKmRestantes">—</div><div style="font-size:11px;color:#6a8aaa;margin-top:2px">kilómetros</div></div>
+              <div style="text-align:right"><div class="aceite-lbl">KM RECORRIDOS</div><div style="font-size:18px;font-weight:bold;color:#38bdf8" id="aceiteKmUsados">—</div><div style="font-size:9px;color:#3a5a7a">de 2500 km</div></div>
+            </div>
+            <div class="aceite-barra-cont"><div class="aceite-barra" id="aceiteBarra" style="width:0%;background:#4ade80"></div></div>
+            <div style="display:flex;justify-content:space-between;font-size:10px;color:#3a5a7a">
+              <span id="aceiteKmCambio">Último cambio: —</span>
+              <span id="aceitePorcentaje">0%</span>
+            </div>
+            <div id="aceiteAlertaMsg" class="hidden" style="margin-top:12px;padding:10px;background:#0a0520;border-radius:4px;font-size:12px;color:#e8503a;text-align:center;font-weight:bold">⚠️ ¡Es hora de cambiar el aceite!</div>
+          </div>
+          <button class="btn-primary" onclick="registrarCambioAceite()" style="background:#e8983a;margin-bottom:10px">✓ Registrar cambio de aceite ahora</button>
+          <button class="btn-primary btn-import" onclick="editarAceite()">Editar configuración</button>
+        </div>
+      </div>
+
+      <!-- TAB: RESUMEN -->
+      <div id="tab-resumen" class="hidden">
+        <div class="stats-row">
+          <div class="stat-card"><div class="stat-num" id="stat-dias">—</div><div class="stat-lbl">Días registrados</div></div>
+          <div class="stat-card"><div class="stat-num" id="stat-eficiencia">—</div><div class="stat-lbl">Km / galón</div></div>
+          <div class="stat-card"><div class="stat-num" id="stat-gasto">—</div><div class="stat-lbl">Total en cargas</div></div>
+          <div class="stat-card"><div class="stat-num" id="stat-kmtotal">—</div><div class="stat-lbl">Km totales del día</div></div>
+        </div>
+        <div id="resumen-aviso" class="empty-msg hidden">Registra al menos 2 cargas<br>para calcular el rendimiento.</div>
+        <div style="margin-top:24px">
+          <div class="section-title">Respaldo de datos</div>
+          <button class="btn-primary btn-excel" onclick="exportarExcel()" style="margin-bottom:10px">📊 Exportar días a Excel</button>
+          <button class="btn-primary btn-import" onclick="exportarDatos()" style="margin-bottom:10px">⬇️ Exportar respaldo JSON</button>
+          <button class="btn-primary btn-import" onclick="document.getElementById('inputImportar').click()" style="margin-bottom:4px">⬆️ Importar datos guardados</button>
+          <input type="file" id="inputImportar" accept=".json" class="hidden" onchange="importarDatos(event)" />
+          <div class="saved-msg" id="importMsg" style="margin-top:8px"></div>
+        </div>
+      </div>
+
+      <!-- TAB: ESTADÍSTICAS -->
+      <div id="tab-stats" class="hidden">
+        <div class="stats-periodo">
+          <button class="stats-periodo-btn active" id="spbtn-semana" onclick="setStatsPeriodo('semana')">Semana</button>
+          <button class="stats-periodo-btn" id="spbtn-mes" onclick="setStatsPeriodo('mes')">Mes</button>
+          <button class="stats-periodo-btn" id="spbtn-todo" onclick="setStatsPeriodo('todo')">Todo</button>
+        </div>
+        <div class="chart-container">
+          <div class="chart-title">📏 Km recorridos</div>
+          <canvas id="chartKm" height="200"></canvas>
+        </div>
+        <div class="chart-container">
+          <div class="chart-title">⛽ Gasto en combustible ($)</div>
+          <canvas id="chartGasto" height="200"></canvas>
+        </div>
+        <div class="chart-container">
+          <div class="chart-title">🏎️ Rendimiento km/galón</div>
+          <canvas id="chartRendimiento" height="200"></canvas>
+        </div>
+      </div>
+
+      <!-- TAB: ADMIN -->
+      <div id="tab-admin" class="hidden">
+        <div class="admin-header">
+          <div class="admin-title">👑 Panel Administrador</div>
+          <div style="font-size:11px;color:#6a5aaa;margin-top:4px">Vista global de todos los usuarios</div>
+        </div>
+        <div class="admin-grid" id="admin-stats"></div>
+        <div class="admin-filter" id="admin-filtros"></div>
+        <div id="admin-contenido"></div>
+      </div>
+
+    </div><!-- fin content -->
+  </div><!-- fin mainApp -->
+</div><!-- fin app -->
+
+<script>
+// ── USUARIOS ──
+const USUARIOS = [
+  { user: "admin",     pass: "admin",     nombre: "Administrador" },
+  { user: "salas",     pass: "salas",     nombre: "Salas" },
+  { user: "lopez",     pass: "lopez",     nombre: "Lopez" },
+  { user: "gordillo",  pass: "gordillo",  nombre: "Gordillo" },
+  { user: "reyes",     pass: "reyes",     nombre: "Reyes" },
+  { user: "fernandez", pass: "fernandez", nombre: "Fernandez" },
+  { user: "capador",   pass: "capador",   nombre: "Capador" },
+  { user: "martha",    pass: "martha",    nombre: "Martha" }
+];
+
+const SESSION_KEY = "motokm_session";
+const STORAGE_KEY = "moto_tracker_data";
+const TABS = ["dia","cargas","historial","preop","incidentes","docs","aceite","stats","resumen","admin"];
+let data = { kmActual: "", registros: [], dias: [], precioPorGalon: "", aceite: null, soat: null, tecno: null, preoperacionales: [], incidentes: [] };
+let usuarioActual = null;
+
+// ── LOGIN ──
+function hacerLogin() {
+  const u = document.getElementById("loginUser").value.trim().toLowerCase();
+  const p = document.getElementById("loginPass").value.trim().toLowerCase();
+  const found = USUARIOS.find(x => x.user === u && x.pass === p);
+  if (found) {
+    usuarioActual = found;
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify(found));
+    mostrarApp();
+  } else {
+    document.getElementById("loginError").textContent = "Usuario o contraseña incorrectos";
+    setTimeout(() => document.getElementById("loginError").textContent = "", 3000);
+  }
+}
+
+function mostrarApp() {
+  document.getElementById("loginScreen").style.display = "none";
+  const app = document.getElementById("mainApp");
+  app.classList.remove("hidden");
+  app.style.display = "flex";
+  document.getElementById("userLabel").textContent = usuarioActual.nombre;
+  // Mostrar tab admin solo para admin
+  if (usuarioActual.user === "admin") {
+    document.getElementById("tbtn-admin").classList.remove("hidden");
+  }
+  cargarDatos();
+  renderAll();
+  setTab("dia");
+}
+
+function cerrarSesion() {
+  sessionStorage.removeItem(SESSION_KEY);
+  usuarioActual = null;
+  document.getElementById("mainApp").style.display = "none";
+  document.getElementById("mainApp").classList.add("hidden");
+  document.getElementById("loginScreen").style.display = "flex";
+  document.getElementById("loginUser").value = "";
+  document.getElementById("loginPass").value = "";
+}
+
+function verificarSesion() {
+  const s = sessionStorage.getItem(SESSION_KEY);
+  if (s) {
+    usuarioActual = JSON.parse(s);
+    mostrarApp();
+  }
+}
+
+// ── DATOS ──
+function cargarDatos() {
+  try {
+    const s = localStorage.getItem(STORAGE_KEY + "_" + usuarioActual.user);
+    if (s) data = JSON.parse(s);
+    else data = { kmActual: "", registros: [], dias: [], precioPorGalon: "", aceite: null, soat: null, tecno: null };
+  } catch {}
+}
+
+function save() {
+  try { localStorage.setItem(STORAGE_KEY + "_" + usuarioActual.user, JSON.stringify(data)); } catch {}
+}
+
+function fmt(n) { return Number(n).toLocaleString("es-CO"); }
+
+function calcEficiencia() {
+  const con = data.registros.filter(r => r.galones && r.galones > 0);
+  if (con.length < 2) return null;
+  const sorted = [...con].sort((a, b) => a.km - b.km);
+  const kmTotal = sorted[sorted.length - 1].km - sorted[0].km;
+  const galTotal = sorted.slice(1).reduce((acc, r) => acc + Number(r.galones), 0);
+  if (galTotal === 0) return null;
+  return (kmTotal / galTotal).toFixed(1);
+}
+
+// ── TABS ──
+function setTab(t) {
+  TABS.forEach(id => {
+    document.getElementById("tab-" + id).classList.toggle("hidden", id !== t);
+    document.getElementById("tbtn-" + id).classList.toggle("active", id === t);
+  });
+  if (t === "historial") renderHistorial();
+  if (t === "resumen") renderResumen();
+  if (t === "dia") renderDia();
+  if (t === "aceite") renderAceite();
+  if (t === "docs") renderDocs();
+  if (t === "incidentes") renderIncidentes();
+  if (t === "preop") renderPreop();
+  if (t === "admin") renderAdmin();
+  if (t === "stats") renderStats();
+}
+
+// ── MI DÍA ──
+function renderDia() {
+  const ef = calcEficiencia();
+  document.getElementById("alerta-sin-datos").classList.toggle("hidden", !!ef);
+  const pd = data.precioPorGalon;
+  document.getElementById("precioDisplay").textContent = pd ? "$ " + fmt(pd) : "No configurado";
+}
+
+function toggleEditPrecio() {
+  const f = document.getElementById("form-precio");
+  const oculto = f.classList.contains("hidden");
+  f.classList.toggle("hidden");
+  if (oculto) document.getElementById("inputPrecio").value = data.precioPorGalon || "";
+}
+
+function guardarPrecio() {
+  const v = Number(document.getElementById("inputPrecio").value);
+  if (!v) return;
+  data.precioPorGalon = v;
+  save();
+  document.getElementById("precioDisplay").textContent = "$ " + fmt(v);
+  document.getElementById("form-precio").classList.add("hidden");
+}
+
+function actualizarPreviewDia() {
+  const i = Number(document.getElementById("kmInicial").value);
+  const f = Number(document.getElementById("kmFinal").value);
+  const prev = document.getElementById("preview-dia");
+  if (i && f && f > i) { prev.classList.remove("hidden"); prev.textContent = "📏 Km del día: " + fmt(f - i) + " km"; }
+  else prev.classList.add("hidden");
+}
+
+function cerrarDia() {
+  const kmI = Number(document.getElementById("kmInicial").value);
+  const kmF = Number(document.getElementById("kmFinal").value);
+  if (!kmI || !kmF || kmF <= kmI) return;
+  const kmRec = kmF - kmI;
+  const ef = calcEficiencia();
+  const galEst = ef ? (kmRec / Number(ef)).toFixed(2) : null;
+  const pg = data.precioPorGalon ? Number(data.precioPorGalon) : null;
+  const costoEst = galEst && pg ? Math.round(galEst * pg) : null;
+  const nuevoDia = { id: Date.now(), fecha: new Date().toLocaleDateString("es-CO"), kmInicial: kmI, kmFinal: kmF, kmRecorridos: kmRec, galonesEstimados: galEst, costoEstimado: costoEst, fotoInicial: fotoInicialData, fotoFinal: fotoFinalData };
+  data.kmActual = kmF;
+  data.dias.unshift(nuevoDia);
+  save();
+  document.getElementById("kmActualDisplay").textContent = fmt(kmF);
+  document.getElementById("res-km").textContent = fmt(kmRec);
+  document.getElementById("res-gal").textContent = galEst ?? "—";
+  document.getElementById("res-costo").textContent = costoEst ? "$" + fmt(costoEst) : "—";
+  document.getElementById("fechaDiaResultado").textContent = new Date().toLocaleDateString("es-CO", { weekday:"long", year:"numeric", month:"long", day:"numeric" });
+  const nota = document.getElementById("res-nota");
+  if (ef) { nota.innerHTML = 'Rendimiento: <strong>' + ef + ' km/gal</strong>'; nota.className = "info-rendimiento"; }
+  else { nota.textContent = "Sin datos de consumo. Registra cargas para estimar."; nota.className = "sin-datos"; }
+  document.getElementById("form-dia").classList.add("hidden");
+  document.getElementById("resultado-dia").classList.remove("hidden");
+  document.getElementById("kmInicial").value = "";
+  document.getElementById("kmFinal").value = "";
+  document.getElementById("preview-dia").classList.add("hidden");
+  limpiarFotos();
+  if (data.aceite) renderAceite();
+}
+
+function nuevodia() {
+  document.getElementById("resultado-dia").classList.add("hidden");
+  document.getElementById("form-dia").classList.remove("hidden");
+  renderDia();
+}
+
+// ── CARGAS ──
+function guardarCarga() {
+  const km = Number(document.getElementById("cargaKm").value);
+  if (!km) return;
+  const nuevo = { id: Date.now(), fecha: new Date().toLocaleDateString("es-CO"), km, galones: Number(document.getElementById("cargaGalones").value) || null, precio: Number(document.getElementById("cargaPrecio").value) || null, nota: document.getElementById("cargaNota").value.trim() };
+  data.registros.push(nuevo);
+  data.registros.sort((a, b) => b.km - a.km);
+  data.kmActual = data.registros[0].km;
+  save();
+  document.getElementById("kmActualDisplay").textContent = fmt(data.kmActual);
+  document.getElementById("cargaKm").value = ""; document.getElementById("cargaGalones").value = ""; document.getElementById("cargaPrecio").value = ""; document.getElementById("cargaNota").value = "";
+  const msg = document.getElementById("savedMsg");
+  msg.textContent = "✓ GUARDADO"; setTimeout(() => msg.textContent = "", 2000);
+}
+
+// ── HISTORIAL ──
+function renderHistorial() {
+  const contDias = document.getElementById("historial-dias");
+  const contCargas = document.getElementById("historial-cargas");
+  if (data.dias.length > 0) {
+    contDias.innerHTML = '<div class="section-title">Días registrados</div>' +
+      data.dias.map(d => `<div class="card"><button class="btn-delete" onclick="eliminarDia(${d.id})">✕</button><div class="card-km">${fmt(d.kmRecorridos)} km recorridos</div><div class="card-fecha">${d.fecha}</div><div class="card-detail">${d.kmInicial} → ${d.kmFinal}${d.galonesEstimados ? " · ⛽ ~" + d.galonesEstimados + " Gal" : ""}${d.costoEstimado ? " · ~$" + fmt(d.costoEstimado) : ""}</div></div>`).join("") + '<hr class="divider">';
+  } else contDias.innerHTML = "";
+  if (data.registros.length === 0) {
+    contCargas.innerHTML = '<div class="empty-msg">Sin cargas registradas aún.</div>';
+  } else {
+    contCargas.innerHTML = data.registros.map(r => `<div class="card"><button class="btn-delete" onclick="eliminarCarga(${r.id})">✕</button><div style="font-size:18px;font-weight:bold;color:#38bdf8">${fmt(r.km)} km</div><div class="card-fecha">${r.fecha}</div><div class="card-detail">${r.galones ? "⛽ " + r.galones + " Gal" : ""}${r.galones && r.precio ? " · " : ""}${r.precio ? "$ " + fmt(r.precio) : ""}${r.nota ? " · " + r.nota : ""}${!r.galones && !r.precio && !r.nota ? "Solo kilometraje" : ""}</div></div>`).join("");
+  }
+}
+
+function eliminarDia(id) { data.dias = data.dias.filter(d => d.id !== id); save(); renderHistorial(); }
+function eliminarCarga(id) { data.registros = data.registros.filter(r => r.id !== id); data.kmActual = data.registros.length > 0 ? data.registros[0].km : ""; save(); document.getElementById("kmActualDisplay").textContent = data.kmActual ? fmt(data.kmActual) : "—"; renderHistorial(); }
+
+// ── DOCUMENTOS (SOAT Y TECNOMECÁNICA) ──
+function diasHasta(fechaStr) {
+  if (!fechaStr) return null;
+  const hoy = new Date(); hoy.setHours(0,0,0,0);
+  const vence = new Date(fechaStr + "T00:00:00");
+  return Math.round((vence - hoy) / (1000 * 60 * 60 * 24));
+}
+
+function estadoDoc(dias) {
+  if (dias === null) return "sin";
+  if (dias < 0) return "vencido";
+  if (dias <= 15) return "warning";
+  return "ok";
+}
+
+function renderDocCard(tipo, datos) {
+  if (!datos) return `<div class="doc-card doc-sin"><div class="doc-nombre">${tipo === "soat" ? "SOAT" : "Tecnomecánica"}</div><div style="font-size:12px;color:#3a5a7a;margin-top:4px">No configurado</div></div>`;
+  const dias = diasHasta(datos.fecha);
+  const estado = estadoDoc(dias);
+  const clases = { ok: "doc-ok badge-ok", warning: "doc-warning badge-warning", vencido: "doc-vencido badge-vencido", sin: "doc-sin" };
+  const iconos = { ok: "✅", warning: "⚠️", vencido: "🚨", sin: "" };
+  const textos = { ok: `Vence en ${dias} días`, warning: `⚠️ Vence en ${dias} días`, vencido: `🚨 Venció hace ${Math.abs(dias)} días`, sin: "" };
+  return `<div class="doc-card ${clases[estado].split(" ")[0]}">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div class="doc-nombre ${clases[estado].split(" ")[1]}">${iconos[estado]} ${tipo === "soat" ? "SOAT" : "Tecnomecánica"}</div>
+    </div>
+    <div class="doc-dias ${clases[estado].split(" ")[1]}">${dias !== null ? Math.abs(dias) : "—"}</div>
+    <div class="doc-lbl">${textos[estado]}</div>
+    <div class="doc-fecha">Vencimiento: ${datos.fecha ? new Date(datos.fecha + "T00:00:00").toLocaleDateString("es-CO") : "—"}</div>
+  </div>`;
+}
+
+function renderDocs() {
+  document.getElementById("soat-panel").innerHTML = renderDocCard("soat", data.soat);
+  document.getElementById("tecno-panel").innerHTML = renderDocCard("tecno", data.tecno);
+  if (data.soat) document.getElementById("soatFecha").value = data.soat.fecha;
+  if (data.tecno) document.getElementById("tecnoFecha").value = data.tecno.fecha;
+  renderAlertasDocs();
+}
+
+function renderAlertasDocs() {
+  const cont = document.getElementById("docs-alertas");
+  let html = "";
+  const checks = [
+    { key: "soat", label: "SOAT", d: data.soat },
+    { key: "tecno", label: "Tecnomecánica", d: data.tecno }
+  ];
+  checks.forEach(c => {
+    if (!c.d) return;
+    const dias = diasHasta(c.d.fecha);
+    if (dias !== null && dias < 0) {
+      html += `<div class="alerta" style="border-color:#e8503a;color:#e8503a;background:#05051a">🚨 <strong>${c.label}</strong> venció hace ${Math.abs(dias)} días. ¡Renuévalo urgente!</div>`;
+    } else if (dias !== null && dias <= 15) {
+      html += `<div class="alerta" style="border-color:#38bdf8;color:#38bdf8">⚠️ <strong>${c.label}</strong> vence en <strong>${dias} días</strong>. Programa tu renovación.</div>`;
+    }
+  });
+  cont.innerHTML = html;
+}
+
+function guardarDoc(tipo) {
+  const fecha = document.getElementById(tipo === "soat" ? "soatFecha" : "tecnoFecha").value;
+  if (!fecha) return;
+  data[tipo] = { fecha };
+  save();
+  renderDocs();
+  const msg = document.getElementById("docSavedMsg");
+  msg.textContent = "✓ GUARDADO"; setTimeout(() => msg.textContent = "", 2000);
+}
+
+// ── ACEITE ──
+function guardarAceite() {
+  const kmActual = Number(document.getElementById("aceiteKmActual").value);
+  const kmUltimo = Number(document.getElementById("aceiteKmUltimo").value);
+  if (!kmActual || !kmUltimo || kmUltimo > kmActual) { alert("Verifica los kilómetros ingresados."); return; }
+  data.aceite = { kmUltimoCambio: kmUltimo, kmActualConfig: kmActual };
+  if (!data.kmActual) { data.kmActual = kmActual; document.getElementById("kmActualDisplay").textContent = fmt(kmActual); }
+  save(); renderAceite();
+}
+
+function renderAceite() {
+  if (!data.aceite) { document.getElementById("aceite-config").classList.remove("hidden"); document.getElementById("aceite-panel").classList.add("hidden"); return; }
+  document.getElementById("aceite-config").classList.add("hidden"); document.getElementById("aceite-panel").classList.remove("hidden");
+  const kmUltimo = data.aceite.kmUltimoCambio;
+  const kmActual = data.kmActual ? Number(data.kmActual) : data.aceite.kmActualConfig;
+  const usados = kmActual - kmUltimo;
+  const restantes = 2500 - usados;
+  const pct = Math.min(Math.round((usados / 2500) * 100), 100);
+  document.getElementById("aceiteKmUsados").textContent = usados > 0 ? fmt(usados) : "0";
+  document.getElementById("aceiteKmRestantes").textContent = restantes > 0 ? fmt(restantes) : "0";
+  document.getElementById("aceiteKmCambio").textContent = "Último cambio: " + fmt(kmUltimo) + " km";
+  document.getElementById("aceitePorcentaje").textContent = pct + "%";
+  const barra = document.getElementById("aceiteBarra");
+  barra.style.width = pct + "%";
+  barra.style.background = pct < 70 ? "#4ade80" : pct < 90 ? "#38bdf8" : "#e8503a";
+  const card = document.getElementById("aceiteCard");
+  if (restantes <= 0) { card.className = "aceite-card alerta-aceite"; document.getElementById("aceiteAlertaMsg").classList.remove("hidden"); }
+  else { card.className = pct >= 80 ? "aceite-card" : "aceite-card ok"; document.getElementById("aceiteAlertaMsg").classList.add("hidden"); if (pct >= 80) card.style.borderColor = "#38bdf8"; }
+}
+
+function registrarCambioAceite() {
+  const kmActual = data.kmActual ? Number(data.kmActual) : 0;
+  if (!kmActual) { alert("Primero registra el km actual de tu moto."); return; }
+  data.aceite.kmUltimoCambio = kmActual; save(); renderAceite();
+  alert("✓ Cambio registrado en " + fmt(kmActual) + " km. Próximo en " + fmt(kmActual + 2500) + " km.");
+}
+
+function editarAceite() {
+  document.getElementById("aceite-panel").classList.add("hidden"); document.getElementById("aceite-config").classList.remove("hidden");
+  if (data.aceite) { document.getElementById("aceiteKmUltimo").value = data.aceite.kmUltimoCambio; document.getElementById("aceiteKmActual").value = data.kmActual || data.aceite.kmActualConfig; }
+}
+
+// ── GPS POR PUNTOS ──
+let gpsActivo = false;
+let gpsPuntos = [];
+let gpsKmAcumulados = 0;
+let gpsWatchId = null;
+
+
+
+
+
+
+
+// ── RESUMEN ──
+function renderResumen() {
+  const ef = calcEficiencia();
+  const totalGasto = data.registros.reduce((acc, r) => acc + (r.precio || 0), 0);
+  const totalKmDia = data.dias.reduce((acc, d) => acc + d.kmRecorridos, 0);
+  document.getElementById("stat-dias").textContent = data.dias.length || "—";
+  document.getElementById("stat-eficiencia").textContent = ef ?? "—";
+  document.getElementById("stat-gasto").textContent = totalGasto > 0 ? "$" + fmt(totalGasto) : "—";
+  document.getElementById("stat-kmtotal").textContent = data.dias.length > 0 ? fmt(totalKmDia) : "—";
+  document.getElementById("resumen-aviso").classList.toggle("hidden", !!ef);
+}
+
+// ── EXPORTAR ──
+function exportarExcel() {
+  if (data.dias.length === 0) { alert("No hay días registrados para exportar."); return; }
+  const enc = ["Fecha","Km Inicial","Km Final","Km Recorridos","Galones Estimados","Costo Estimado ($)"];
+  const filas = data.dias.map(d => [d.fecha, d.kmInicial, d.kmFinal, d.kmRecorridos, d.galonesEstimados ?? "", d.costoEstimado ?? ""]);
+  const csv = [enc, ...filas].map(row => row.map(v => '"' + String(v).replace(/"/g, '""') + '"').join(";")).join("\n");
+  const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const fecha = new Date().toLocaleDateString("es-CO").split("/").join("-");
+  const a = document.createElement("a"); a.href = url; a.download = "motokm-dias-" + fecha + ".csv"; a.click(); URL.revokeObjectURL(url);
+}
+
+function exportarDatos() {
+  const fecha = new Date().toLocaleDateString("es-CO").split("/").join("-");
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a"); a.href = url; a.download = "motokm-respaldo-" + fecha + ".json"; a.click(); URL.revokeObjectURL(url);
+}
+
+function importarDatos(event) {
+  const file = event.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const imp = JSON.parse(e.target.result);
+      if (!imp.registros || !imp.dias) throw new Error();
+      data = imp; save(); renderAll();
+      const msg = document.getElementById("importMsg");
+      msg.textContent = "✓ DATOS RESTAURADOS"; msg.style.color = "#4ade80"; setTimeout(() => msg.textContent = "", 3000);
+    } catch {
+      const msg = document.getElementById("importMsg");
+      msg.textContent = "✗ ARCHIVO NO VÁLIDO"; msg.style.color = "#e8503a"; setTimeout(() => msg.textContent = "", 3000);
+    }
+    event.target.value = "";
+  };
+  reader.readAsText(file);
+}
+
+// ── PREOPERACIONAL ──
+const PREOP_ITEMS = [
+  { id: "frenos",  label: "Frenos",  icon: "🛑" },
+  { id: "luces",   label: "Luces",   icon: "💡" },
+  { id: "pito",    label: "Pito",    icon: "📢" },
+  { id: "llantas", label: "Llantas", icon: "⚫" }
+];
+
+let preopEstado = {};
+
+function renderPreop() {
+  // Resetear estado
+  preopEstado = {};
+  PREOP_ITEMS.forEach(item => preopEstado[item.id] = null);
+
+  // Render items
+  document.getElementById("preop-items").innerHTML = PREOP_ITEMS.map(item => `
+    <div class="preop-item" id="preop-row-${item.id}">
+      <div class="preop-nombre" id="preop-lbl-${item.id}">${item.icon} ${item.label}</div>
+      <div class="preop-btns">
+        <button class="preop-btn preop-btn-ok" id="preop-ok-${item.id}" onclick="setPreopItem('${item.id}', 'ok')">✓ Bien</button>
+        <button class="preop-btn preop-btn-falla" id="preop-falla-${item.id}" onclick="setPreopItem('${item.id}', 'falla')">✗ Falla</button>
+      </div>
+    </div>`).join("");
+
+  document.getElementById("preop-resumen-top").classList.add("hidden");
+  document.getElementById("preopObservaciones").value = "";
+  document.getElementById("preopResponsable").value = usuarioActual ? usuarioActual.nombre : "";
+
+  renderPreopHistorial();
+}
+
+function setPreopItem(id, estado) {
+  preopEstado[id] = estado;
+  const row = document.getElementById("preop-row-" + id);
+  const lbl = document.getElementById("preop-lbl-" + id);
+  const btnOk = document.getElementById("preop-ok-" + id);
+  const btnFalla = document.getElementById("preop-falla-" + id);
+
+  row.className = "preop-item " + estado;
+  lbl.className = "preop-nombre " + estado;
+  btnOk.className = "preop-btn preop-btn-ok" + (estado === "ok" ? " sel" : "");
+  btnFalla.className = "preop-btn preop-btn-falla" + (estado === "falla" ? " sel" : "");
+
+  // Mostrar resumen en tiempo real
+  const todos = PREOP_ITEMS.every(i => preopEstado[i.id] !== null);
+  if (todos) {
+    const fallas = PREOP_ITEMS.filter(i => preopEstado[i.id] === "falla");
+    const top = document.getElementById("preop-resumen-top");
+    top.classList.remove("hidden");
+    if (fallas.length === 0) {
+      top.className = "preop-resumen aprobado";
+      top.innerHTML = '<div style="font-size:24px">✅</div><div style="color:#4ade80;font-weight:bold;font-size:14px;margin-top:4px">Todo en orden</div>';
+    } else {
+      top.className = "preop-resumen rechazado";
+      top.innerHTML = '<div style="font-size:24px">⚠️</div><div style="color:#e8503a;font-weight:bold;font-size:14px;margin-top:4px">Falla en: ' + fallas.map(f => f.label).join(", ") + '</div>';
+    }
+  }
+}
+
+function guardarPreop() {
+  const responsable = document.getElementById("preopResponsable").value.trim();
+  if (!responsable) { alert("Ingresa el nombre del responsable."); return; }
+
+  const sinResponder = PREOP_ITEMS.filter(i => preopEstado[i.id] === null);
+  if (sinResponder.length > 0) {
+    alert("Falta revisar: " + sinResponder.map(i => i.label).join(", "));
+    return;
+  }
+
+  const fallas = PREOP_ITEMS.filter(i => preopEstado[i.id] === "falla");
+  const nuevo = {
+    id: Date.now(),
+    fecha: new Date().toLocaleDateString("es-CO"),
+    hora: new Date().toLocaleTimeString("es-CO", { hour: "2-digit", minute: "2-digit" }),
+    responsable,
+    items: { ...preopEstado },
+    observaciones: document.getElementById("preopObservaciones").value.trim(),
+    resultado: fallas.length === 0 ? "aprobado" : "rechazado",
+    fallas: fallas.map(f => f.label)
+  };
+
+  if (!data.preoperacionales) data.preoperacionales = [];
+  data.preoperacionales.unshift(nuevo);
+  save();
+
+  const msg = document.getElementById("preopMsg");
+  msg.textContent = nuevo.resultado === "aprobado" ? "✓ PREOPERACIONAL APROBADO" : "⚠️ GUARDADO CON FALLAS";
+  msg.style.color = nuevo.resultado === "aprobado" ? "#4ade80" : "#e8503a";
+  setTimeout(() => { msg.textContent = ""; renderPreop(); }, 2500);
+}
+
+function renderPreopHistorial() {
+  const cont = document.getElementById("preop-historial");
+  if (!data.preoperacionales || data.preoperacionales.length === 0) {
+    cont.innerHTML = '<div class="empty-msg">Sin preoperacionales registrados.</div>';
+    return;
+  }
+  cont.innerHTML = data.preoperacionales.slice(0, 10).map(p => `
+    <div class="preop-hist-item ${p.resultado}">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-weight:bold;font-size:12px;color:${p.resultado === "aprobado" ? "#4ade80" : "#e8503a"}">
+          ${p.resultado === "aprobado" ? "✅ Aprobado" : "⚠️ Con fallas"}
+        </div>
+        <div style="font-size:10px;color:#3a5a7a">${p.fecha} ${p.hora}</div>
+      </div>
+      <div style="font-size:11px;color:#6a8aaa;margin-top:4px">👤 ${p.responsable}</div>
+      ${p.fallas && p.fallas.length > 0 ? '<div style="font-size:11px;color:#e8503a;margin-top:4px">Fallas: ' + p.fallas.join(", ") + '</div>' : ""}
+      ${p.observaciones ? '<div style="font-size:11px;color:#4a6a8a;margin-top:4px">📝 ' + p.observaciones + '</div>' : ""}
+    </div>`).join("");
+}
+
+// ── ESTADÍSTICAS ──
+let statsPeriodo = "semana";
+let chartKmInst = null, chartGastoInst = null, chartRendInst = null;
+
+function setStatsPeriodo(p) {
+  statsPeriodo = p;
+  ["semana","mes","todo"].forEach(x => {
+    document.getElementById("spbtn-" + x).classList.toggle("active", x === p);
+  });
+  renderStats();
+}
+
+function filtrarDiasPorPeriodo() {
+  const hoy = new Date(); hoy.setHours(23,59,59,999);
+  const dias = data.dias || [];
+  if (statsPeriodo === "semana") {
+    const inicio = new Date(hoy); inicio.setDate(hoy.getDate() - 6); inicio.setHours(0,0,0,0);
+    return dias.filter(d => {
+      const parts = d.fecha.split("/");
+      const fecha = new Date(parts[2], parts[1]-1, parts[0]);
+      return fecha >= inicio && fecha <= hoy;
+    });
+  } else if (statsPeriodo === "mes") {
+    const inicio = new Date(hoy); inicio.setDate(1); inicio.setHours(0,0,0,0);
+    return dias.filter(d => {
+      const parts = d.fecha.split("/");
+      const fecha = new Date(parts[2], parts[1]-1, parts[0]);
+      return fecha >= inicio && fecha <= hoy;
+    });
+  }
+  return dias;
+}
+
+function renderStats() {
+  const diasFiltrados = filtrarDiasPorPeriodo();
+  const chartDefaults = {
+    responsive: true,
+    animation: { duration: 800, easing: 'easeInOutQuart' },
+    plugins: { legend: { display: false } },
+    scales: {
+      x: {
+        ticks: { color: "#94a3b8", font: { size: 10, family: 'Outfit', weight: '500' } },
+        grid: { color: "rgba(37,99,255,0.08)", drawBorder: false },
+        border: { display: false }
+      },
+      y: {
+        ticks: { color: "#94a3b8", font: { size: 10, family: 'Outfit', weight: '500' } },
+        grid: { color: "rgba(37,99,255,0.08)", drawBorder: false },
+        border: { display: false }
+      }
+    },
+    elements: {
+      bar: { borderRadius: 8, borderSkipped: false },
+      line: { borderWidth: 2.5 },
+      point: { radius: 4, hoverRadius: 6, borderWidth: 2, backgroundColor: '#060818' }
+    }
+  };
+
+  // Preparar datos
+  const sorted = [...diasFiltrados].sort((a, b) => {
+    const pa = a.fecha.split("/"), pb = b.fecha.split("/");
+    return new Date(pa[2], pa[1]-1, pa[0]) - new Date(pb[2], pb[1]-1, pb[0]);
+  });
+
+  const labels = sorted.map(d => d.fecha.slice(0,5));
+  const kmData = sorted.map(d => d.kmRecorridos || 0);
+  const gastoData = sorted.map(d => d.costoEstimado || 0);
+
+  // Rendimiento por carga
+  const cargas = [...(data.registros || [])].sort((a,b) => a.km - b.km);
+  const rendLabels = [], rendData = [];
+  for (let i = 1; i < cargas.length; i++) {
+    if (cargas[i].galones && cargas[i-1].km) {
+      const kmDiff = cargas[i].km - cargas[i-1].km;
+      const rend = (kmDiff / cargas[i].galones).toFixed(1);
+      rendLabels.push(cargas[i].fecha?.slice(0,5) || i);
+      rendData.push(parseFloat(rend));
+    }
+  }
+
+  // Destruir charts anteriores
+  if (chartKmInst) chartKmInst.destroy();
+  if (chartGastoInst) chartGastoInst.destroy();
+  if (chartRendInst) chartRendInst.destroy();
+
+  const gradKm = document.getElementById("chartKm").getContext("2d");
+  const gradG1 = gradKm.createLinearGradient(0, 0, 0, 200);
+  gradG1.addColorStop(0, "rgba(77,200,255,0.4)");
+  gradG1.addColorStop(1, "rgba(77,200,255,0.02)");
+
+  chartKmInst = new Chart(document.getElementById("chartKm"), {
+    type: "bar",
+    data: {
+      labels: labels.length ? labels : ["Sin datos"],
+      datasets: [{ data: kmData.length ? kmData : [0], backgroundColor: gradG1, borderColor: "#38bdf8", borderWidth: 2, borderRadius: 6 }]
+    },
+    options: { ...chartDefaults, plugins: { ...chartDefaults.plugins, tooltip: { callbacks: { label: ctx => ctx.raw + " km" } } } }
+  });
+
+  const gradG2 = document.getElementById("chartGasto").getContext("2d").createLinearGradient(0, 0, 0, 200);
+  gradG2.addColorStop(0, "rgba(74,222,128,0.4)");
+  gradG2.addColorStop(1, "rgba(74,222,128,0.02)");
+
+  chartGastoInst = new Chart(document.getElementById("chartGasto"), {
+    type: "bar",
+    data: {
+      labels: labels.length ? labels : ["Sin datos"],
+      datasets: [{ data: gastoData.length ? gastoData : [0], backgroundColor: gradG2, borderColor: "#4ade80", borderWidth: 2, borderRadius: 6 }]
+    },
+    options: { ...chartDefaults, plugins: { ...chartDefaults.plugins, tooltip: { callbacks: { label: ctx => "$" + ctx.raw.toLocaleString("es-CO") } } } }
+  });
+
+  const gradG3 = document.getElementById("chartRendimiento").getContext("2d").createLinearGradient(0, 0, 0, 200);
+  gradG3.addColorStop(0, "rgba(167,139,250,0.4)");
+  gradG3.addColorStop(1, "rgba(167,139,250,0.02)");
+
+  chartRendInst = new Chart(document.getElementById("chartRendimiento"), {
+    type: "line",
+    data: {
+      labels: rendLabels.length ? rendLabels : ["Sin datos"],
+      datasets: [{ data: rendData.length ? rendData : [0], backgroundColor: gradG3, borderColor: "#a78bfa", borderWidth: 2, pointBackgroundColor: "#a78bfa", fill: true, tension: 0.4 }]
+    },
+    options: { ...chartDefaults, plugins: { ...chartDefaults.plugins, tooltip: { callbacks: { label: ctx => ctx.raw + " km/gal" } } } }
+  });
+}
+
+// ── PANEL ADMIN ──
+let adminFiltroActivo = "todos";
+
+function renderAdmin() {
+  if (usuarioActual.user !== "admin") return;
+
+  // Cargar datos de todos los usuarios
+  const todosLosDatos = USUARIOS.map(u => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY + "_" + u.user);
+      const d = stored ? JSON.parse(stored) : { kmActual: "", registros: [], dias: [], preoperacionales: [] };
+      return { usuario: u, data: d };
+    } catch { return { usuario: u, data: { kmActual: "", registros: [], dias: [], preoperacionales: [] } }; }
+  }).filter(u => u.usuario.user !== "admin");
+
+  // Stats globales
+  const totalDias = todosLosDatos.reduce((acc, u) => acc + (u.data.dias?.length || 0), 0);
+  const totalCargas = todosLosDatos.reduce((acc, u) => acc + (u.data.registros?.length || 0), 0);
+  const totalKm = todosLosDatos.reduce((acc, u) => acc + (u.data.dias?.reduce((a, d) => a + (d.kmRecorridos || 0), 0) || 0), 0);
+  const totalPreop = todosLosDatos.reduce((acc, u) => acc + (u.data.preoperacionales?.length || 0), 0);
+
+  document.getElementById("admin-stats").innerHTML = `
+    <div class="admin-stat"><div class="admin-stat-num">${totalDias}</div><div class="admin-stat-lbl">Días registrados</div></div>
+    <div class="admin-stat"><div class="admin-stat-num">${totalCargas}</div><div class="admin-stat-lbl">Cargas combustible</div></div>
+    <div class="admin-stat"><div class="admin-stat-num">${fmt(totalKm)}</div><div class="admin-stat-lbl">Km totales flota</div></div>
+    <div class="admin-stat"><div class="admin-stat-num">${totalPreop}</div><div class="admin-stat-lbl">Preoperacionales</div></div>`;
+
+  // Filtros por usuario
+  const filtros = document.getElementById("admin-filtros");
+  filtros.innerHTML = `<button class="admin-filter-btn ${adminFiltroActivo === 'todos' ? 'active' : ''}" onclick="setAdminFiltro('todos')">Todos</button>` +
+    todosLosDatos.map(u => `<button class="admin-filter-btn ${adminFiltroActivo === u.usuario.user ? 'active' : ''}" onclick="setAdminFiltro('${u.usuario.user}')">${u.usuario.nombre}</button>`).join("");
+
+  // Contenido según filtro
+  const usuariosFiltrados = adminFiltroActivo === "todos" ? todosLosDatos : todosLosDatos.filter(u => u.usuario.user === adminFiltroActivo);
+  const cont = document.getElementById("admin-contenido");
+
+  if (adminFiltroActivo === "todos") {
+    // Vista resumen por usuario
+    cont.innerHTML = usuariosFiltrados.map(u => {
+      const dias = u.data.dias?.length || 0;
+      const cargas = u.data.registros?.length || 0;
+      const kmTotal = u.data.dias?.reduce((a, d) => a + (d.kmRecorridos || 0), 0) || 0;
+      const preops = u.data.preoperacionales?.length || 0;
+      const kmActual = u.data.kmActual ? fmt(u.data.kmActual) + " km" : "Sin datos";
+      return `<div class="admin-user-card">
+        <div class="admin-user-name">👤 ${u.usuario.nombre}</div>
+        <div class="admin-user-stats">
+          <div class="admin-user-stat"><div class="admin-user-stat-num">${dias}</div><div class="admin-user-stat-lbl">Días</div></div>
+          <div class="admin-user-stat"><div class="admin-user-stat-num">${fmt(kmTotal)}</div><div class="admin-user-stat-lbl">Km totales</div></div>
+          <div class="admin-user-stat"><div class="admin-user-stat-num">${preops}</div><div class="admin-user-stat-lbl">Preop</div></div>
+        </div>
+        <div style="font-size:11px;color:#3a5a8a;margin-top:8px">Odómetro actual: <strong style="color:#38bdf8">${kmActual}</strong></div>
+      </div>`;
+    }).join("") || '<div class="empty-msg">Sin datos registrados</div>';
+  } else {
+    // Vista detalle de un usuario
+    const u = usuariosFiltrados[0];
+    if (!u) return;
+    let html = `<div class="section-title">Días registrados</div>`;
+    if (u.data.dias?.length > 0) {
+      html += u.data.dias.slice(0, 10).map(d => `
+        <div class="admin-registro dia">
+          <div style="font-size:14px;font-weight:700;color:#38bdf8">${fmt(d.kmRecorridos)} km</div>
+          <div style="font-size:10px;color:#3a5a8a">${d.fecha} · ${d.kmInicial} → ${d.kmFinal}</div>
+          ${d.galonesEstimados ? `<div style="font-size:11px;color:#4ade80">⛽ ~${d.galonesEstimados} Gal${d.costoEstimado ? ' · ~$' + fmt(d.costoEstimado) : ''}</div>` : ""}
+        </div>`).join("");
+    } else html += '<div class="empty-msg">Sin días registrados</div>';
+
+    html += `<div class="section-title" style="margin-top:16px">Preoperacionales</div>`;
+    if (u.data.preoperacionales?.length > 0) {
+      html += u.data.preoperacionales.slice(0, 10).map(p => `
+        <div class="admin-registro ${p.resultado === 'aprobado' ? 'preop-ok' : 'preop-falla'}">
+          <div style="font-size:12px;font-weight:700;color:${p.resultado === 'aprobado' ? '#4ade80' : '#ff6b6b'}">${p.resultado === 'aprobado' ? '✅ Aprobado' : '⚠️ Con fallas'}</div>
+          <div style="font-size:10px;color:#3a5a8a">${p.fecha} ${p.hora} · ${p.responsable}</div>
+          ${p.fallas?.length > 0 ? `<div style="font-size:11px;color:#ff6b6b">Fallas: ${p.fallas.join(", ")}</div>` : ""}
+        </div>`).join("");
+    } else html += '<div class="empty-msg">Sin preoperacionales</div>';
+
+    cont.innerHTML = html;
+  }
+}
+
+function setAdminFiltro(filtro) {
+  adminFiltroActivo = filtro;
+  renderAdmin();
+}
+
+// ── COMPARTIR WHATSAPP ──
+function compartirWhatsApp() {
+  const ultimoDia = data.dias[0];
+  if (!ultimoDia) return;
+
+  // Buscar último preoperacional del día
+  const preopHoy = data.preoperacionales?.find(p => p.fecha === ultimoDia.fecha);
+  const preopTexto = preopHoy
+    ? (preopHoy.resultado === "aprobado" ? "✅ Preoperacional aprobado" : "⚠️ Preop con fallas: " + preopHoy.fallas.join(", "))
+    : "📋 Sin preoperacional registrado";
+
+  const ef = calcEficiencia();
+  const fecha = ultimoDia.fecha;
+  const nombre = usuarioActual.nombre;
+
+  const mensaje = `🏍️ *REPORTE DIARIO MOTOBIA*
+━━━━━━━━━━━━━━━━━━
+👤 *Técnico:* ${nombre}
+📅 *Fecha:* ${fecha}
+━━━━━━━━━━━━━━━━━━
+📍 *Recorrido del día*
+• Km inicial: ${fmt(ultimoDia.kmInicial)}
+• Km final: ${fmt(ultimoDia.kmFinal)}
+• *Km recorridos: ${fmt(ultimoDia.kmRecorridos)} km*
+━━━━━━━━━━━━━━━━━━
+⛽ *Combustible estimado*
+• Galones: ${ultimoDia.galonesEstimados ?? "Sin datos"}
+• Costo: ${ultimoDia.costoEstimado ? "$" + fmt(ultimoDia.costoEstimado) : "Sin datos"}
+• Rendimiento: ${ef ? ef + " km/gal" : "Sin datos"}
+━━━━━━━━━━━━━━━━━━
+${preopTexto}
+━━━━━━━━━━━━━━━━━━
+🔢 *Odómetro actual:* ${data.kmActual ? fmt(data.kmActual) + " km" : "Sin datos"}
+━━━━━━━━━━━━━━━━━━
+_Enviado desde MotoBia · Bia Energy_`;
+
+  const url = "https://wa.me/?text=" + encodeURIComponent(mensaje);
+  window.open(url, "_blank");
+}
+
+// ── NOTIFICACIONES ──
+function verificarAlertas() {
+  if (typeof Notification === "undefined" || Notification.permission !== "granted") return;
+
+  const alertas = [];
+
+  // Verificar SOAT
+  if (data.soat?.fecha) {
+    const dias = diasHasta(data.soat.fecha);
+    if (dias !== null && dias <= 15 && dias >= 0) {
+      alertas.push({ titulo: "⚠️ SOAT por vencer", cuerpo: `Tu SOAT vence en ${dias} días. ¡Renuévalo pronto!` });
+    } else if (dias !== null && dias < 0) {
+      alertas.push({ titulo: "🚨 SOAT VENCIDO", cuerpo: `Tu SOAT venció hace ${Math.abs(dias)} días. ¡Renuévalo urgente!` });
+    }
+  }
+
+  // Verificar Tecnomecánica
+  if (data.tecno?.fecha) {
+    const dias = diasHasta(data.tecno.fecha);
+    if (dias !== null && dias <= 15 && dias >= 0) {
+      alertas.push({ titulo: "⚠️ Tecnomecánica por vencer", cuerpo: `Tu Tecnomecánica vence en ${dias} días.` });
+    } else if (dias !== null && dias < 0) {
+      alertas.push({ titulo: "🚨 Tecnomecánica VENCIDA", cuerpo: `Venció hace ${Math.abs(dias)} días. ¡Renuévala urgente!` });
+    }
+  }
+
+  // Verificar aceite
+  if (data.aceite) {
+    const kmActual = data.kmActual ? Number(data.kmActual) : data.aceite.kmActualConfig;
+    const usados = kmActual - data.aceite.kmUltimoCambio;
+    const restantes = 2500 - usados;
+    if (restantes <= 0) {
+      alertas.push({ titulo: "🛢️ Cambio de aceite urgente", cuerpo: `Ya superaste los 2500 km. ¡Cambia el aceite!` });
+    } else if (restantes <= 300) {
+      alertas.push({ titulo: "🛢️ Aceite próximo a cambiar", cuerpo: `Faltan ${fmt(restantes)} km para el cambio de aceite.` });
+    }
+  }
+
+  // Mostrar notificaciones
+  alertas.forEach((a, i) => {
+    setTimeout(() => {
+      new Notification(a.titulo, {
+        body: a.cuerpo,
+        icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='80'>🏍️</text></svg>",
+        badge: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='80'>⚡</text></svg>",
+        tag: "motobia-" + i,
+        vibrate: [200, 100, 200]
+      });
+    }, i * 2000);
+  });
+
+  return alertas.length;
+}
+
+function solicitarNotificaciones() {
+  if (typeof Notification === "undefined" || !("Notification" in window)) {
+    alert("Las notificaciones requieren abrir la app desde el link de GitHub Pages, no desde el archivo.");
+    return;
+  }
+  if (location.protocol !== "https:" && location.hostname !== "localhost") {
+    alert("Las notificaciones solo funcionan cuando abres la app desde:\nhttps://juancamilojaramillo-del.github.io/app-kilometraje");
+    return;
+  }
+  Notification.requestPermission().then(perm => {
+    if (perm === "granted") {
+      try {
+        new Notification("✅ MotoBia activado", {
+          body: "Recibirás alertas de SOAT, Tecnomecánica y aceite.",
+        });
+      } catch(e) {}
+      verificarAlertas();
+    }
+  });
+}
+
+// ── FOTO ODÓMETRO ──
+let fotoInicialData = null;
+let fotoFinalData = null;
+
+function tomarFoto(inputId) {
+  document.getElementById(inputId).click();
+}
+
+function previsualizarFoto(inputId, prevId) {
+  const file = document.getElementById(inputId).files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = document.getElementById(prevId);
+    img.src = e.target.result;
+    img.classList.remove("hidden");
+    if (inputId === "fotoInicial") fotoInicialData = e.target.result;
+    else fotoFinalData = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function limpiarFotos() {
+  fotoInicialData = null;
+  fotoFinalData = null;
+  document.getElementById("fotoInicial").value = "";
+  document.getElementById("fotoFinal").value = "";
+  document.getElementById("prevInicial").classList.add("hidden");
+  document.getElementById("prevFinal").classList.add("hidden");
+}
+
+// ── INCIDENTES ──
+let incidenteTipoSel = null;
+let incFotoData = null;
+
+function selIncidente(tipo) {
+  incidenteTipoSel = tipo;
+  ["caida","accidente","mecanico","otro"].forEach(t => {
+    document.getElementById("inc-" + t).classList.toggle("sel", t === tipo);
+  });
+}
+
+function guardarIncidente() {
+  if (!incidenteTipoSel) { alert("Selecciona el tipo de incidente."); return; }
+  const desc = document.getElementById("incDesc").value.trim();
+  if (!desc) { alert("Describe el incidente."); return; }
+
+  const tipos = { caida: "🤕 Caída", accidente: "🚨 Accidente", mecanico: "🔧 Daño mecánico", otro: "📝 Otro" };
+  const nuevo = {
+    id: Date.now(),
+    fecha: new Date().toLocaleDateString("es-CO"),
+    hora: new Date().toLocaleTimeString("es-CO", { hour: "2-digit", minute: "2-digit" }),
+    tipo: incidenteTipoSel,
+    tipoLabel: tipos[incidenteTipoSel],
+    descripcion: desc,
+    ubicacion: document.getElementById("incUbicacion").value.trim(),
+    foto: incFotoData
+  };
+
+  if (!data.incidentes) data.incidentes = [];
+  data.incidentes.unshift(nuevo);
+  save();
+
+  // Limpiar formulario
+  incidenteTipoSel = null;
+  incFotoData = null;
+  ["caida","accidente","mecanico","otro"].forEach(t => document.getElementById("inc-" + t).classList.remove("sel"));
+  document.getElementById("incDesc").value = "";
+  document.getElementById("incUbicacion").value = "";
+  document.getElementById("incFoto").value = "";
+  document.getElementById("prevIncFoto").classList.add("hidden");
+
+  const msg = document.getElementById("incMsg");
+  msg.textContent = "✓ INCIDENTE REGISTRADO";
+  msg.style.color = "#ff6b6b";
+  setTimeout(() => { msg.textContent = ""; renderIncidentes(); }, 2000);
+}
+
+function renderIncidentes() {
+  const cont = document.getElementById("inc-historial");
+  if (!data.incidentes || data.incidentes.length === 0) {
+    cont.innerHTML = '<div class="empty-msg">Sin incidentes registrados. ¡Buen señal! 🟢</div>';
+    return;
+  }
+  const clases = { caida: "inc-caida", accidente: "inc-accidente", mecanico: "inc-mecanico", otro: "inc-otro" };
+  cont.innerHTML = data.incidentes.map(i => `
+    <div class="inc-card ${clases[i.tipo] || 'inc-otro'}">
+      <button class="btn-delete" onclick="eliminarIncidente(${i.id})">✕</button>
+      <div class="inc-titulo">${i.tipoLabel}</div>
+      <div class="inc-fecha">${i.fecha} ${i.hora}</div>
+      <div class="inc-desc">${i.descripcion}</div>
+      ${i.ubicacion ? `<div class="inc-desc">📍 ${i.ubicacion}</div>` : ""}
+      ${i.foto ? `<img src="${i.foto}" style="width:100%;border-radius:8px;margin-top:8px;max-height:160px;object-fit:cover" />` : ""}
+    </div>`).join("");
+}
+
+function eliminarIncidente(id) {
+  data.incidentes = data.incidentes.filter(i => i.id !== id);
+  save();
+  renderIncidentes();
+}
+
+// ── RENDER GENERAL ──
+function renderAll() {
+  document.getElementById("kmActualDisplay").textContent = data.kmActual ? fmt(data.kmActual) : "—";
+  renderDia();
+  if (data.aceite) renderAceite();
+  // Verificar alertas al cargar si tiene permiso
+  try {
+    if (typeof Notification !== "undefined" && Notification.permission === "granted") {
+      setTimeout(verificarAlertas, 3000);
+    }
+  } catch(e) {}
+}
+
+// ── SERVICE WORKER ──
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", async () => {
+    try {
+      const reg = await navigator.serviceWorker.register("sw.js");
+      console.log("SW registrado:", reg.scope);
+    } catch(err) { console.log("SW error:", err); }
+  });
+}
+
+// Iniciar
+verificarSesion();
+</script>
+</body>
+</html>
